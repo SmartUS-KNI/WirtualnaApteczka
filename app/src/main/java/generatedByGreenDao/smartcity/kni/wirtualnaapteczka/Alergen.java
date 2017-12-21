@@ -2,6 +2,7 @@ package smartcity.kni.wirtualnaapteczka;
 
 import org.greenrobot.greendao.annotation.*;
 
+import java.util.List;
 import smartcity.kni.wirtualnaapteczka.DaoSession;
 import org.greenrobot.greendao.DaoException;
 
@@ -25,11 +26,10 @@ public class Alergen {
     @Generated
     private transient AlergenDao myDao;
 
-    @ToOne(joinProperty = "alergenId")
-    private Alergens_List alergens_List;
-
-    @Generated
-    private transient Long alergens_List__resolvedKey;
+    @ToMany(joinProperties = {
+        @JoinProperty(name = "id", referencedName = "alergenId")
+    })
+    private List<Alergens_List> alergens_ListList;
 
     @Generated
     public Alergen() {
@@ -68,29 +68,26 @@ public class Alergen {
         this.name = name;
     }
 
-    /** To-one relationship, resolved on first access. */
+    /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
     @Generated
-    public Alergens_List getAlergens_List() {
-        Long __key = this.alergenId;
-        if (alergens_List__resolvedKey == null || !alergens_List__resolvedKey.equals(__key)) {
+    public List<Alergens_List> getAlergens_ListList() {
+        if (alergens_ListList == null) {
             __throwIfDetached();
             Alergens_ListDao targetDao = daoSession.getAlergens_ListDao();
-            Alergens_List alergens_ListNew = targetDao.load(__key);
+            List<Alergens_List> alergens_ListListNew = targetDao._queryAlergen_Alergens_ListList(id);
             synchronized (this) {
-                alergens_List = alergens_ListNew;
-            	alergens_List__resolvedKey = __key;
+                if(alergens_ListList == null) {
+                    alergens_ListList = alergens_ListListNew;
+                }
             }
         }
-        return alergens_List;
+        return alergens_ListList;
     }
 
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated
-    public void setAlergens_List(Alergens_List alergens_List) {
-        synchronized (this) {
-            this.alergens_List = alergens_List;
-            alergenId = alergens_List == null ? null : alergens_List.getId();
-            alergens_List__resolvedKey = alergenId;
-        }
+    public synchronized void resetAlergens_ListList() {
+        alergens_ListList = null;
     }
 
     /**
