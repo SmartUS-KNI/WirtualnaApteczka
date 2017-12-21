@@ -2,7 +2,6 @@ package smartcity.kni.wirtualnaapteczka;
 
 import org.greenrobot.greendao.annotation.*;
 
-import java.util.List;
 import smartcity.kni.wirtualnaapteczka.DaoSession;
 import org.greenrobot.greendao.DaoException;
 
@@ -27,15 +26,17 @@ public class Alergens_List {
     @Generated
     private transient Alergens_ListDao myDao;
 
-    @ToMany(joinProperties = {
-        @JoinProperty(name = "id", referencedName = "alergenId")
-    })
-    private List<Alergen> alergenList;
+    @ToOne(joinProperty = "alergenId")
+    private Alergen alergen;
 
-    @ToMany(joinProperties = {
-        @JoinProperty(name = "id", referencedName = "medicineId")
-    })
-    private List<Medicine> medicineList;
+    @Generated
+    private transient Long alergen__resolvedKey;
+
+    @ToOne(joinProperty = "medicineId")
+    private Medicine medicine;
+
+    @Generated
+    private transient Long medicine__resolvedKey;
 
     @Generated
     public Alergens_List() {
@@ -83,48 +84,54 @@ public class Alergens_List {
         this.alergenId = alergenId;
     }
 
-    /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
+    /** To-one relationship, resolved on first access. */
     @Generated
-    public List<Alergen> getAlergenList() {
-        if (alergenList == null) {
+    public Alergen getAlergen() {
+        Long __key = this.alergenId;
+        if (alergen__resolvedKey == null || !alergen__resolvedKey.equals(__key)) {
             __throwIfDetached();
             AlergenDao targetDao = daoSession.getAlergenDao();
-            List<Alergen> alergenListNew = targetDao._queryAlergens_List_AlergenList(id);
+            Alergen alergenNew = targetDao.load(__key);
             synchronized (this) {
-                if(alergenList == null) {
-                    alergenList = alergenListNew;
-                }
+                alergen = alergenNew;
+            	alergen__resolvedKey = __key;
             }
         }
-        return alergenList;
+        return alergen;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated
-    public synchronized void resetAlergenList() {
-        alergenList = null;
+    public void setAlergen(Alergen alergen) {
+        synchronized (this) {
+            this.alergen = alergen;
+            alergenId = alergen == null ? null : alergen.getId();
+            alergen__resolvedKey = alergenId;
+        }
     }
 
-    /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
+    /** To-one relationship, resolved on first access. */
     @Generated
-    public List<Medicine> getMedicineList() {
-        if (medicineList == null) {
+    public Medicine getMedicine() {
+        Long __key = this.medicineId;
+        if (medicine__resolvedKey == null || !medicine__resolvedKey.equals(__key)) {
             __throwIfDetached();
             MedicineDao targetDao = daoSession.getMedicineDao();
-            List<Medicine> medicineListNew = targetDao._queryAlergens_List_MedicineList(id);
+            Medicine medicineNew = targetDao.load(__key);
             synchronized (this) {
-                if(medicineList == null) {
-                    medicineList = medicineListNew;
-                }
+                medicine = medicineNew;
+            	medicine__resolvedKey = __key;
             }
         }
-        return medicineList;
+        return medicine;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated
-    public synchronized void resetMedicineList() {
-        medicineList = null;
+    public void setMedicine(Medicine medicine) {
+        synchronized (this) {
+            this.medicine = medicine;
+            medicineId = medicine == null ? null : medicine.getId();
+            medicine__resolvedKey = medicineId;
+        }
     }
 
     /**

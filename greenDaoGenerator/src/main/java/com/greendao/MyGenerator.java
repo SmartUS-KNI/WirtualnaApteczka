@@ -20,7 +20,7 @@ public class MyGenerator {
         Entity alergen = schema.addEntity("Alergen");
         alergen.addIdProperty().autoincrement();
         alergen.addStringProperty("name");
-        //FK
+
 
 
         Entity alergens_list = schema.addEntity("Alergens_List");
@@ -50,25 +50,26 @@ public class MyGenerator {
         medicine.addStringProperty("tag");
         medicine.addStringProperty("EAN");
         //FK
-        Property informationIdFk = medicine.addLongProperty(
-                "idInformation").getProperty();
-        Property doseIdFk = medicine.addLongProperty(
-                "idDose").getProperty();
+        //Property informationIdFk = medicine.addLongProperty("idInformation").getProperty();
+
 
         //Relations
 
-        //Alergen - Alergens_list
-        alergens_list.addToMany(alergen, alergenIdFk);
-        alergen.addToOne(alergens_list, alergenIdFk);
-        //Medicine - Alergens_list
-        alergens_list.addToMany(medicine, medicineIdFkList);
-        medicine.addToOne(alergens_list, medicineIdFkList);
-        //Medicine - Dose
-        medicine.addToOne(dose, medicineIdFkDose);
-        dose.addToMany(medicine, medicineIdFkDose);
-        //Medicine - Information
-        medicine.addToOne(information, informationIdFk);
-        information.addToMany(medicine, informationIdFk);
+        alergen.addToMany(alergens_list, alergenIdFk);
+        alergens_list.addToOne(alergen,alergenIdFk);
+        //alergens_list.addToOne(alergen, alergen.getPkProperty());
+
+        medicine.addToMany(alergens_list, medicineIdFkList);
+        alergens_list.addToOne(medicine, medicineIdFkList);
+        //alergens_list.addToOne(medicine, medicine.getPkProperty());
+
+        medicine.addToMany(dose, medicineIdFkDose);
+        dose.addToOne(medicine, medicineIdFkDose);
+        //dose.addToOne(medicine, medicine.getPkProperty());
+
+        medicine.addToMany(information, medicineIdFkInfo);
+        information.addToOne(medicine, medicineIdFkInfo);
+        //information.addToOne(medicine, medicine.getPkProperty());
 
 
         new DaoGenerator().generateAll(schema,"..\\app\\src\\main\\java\\generatedByGreenDao");

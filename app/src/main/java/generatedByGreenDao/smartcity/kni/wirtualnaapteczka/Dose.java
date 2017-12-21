@@ -2,7 +2,6 @@ package smartcity.kni.wirtualnaapteczka;
 
 import org.greenrobot.greendao.annotation.*;
 
-import java.util.List;
 import smartcity.kni.wirtualnaapteczka.DaoSession;
 import org.greenrobot.greendao.DaoException;
 
@@ -28,10 +27,11 @@ public class Dose {
     @Generated
     private transient DoseDao myDao;
 
-    @ToMany(joinProperties = {
-        @JoinProperty(name = "id", referencedName = "idMedicine")
-    })
-    private List<Medicine> medicineList;
+    @ToOne(joinProperty = "idMedicine")
+    private Medicine medicine;
+
+    @Generated
+    private transient Long medicine__resolvedKey;
 
     @Generated
     public Dose() {
@@ -88,26 +88,29 @@ public class Dose {
         this.idMedicine = idMedicine;
     }
 
-    /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
+    /** To-one relationship, resolved on first access. */
     @Generated
-    public List<Medicine> getMedicineList() {
-        if (medicineList == null) {
+    public Medicine getMedicine() {
+        Long __key = this.idMedicine;
+        if (medicine__resolvedKey == null || !medicine__resolvedKey.equals(__key)) {
             __throwIfDetached();
             MedicineDao targetDao = daoSession.getMedicineDao();
-            List<Medicine> medicineListNew = targetDao._queryDose_MedicineList(id);
+            Medicine medicineNew = targetDao.load(__key);
             synchronized (this) {
-                if(medicineList == null) {
-                    medicineList = medicineListNew;
-                }
+                medicine = medicineNew;
+            	medicine__resolvedKey = __key;
             }
         }
-        return medicineList;
+        return medicine;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated
-    public synchronized void resetMedicineList() {
-        medicineList = null;
+    public void setMedicine(Medicine medicine) {
+        synchronized (this) {
+            this.medicine = medicine;
+            idMedicine = medicine == null ? null : medicine.getId();
+            medicine__resolvedKey = idMedicine;
+        }
     }
 
     /**
