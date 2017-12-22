@@ -55,7 +55,7 @@ public class MyGenerator {
 
         //Relations
 
-        alergen.addToMany(alergens_list, alergenIdFk);
+        alergen.addToMany(alergens_list, alergenIdFk).setName("alergensList");
         alergens_list.addToOne(alergen,alergenIdFk);
         //alergens_list.addToOne(alergen, alergen.getPkProperty());
 
