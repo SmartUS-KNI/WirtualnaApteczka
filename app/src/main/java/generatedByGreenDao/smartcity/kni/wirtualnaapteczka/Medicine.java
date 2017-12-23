@@ -33,7 +33,7 @@ public class Medicine {
     @ToMany(joinProperties = {
         @JoinProperty(name = "id", referencedName = "medicineId")
     })
-    private List<Alergens_List> alergens_ListList;
+    private List<Alergens_List> alergensList;
 
     @ToMany(joinProperties = {
         @JoinProperty(name = "id", referencedName = "idMedicine")
@@ -120,24 +120,24 @@ public class Medicine {
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
     @Generated
-    public List<Alergens_List> getAlergens_ListList() {
-        if (alergens_ListList == null) {
+    public List<Alergens_List> getAlergensList() {
+        if (alergensList == null) {
             __throwIfDetached();
             Alergens_ListDao targetDao = daoSession.getAlergens_ListDao();
-            List<Alergens_List> alergens_ListListNew = targetDao._queryMedicine_Alergens_ListList(id);
+            List<Alergens_List> alergensListNew = targetDao._queryMedicine_AlergensList(id);
             synchronized (this) {
-                if(alergens_ListList == null) {
-                    alergens_ListList = alergens_ListListNew;
+                if(alergensList == null) {
+                    alergensList = alergensListNew;
                 }
             }
         }
-        return alergens_ListList;
+        return alergensList;
     }
 
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated
-    public synchronized void resetAlergens_ListList() {
-        alergens_ListList = null;
+    public synchronized void resetAlergensList() {
+        alergensList = null;
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */

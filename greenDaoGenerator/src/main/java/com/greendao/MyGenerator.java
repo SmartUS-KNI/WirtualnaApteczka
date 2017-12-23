@@ -59,7 +59,7 @@ public class MyGenerator {
         alergens_list.addToOne(alergen,alergenIdFk);
         //alergens_list.addToOne(alergen, alergen.getPkProperty());
 
-        medicine.addToMany(alergens_list, medicineIdFkList);
+        medicine.addToMany(alergens_list, medicineIdFkList).setName("alergensList");;
         alergens_list.addToOne(medicine, medicineIdFkList);
         //alergens_list.addToOne(medicine, medicine.getPkProperty());
 

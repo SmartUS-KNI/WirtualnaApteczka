@@ -35,7 +35,7 @@ public class Alergens_ListDao extends AbstractDao<Alergens_List, Long> {
     private DaoSession daoSession;
 
     private Query<Alergens_List> alergen_AlergensListQuery;
-    private Query<Alergens_List> medicine_Alergens_ListListQuery;
+    private Query<Alergens_List> medicine_AlergensListQuery;
 
     public Alergens_ListDao(DaoConfig config) {
         super(config);
@@ -168,16 +168,16 @@ public class Alergens_ListDao extends AbstractDao<Alergens_List, Long> {
         return query.list();
     }
 
-    /** Internal query to resolve the "alergens_ListList" to-many relationship of Medicine. */
-    public List<Alergens_List> _queryMedicine_Alergens_ListList(Long medicineId) {
+    /** Internal query to resolve the "alergensList" to-many relationship of Medicine. */
+    public List<Alergens_List> _queryMedicine_AlergensList(Long medicineId) {
         synchronized (this) {
-            if (medicine_Alergens_ListListQuery == null) {
+            if (medicine_AlergensListQuery == null) {
                 QueryBuilder<Alergens_List> queryBuilder = queryBuilder();
                 queryBuilder.where(Properties.MedicineId.eq(null));
-                medicine_Alergens_ListListQuery = queryBuilder.build();
+                medicine_AlergensListQuery = queryBuilder.build();
             }
         }
-        Query<Alergens_List> query = medicine_Alergens_ListListQuery.forCurrentThread();
+        Query<Alergens_List> query = medicine_AlergensListQuery.forCurrentThread();
         query.setParameter(0, medicineId);
         return query.list();
     }
