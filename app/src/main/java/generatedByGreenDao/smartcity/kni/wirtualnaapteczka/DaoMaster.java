@@ -26,6 +26,8 @@ public class DaoMaster extends AbstractDaoMaster {
         Alergens_ListDao.createTable(db, ifNotExists);
         InformationDao.createTable(db, ifNotExists);
         MedicineDao.createTable(db, ifNotExists);
+        Tags_ListDao.createTable(db, ifNotExists);
+        TagDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -35,6 +37,8 @@ public class DaoMaster extends AbstractDaoMaster {
         Alergens_ListDao.dropTable(db, ifExists);
         InformationDao.dropTable(db, ifExists);
         MedicineDao.dropTable(db, ifExists);
+        Tags_ListDao.dropTable(db, ifExists);
+        TagDao.dropTable(db, ifExists);
     }
 
     /**
@@ -58,6 +62,8 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(Alergens_ListDao.class);
         registerDaoClass(InformationDao.class);
         registerDaoClass(MedicineDao.class);
+        registerDaoClass(Tags_ListDao.class);
+        registerDaoClass(TagDao.class);
     }
 
     public DaoSession newSession() {

@@ -45,6 +45,11 @@ public class Medicine {
     })
     private List<Information> informationList;
 
+    @ToMany(joinProperties = {
+        @JoinProperty(name = "id", referencedName = "medicineId")
+    })
+    private List<Tags_List> tagsList;
+
     @Generated
     public Medicine() {
     }
@@ -182,6 +187,28 @@ public class Medicine {
     @Generated
     public synchronized void resetInformationList() {
         informationList = null;
+    }
+
+    /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
+    @Generated
+    public List<Tags_List> getTagsList() {
+        if (tagsList == null) {
+            __throwIfDetached();
+            Tags_ListDao targetDao = daoSession.getTags_ListDao();
+            List<Tags_List> tagsListNew = targetDao._queryMedicine_TagsList(id);
+            synchronized (this) {
+                if(tagsList == null) {
+                    tagsList = tagsListNew;
+                }
+            }
+        }
+        return tagsList;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated
+    public synchronized void resetTagsList() {
+        tagsList = null;
     }
 
     /**

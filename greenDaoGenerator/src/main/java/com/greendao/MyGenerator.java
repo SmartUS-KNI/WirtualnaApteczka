@@ -22,11 +22,10 @@ public class MyGenerator {
         alergen.addStringProperty("name");
 
 
-
         Entity alergens_list = schema.addEntity("Alergens_List");
         alergens_list.addIdProperty().autoincrement();
         //FK
-        Property medicineIdFkList = alergens_list.addLongProperty(
+        Property medicineIdFkAlergensList = alergens_list.addLongProperty(
                 "medicineId").getProperty();
         Property alergenIdFk = alergens_list.addLongProperty(
                 "alergenId").getProperty();
@@ -50,17 +49,28 @@ public class MyGenerator {
         medicine.addStringProperty("tag");
         medicine.addStringProperty("EAN");
         //FK
-        //Property informationIdFk = medicine.addLongProperty("idInformation").getProperty();
+
+        Entity tags_list = schema.addEntity("Tags_List");
+        tags_list.addIdProperty().autoincrement();
+        //FK
+        Property medicineIdFKTagsList = tags_list.addLongProperty(
+                "medicineId").getProperty();
+        Property tagIdFKTagsList = tags_list.addLongProperty(
+                "tagId").getProperty();
+
+        Entity tag = schema.addEntity("Tag");
+        tag.addIdProperty().autoincrement();
+        tag.addStringProperty("name");
 
 
         //Relations
 
         alergen.addToMany(alergens_list, alergenIdFk).setName("alergensList");
-        alergens_list.addToOne(alergen,alergenIdFk);
+        alergens_list.addToOne(alergen, alergenIdFk);
         //alergens_list.addToOne(alergen, alergen.getPkProperty());
 
-        medicine.addToMany(alergens_list, medicineIdFkList).setName("alergensList");;
-        alergens_list.addToOne(medicine, medicineIdFkList);
+        medicine.addToMany(alergens_list, medicineIdFkAlergensList).setName("alergensList");
+        alergens_list.addToOne(medicine, medicineIdFkAlergensList);
         //alergens_list.addToOne(medicine, medicine.getPkProperty());
 
         medicine.addToMany(dose, medicineIdFkDose);
@@ -71,25 +81,12 @@ public class MyGenerator {
         information.addToOne(medicine, medicineIdFkInfo);
         //information.addToOne(medicine, medicine.getPkProperty());
 
+        medicine.addToMany(tags_list,medicineIdFKTagsList).setName("tagsList");
+        tags_list.addToOne(medicine, medicineIdFKTagsList);
 
-        new DaoGenerator().generateAll(schema,"..\\app\\src\\main\\java\\generatedByGreenDao");
+        tag.addToMany(tags_list, tagIdFKTagsList).setName("tagsList");
+        tags_list.addToOne(tag, tagIdFKTagsList);
+
+        new DaoGenerator().generateAll(schema, "..\\app\\src\\main\\java\\generatedByGreenDao");
     }
 }
-
-
-/*      //OLD RELATIONS - DON'T WORK
-        //Relations ToOne
-        alergen.addToOne(alergens_list, alergenIdFk);
-
-        medicine.addToOne(alergens_list, medicineIdFkDose);
-        medicine.addToOne(dose, doseIdFk);
-        medicine.addToOne(information, informationIdFk);
-
-        //Relations ToMany
-        alergens_list.addToMany(alergen, alergen.getPkProperty()).setName("alergens");
-        alergens_list.addToMany(medicine, medicine.getPkProperty()).setName("medykamenty");
-
-        dose.addToMany(medicine, medicine.getPkProperty());
-
-        information.addToMany(medicine, medicine.getPkProperty());
-*/
