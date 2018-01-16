@@ -22,32 +22,34 @@
         app:layout_constraintVertical_bias="1.0">
 
         <TextView
+            android:id="@+id/Add_medicine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dodaj lek"
+            android:text="@string/dodaj_lek_form"
             android:textAlignment="center"
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/Name_of_medicine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Nazwa Leku" />
+            android:text="@string/nazwa_leku2" />
 
         <EditText
+            android:id="@+id/Description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Opis" />
+            android:text="@string/opis" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/Description_of_medicine"
             android:layout_width="match_parent"
             android:layout_height="99dp"
-            android:text="Opis" />
+            android:text="@string/opis" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,13 +57,14 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/Label"
                 android:layout_width="234dp"
                 android:layout_height="36dp"
                 android:layout_weight="1"
-                android:text="Etykieta:" />
+                android:text="@string/etykieta2" />
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/Choose_label"
                 android:layout_width="231dp"
                 android:layout_height="38dp"
                 android:layout_weight="1" />
@@ -69,17 +72,18 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/Add_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dodaj nową etykietę" />
+            android:text="@string/dodaj_now_etykiet" />
 
         <EditText
+            android:id="@+id/Barcode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Kod kreskowy:" />
+            android:text="@string/kod_kreskowy2" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

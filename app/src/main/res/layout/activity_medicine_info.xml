@@ -7,15 +7,16 @@
     tools:context="smartcity.kni.wirtualnaapteczka.medicineInfo">
 
     <TextView
-        android:id="@+id/textViewmedicinieName"
+        android:id="@+id/Details_of_medicine"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
-        android:layout_marginStart="100dp"
-        android:text="Szczegóły leku"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        android:text="@string/szczegoly_leku"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="20dp" />
 
@@ -27,47 +28,52 @@
         tools:layout_editor_absoluteY="109dp">
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/Name_of_medicine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Nazwa leku" />
+            android:text="@string/nazwa_leku" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/Decsription"
             android:layout_width="match_parent"
             android:layout_height="118dp"
-            android:text="Opis" />
+            android:text="@string/opis" />
 
         <EditText
+            android:id="@+id/Label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Etykieta" />
+            android:text="@string/etykieta" />
 
         <EditText
+            android:id="@+id/Barcode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Kod kreskowy" />
+            android:text="@string/kod_kreskowy" />
 
         <TextView
+            android:id="@+id/Function"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Funkcje:" />
+            android:text="@string/funkcje" />
 
         <Button
+            android:id="@+id/Modify_medicine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Modyfikuj lek" />
+            android:text="@string/modyfikuj_lek" />
 
         <Button
+            android:id="@+id/Delete_medicine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Usuń lek" />
+            android:text="@string/usu_lek" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
