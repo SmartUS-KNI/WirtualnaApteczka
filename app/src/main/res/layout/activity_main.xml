@@ -4,13 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     tools:context="smartcity.kni.wirtualnaapteczka.Main"
     tools:layout_editor_absoluteY="81dp">
 
     <LinearLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_marginBottom="50dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -21,53 +19,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:src="@drawable/medicine"
-            android:padding="10dp"/>
         <Button
             android:id="@+id/Add_medicine"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginLeft="40dp"
-            android:background="@android:color/holo_blue_dark"
-            android:text="@string/dodaj_lek_main"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/colorWhite"
-            android:visibility="visible" />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:src="@drawable/notepad"
-            android:padding="10dp"/>
+            android:layout_height="132dp"
+            android:text="@string/dodaj_lek_main" />
 
         <Button
             android:id="@+id/Medicine_list"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginLeft="40dp"
-            android:background="@android:color/holo_blue_bright"
-            android:text="@string/lista_lekow_main"
-            android:textColor="@color/colorWhite"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:src="@drawable/cardiogram"
-            android:padding="10dp"/>
+            android:layout_height="132dp"
+            android:text="@string/lista_lekow_main" />
+
         <Button
             android:id="@+id/End_program"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginLeft="40dp"
-            android:background="@color/colorAccent"
-            android:text="@string/zako_cz_program"
-            android:textColor="@color/colorWhite"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />/>
+            android:layout_height="132dp"
+            android:text="@string/zako_cz_program" />
 
     </LinearLayout>
 
