@@ -6,6 +6,8 @@ import smartcity.kni.wirtualnaapteczka.listeners.OnConvertListener;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Iterator;
@@ -90,10 +92,28 @@ public class ViewManager {
                             return obj.getText().toString();
                         }
                     });
-
                     break;
                 }
-                default: {
+                //Mateusz Lebioda 17.01 EditText and Button should return content now
+                case LAYOUT_CONTENT_TYPE_EDITTEXT: {
+                    type.setConverter(new OnConvertListener() {
+                        @Override
+                        public Object onConvert(View view) {
+                            EditText obj = (EditText)view;
+                            return obj.getText().toString();
+                        }
+                    });
+                    break;
+                }case LAYOUT_CONTENT_TYPE_BUTTON: {
+                    type.setConverter(new OnConvertListener() {
+                        @Override
+                        public Object onConvert(View view) {
+                            Button obj =(Button)view;
+                            return obj.getText().toString();
+                        }
+                    });
+                    break;
+                }default: {
                     throw new MissingConverterException(type.name() + " has undefined converter."); //MESSAGE: LAYOUT_CONTENT_TYPE_[...] has undefined converter
                 }
             }
