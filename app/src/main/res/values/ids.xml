@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!---coments to make clear id's case -->
+    <!---id's form activity_main.xml-->
+
+    <item type="id" name="add_Medicine_Main_Button"/>   <!-- Add medicine button -->
+    <item type="id" name="medicine_List_Main_Button"/> <!-- Medicine list button-->
+    <item type="id" name="end_Program_Main_Button"/>  <!-- End program button from main xml-->
+
+
+    <!-- id's from activity_medicine_list.xml-->
+    <item type="id" name="Medicine_List_ScrollView"/>
+    <item type="id" name="medicine_List_Textview"/>
+
+    <!-- id's from activity_new_medicine_form.xml-->
+    <item type="id" name="add_Medicine_From_New_Medicine_TextView"/>
+    <item type="id" name="name_Of_Medicine_From_New_Medicine_EditText"/>
+    <item type="id" name="description_Of_New_Medicine_EditText"/>
+    <item type="id" name="description_Of_Medicine_TextView"/>
+    <item type="id" name="choose_Label_From_New_Medicine_Spinner"/>
+    <item type="id" name="add_Label_From_New_Medicine_Button"/>
+    <item type="id" name="barcode_From_New_Medicine_EditText"/>
+
+    <!-- id's from activity_medicine_info.xml-->
+
+    <item type="id" name="details_Of_Medicine_Info_TextView"/>
+    <item type="id" name="name_Of_Medicine_Info_EditText"/>
+    <item type="id" name="decsription_From_Medicin_Info_TextView"/>
+    <item type="id" name="label_Medicine_Info_EditText"/>
+    <item type="id" name="barcode_From_Medicine_Info_EditText"/>
+    <item type="id" name="function_Medicine_Info_TextView"/>
+    <item type="id" name="modify_Medicine_Info_Button"/>
+    <item type="id" name="delete_Medicine_Info_Button"/>
+
+
+</resources>

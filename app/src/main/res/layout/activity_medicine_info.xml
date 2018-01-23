@@ -1,79 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="smartcity.kni.wirtualnaapteczka.medicineInfo">
+    tools:context="smartcity.kni.wirtualnaapteczka.Main">
 
-    <TextView
-        android:id="@+id/Details_of_medicine"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
-        android:layout_marginStart="50dp"
-        android:text="@string/szczegoly_leku"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="20dp" />
 
     <LinearLayout
         android:layout_width="368dp"
-        android:layout_height="394dp"
+        android:layout_height="497dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="109dp">
-
-        <EditText
-            android:id="@+id/Name_of_medicine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/nazwa_leku" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/Decsription"
+            android:id="@+id/details_Of_Medicine_Info_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/details"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/name_Of_Medicine_Info_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="69dp"
+            android:layout_weight="0"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/name_of_medicine" />
+
+        <TextView
+            android:id="@+id/decsription_From_Medicin_Info_TextView"
             android:layout_width="match_parent"
             android:layout_height="118dp"
-            android:text="@string/opis" />
+            android:layout_weight="1"
+            android:text="@string/description" />
 
         <EditText
-            android:id="@+id/Label"
+            android:id="@+id/label_Medicine_Info_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/etykieta" />
+            android:text="@string/label" />
 
         <EditText
-            android:id="@+id/Barcode"
+            android:id="@+id/barcode_From_Medicine_Info_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/kod_kreskowy" />
+            android:text="@string/barcode" />
 
         <TextView
-            android:id="@+id/Function"
+            android:id="@+id/function_Medicine_Info_TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/funkcje" />
+            android:text="@string/function" />
 
         <Button
-            android:id="@+id/Modify_medicine"
+            android:id="@+id/modify_Medicine_Info_Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/modyfikuj_lek" />
+            android:text="@string/modify_medicine" />
 
         <Button
-            android:id="@+id/Delete_medicine"
+            android:id="@+id/delete_Medicine_Info_Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/usu_lek" />
+            android:text="@string/delite_medicine" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
