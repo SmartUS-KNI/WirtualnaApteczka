@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="smartcity.kni.wirtualnaapteczka.Main">
+
+
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="497dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/details_Of_Medicine_Info_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/details"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/name_Of_Medicine_Info_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="69dp"
+            android:layout_weight="0"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/name_of_medicine" />
+
+        <TextView
+            android:id="@+id/decsription_From_Medicin_Info_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="118dp"
+            android:layout_weight="1"
+            android:text="@string/description" />
+
+        <EditText
+            android:id="@+id/label_Medicine_Info_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/label" />
+
+        <EditText
+            android:id="@+id/barcode_From_Medicine_Info_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/barcode" />
+
+        <TextView
+            android:id="@+id/function_Medicine_Info_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/function" />
+
+        <Button
+            android:id="@+id/modify_Medicine_Info_Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/modify_medicine" />
+
+        <Button
+            android:id="@+id/delete_Medicine_Info_Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/delite_medicine" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,7 +1,15 @@
 package smartcity.kni.wirtualnaapteczka;
 
+<<<<<<< HEAD
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+
+=======
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+>>>>>>> master
 
 public class Main extends AppCompatActivity {
 
@@ -9,6 +17,14 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+<<<<<<< HEAD
+//        setContentView(R.layout.activity_medicine_info);
+//        setContentView(R.layout.activity_medicine_list);
+//        setContentView(R.layout.activity_new_medicine_form);
+=======
 
+>>>>>>> master
     }
+
+
 }

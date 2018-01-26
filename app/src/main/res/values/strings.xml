@@ -1,3 +1,21 @@
 <resources>
+
+    <!--strings used in layout-->
     <string name="app_name">Wirtualna Apteczka</string>
+    <string name="title_activity_new_medicine_form">newMedicineForm</string>
+    <string name="add_new_medicine">Dodanie Nowego Leku</string>
+    <string name="details">Szczegóły leku</string>
+    <string name="name_of_medicine">Nazwa leku</string>
+    <string name="description">Opis</string>
+    <string name="label">Etykieta</string>
+    <string name="barcode">Kod kreskowy</string>
+    <string name="function">Funkcje:</string>
+    <string name="modify_medicine">Modyfikuj lek</string>
+    <string name="delite_medicine">Usuń lek</string>
+    <string name="list_of_medicine">Lista leków</string>
+    <string name="end_program">Zakończ program</string>
+    <string name="add_new_label">Dodaj nową etykietę</string>
+    <string name="add_medicine">Dodaj lek</string>
+    <string name="add_medicine_main">Dodaj lek</string>
+
 </resources>
