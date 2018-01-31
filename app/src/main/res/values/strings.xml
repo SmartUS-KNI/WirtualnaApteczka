@@ -17,5 +17,6 @@
     <string name="add_new_label">Dodaj nową etykietę</string>
     <string name="add_medicine">Dodaj lek</string>
     <string name="add_medicine_main">Dodaj lek</string>
+    <string name="title_activity_add_medicine">AddMedicineActivity</string>
 
 </resources>

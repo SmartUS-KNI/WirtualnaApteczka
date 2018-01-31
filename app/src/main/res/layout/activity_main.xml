@@ -24,7 +24,8 @@
             android:id="@+id/add_Medicine_Main_Button"
             android:layout_width="match_parent"
             android:layout_height="132dp"
-            android:text="@string/add_medicine" />
+            android:text="@string/add_medicine"
+            android:onClick="OpenAddMedicineActivity" />
 
         <Button
             android:id="@+id/medicine_List_Main_Button"
