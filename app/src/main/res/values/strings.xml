@@ -17,5 +17,7 @@
     <string name="add_new_label">Dodaj nową etykietę</string>
     <string name="add_medicine">Dodaj lek</string>
     <string name="add_medicine_main">Dodaj lek</string>
+    <string name="add_manually">Dodaj ręcznie</string>
+    <string name="add_by_camera">Dodaj przy użyciu czytnika kodów</string>
 
 </resources>
