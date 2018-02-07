@@ -3,6 +3,7 @@
     <!--strings used in layout-->
     <string name="app_name">Wirtualna Apteczka</string>
     <string name="title_activity_new_medicine_form">newMedicineForm</string>
+    <string name="title_activity_medicine_list">Lista leków</string>
     <string name="add_new_medicine">Dodanie Nowego Leku</string>
     <string name="details">Szczegóły leku</string>
     <string name="name_of_medicine">Nazwa leku</string>
