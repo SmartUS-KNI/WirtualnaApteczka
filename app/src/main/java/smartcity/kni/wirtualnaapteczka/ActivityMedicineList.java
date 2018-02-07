@@ -22,22 +22,22 @@ public class ActivityMedicineList extends AppCompatActivity {
 
         // --- DUMMY DATA!!! ---
         ArrayList<DummyMedicine> dummyMedicines = new ArrayList<>();
-        dummyMedicines.add(new DummyMedicine("Apap"));
-        dummyMedicines.add(new DummyMedicine("Ibuprom"));
-        dummyMedicines.add(new DummyMedicine("Nospa"));
-        dummyMedicines.add(new DummyMedicine("Nurofen"));
-        dummyMedicines.add(new DummyMedicine("Laremid"));
-        dummyMedicines.add(new DummyMedicine("Stoperan"));
-        dummyMedicines.add(new DummyMedicine("Acalut"));
-        dummyMedicines.add(new DummyMedicine("Ketonal"));
-        dummyMedicines.add(new DummyMedicine("Rutinoscorbin"));
-        dummyMedicines.add(new DummyMedicine("Nimesil"));
-        dummyMedicines.add(new DummyMedicine("Ketoprom"));
-        dummyMedicines.add(new DummyMedicine("Ibuprofen"));
+        dummyMedicines.add(new DummyMedicine("Apap", "Przeciwbólowy"));
+        dummyMedicines.add(new DummyMedicine("Ibuprom", "Przeciwbólowy"));
+        dummyMedicines.add(new DummyMedicine("Nospa", "Przeciwbólowy"));
+        dummyMedicines.add(new DummyMedicine("Nurofen", "Przeciwbólowy"));
+        dummyMedicines.add(new DummyMedicine("Laremid", "Przeciw biegunce"));
+        dummyMedicines.add(new DummyMedicine("Stoperan", "Przeciw zaparciom"));
+        dummyMedicines.add(new DummyMedicine("Acalut", "Przeciwbólowy"));
+        dummyMedicines.add(new DummyMedicine("Ketonal", "Przeciwbólowy"));
+        dummyMedicines.add(new DummyMedicine("Rutinoscorbin", "Witaminy"));
+        dummyMedicines.add(new DummyMedicine("Nimesil", "Silny przeciwbólowy"));
+        dummyMedicines.add(new DummyMedicine("Ketoprom", "Przeciwbólowy"));
+        dummyMedicines.add(new DummyMedicine("Ibuprofen", "Przeciwgorączkowy"));
         // --- DUMMY DATA!!! ---
 
         ListView medicineListView = (ListView) findViewById(R.id.Medicine_ListView);
-        mMedicineListAdapter = new MedicineListAdapter(this,dummyMedicines);
+        mMedicineListAdapter = new MedicineListAdapter(this, dummyMedicines);
         medicineListView.setAdapter(mMedicineListAdapter);
     }
 }

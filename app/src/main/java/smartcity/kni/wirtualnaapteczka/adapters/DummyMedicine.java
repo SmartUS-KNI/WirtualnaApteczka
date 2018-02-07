@@ -7,10 +7,12 @@ package smartcity.kni.wirtualnaapteczka.adapters;
 public class DummyMedicine {
 
     private String mMedicineName;
+    private String mMedicineTag;
 
-    public DummyMedicine(String mMedicineName){
+
+    public DummyMedicine(String mMedicineName, String mMedicineTag) {
         this.mMedicineName = mMedicineName;
-
+        this.mMedicineTag = mMedicineTag;
     }
 
     public String getmMedicineName() {
@@ -21,4 +23,11 @@ public class DummyMedicine {
         this.mMedicineName = mMedicineName;
     }
 
+    public String getmMedicineTag() {
+        return mMedicineTag;
+    }
+
+    public void setmMedicineTag(String mMedicineTag) {
+        this.mMedicineTag = mMedicineTag;
+    }
 }

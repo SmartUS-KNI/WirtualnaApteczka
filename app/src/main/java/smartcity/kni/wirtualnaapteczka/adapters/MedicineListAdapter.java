@@ -32,13 +32,16 @@ public class MedicineListAdapter extends ArrayAdapter<DummyMedicine> {
         View listItemView = convertView;
         if(listItemView == null){
             listItemView = LayoutInflater.from(getContext()).inflate(
-                    android.R.layout.simple_list_item_1, null);
+                    R.layout.medicine_list_view_item, null);
         }
 
         DummyMedicine dummyMedicine = getItem(position);
 
-        TextView medicineNameTV = (TextView) listItemView.findViewById(android.R.id.text1);
+        TextView medicineNameTV = (TextView) listItemView.findViewById(R.id.medicine_name_text_view);
         medicineNameTV.setText(dummyMedicine.getmMedicineName());
+
+        TextView medicineTagTV = (TextView) listItemView.findViewById(R.id.medicine_tag_text_view);
+        medicineTagTV.setText(dummyMedicine.getmMedicineTag());
 
         return listItemView;
 
