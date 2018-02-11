@@ -67,13 +67,12 @@ public class SQLiteDatabaseHelper {
         return query.unique();
     }
 
-    public Medicine getMedicineByName(String name) {
+    public List<Medicine> getMedicineByName(String name) {
         Query<Medicine> query = queryHelper.getMedicineQueryBuilder()
-                .where(MedicineDao.Properties.Name.eq(name))
-                .limit(1)
+                .where(MedicineDao.Properties.Name.like(name))
                 .build();
 
-        return query.unique();
+        return query.list();
     }
 
     public List<Medicine> getAllMedicine() {
