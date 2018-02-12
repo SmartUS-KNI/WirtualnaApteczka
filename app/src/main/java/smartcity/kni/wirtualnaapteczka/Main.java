@@ -3,6 +3,7 @@ package smartcity.kni.wirtualnaapteczka;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+
 public class Main extends AppCompatActivity {
 
     @Override
@@ -13,6 +14,5 @@ public class Main extends AppCompatActivity {
         //setContentView(R.layout.activity_medicine_list);
         //setContentView(R.layout.activity_new_medicine_form);
     }
-
 
 }
