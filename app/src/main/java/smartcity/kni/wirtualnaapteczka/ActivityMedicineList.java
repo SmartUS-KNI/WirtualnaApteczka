@@ -20,9 +20,6 @@ public class ActivityMedicineList extends AppCompatActivity {
         setTitle(R.string.title_activity_medicine_list);
 
         SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
-        // ---!!!--- ADD THIS LINE TO ADD MEDICINE TO DATABASE FOR TESTING LIST ---!!!---
-        // ---!!!--- REMEMBER TO RUN IT ONLY ONCE! ---!!!---
-        //sqLiteDatabaseHelper.insertMedicine(new smartcity.kni.wirtualnaapteczka.Medicine(null, "Ibuprom", "Lek przeciwbólowy mający działanie szczególnie na bóle głowy.", null, null, null));
         List<smartcity.kni.wirtualnaapteczka.Medicine> medicinesList = sqLiteDatabaseHelper.getAllMedicine();
 
 

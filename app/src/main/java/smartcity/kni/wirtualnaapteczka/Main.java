@@ -30,28 +30,12 @@ public class Main extends AppCompatActivity {
         SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
         sqLiteDatabaseHelper.openConnection(this, "medicinesDatabase");
 
-        Button openAddMedicineFormButton = (Button) findViewById(R.id.add_Medicine_Main_Button);
         Button openMedicineListButton = (Button) findViewById(R.id.medicine_List_Main_Button);
-        Button closeAppButton = (Button) findViewById(R.id.end_Program_Main_Button);
-
-        openAddMedicineFormButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            //TODO Add functionality to Button opening Add Medicine Form
-            }
-        });
 
         openMedicineListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Main.this, ActivityMedicineList.class));
-            }
-        });
-
-        closeAppButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
 
