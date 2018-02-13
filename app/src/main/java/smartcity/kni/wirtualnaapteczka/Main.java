@@ -14,6 +14,7 @@ import smartcity.kni.wirtualnaapteczka.enums.ELayoutContentType;
 import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContent;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContentConfig;
+import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 
 
 public class Main extends AppCompatActivity {
@@ -25,6 +26,9 @@ public class Main extends AppCompatActivity {
         //setContentView(R.layout.activity_medicine_info);
         //setContentView(R.layout.activity_medicine_list);
         //setContentView(R.layout.activity_new_medicine_form);
+
+        SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
+        sqLiteDatabaseHelper.openConnection(this, "medicinesDatabase");
 
         Button openAddMedicineFormButton = (Button) findViewById(R.id.add_Medicine_Main_Button);
         Button openMedicineListButton = (Button) findViewById(R.id.medicine_List_Main_Button);
@@ -52,5 +56,4 @@ public class Main extends AppCompatActivity {
         });
 
     }
-
 }

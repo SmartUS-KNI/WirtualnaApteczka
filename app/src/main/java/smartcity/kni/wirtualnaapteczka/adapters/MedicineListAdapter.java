@@ -13,15 +13,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import smartcity.kni.wirtualnaapteczka.Medicine;
 import smartcity.kni.wirtualnaapteczka.R;
+import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 
 /**
  * Created by Radek on 07-Feb-18.
  */
 
-public class MedicineListAdapter extends ArrayAdapter<DummyMedicine> {
+public class MedicineListAdapter extends ArrayAdapter<Medicine> {
 
-    public MedicineListAdapter(Activity context, ArrayList<DummyMedicine> medicines){
+    public MedicineListAdapter(Activity context, List<Medicine> medicines){
         super(context, 0, medicines);
     }
 
@@ -35,13 +37,13 @@ public class MedicineListAdapter extends ArrayAdapter<DummyMedicine> {
                     R.layout.medicine_list_view_item, null);
         }
 
-        DummyMedicine dummyMedicine = getItem(position);
+        Medicine medicine = getItem(position);
 
         TextView medicineNameTV = (TextView) listItemView.findViewById(R.id.medicine_name_text_view);
-        medicineNameTV.setText(dummyMedicine.getmMedicineName());
+        medicineNameTV.setText(medicine.getName());
 
         TextView medicineTagTV = (TextView) listItemView.findViewById(R.id.medicine_tag_text_view);
-        medicineTagTV.setText(dummyMedicine.getmMedicineTag());
+        medicineTagTV.setText(medicine.getDescription());
 
         return listItemView;
 
