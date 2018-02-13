@@ -15,6 +15,7 @@ import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContent;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContentConfig;
 
+
 public class Main extends AppCompatActivity {
 
     @Override
@@ -51,6 +52,5 @@ public class Main extends AppCompatActivity {
         });
 
     }
-
 
 }
