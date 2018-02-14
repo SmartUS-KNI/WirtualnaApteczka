@@ -4,6 +4,7 @@ import org.greenrobot.greendao.generator.DaoGenerator;
 import org.greenrobot.greendao.generator.Entity;
 import org.greenrobot.greendao.generator.Property;
 import org.greenrobot.greendao.generator.Schema;
+import java.io.File;
 
 public class MyGenerator {
 
@@ -86,6 +87,7 @@ public class MyGenerator {
         tag.addToMany(tags_list, tagIdFKTagsList).setName("tagsList");
         tags_list.addToOne(tag, tagIdFKTagsList);
 
-        new DaoGenerator().generateAll(schema, "..\\app\\src\\main\\java\\generatedByGreenDao");
+        new File("..\\app\\src\\main\\java\\DatabaseGenerator").mkdir();
+        new DaoGenerator().generateAll(schema, "..\\app\\src\\main\\java\\DatabaseGenerator");
     }
 }
