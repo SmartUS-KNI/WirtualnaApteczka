@@ -42,6 +42,8 @@ public class NewMedicineFormActivity extends AppCompatActivity {
                 }
 
                 addMedicineToDatabase(generateMedicineFromContent(content));
+
+                finish();
             }
         });
     }

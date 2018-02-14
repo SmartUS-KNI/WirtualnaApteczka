@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
+import smartcity.kni.wirtualnaapteczka.layout.content.ViewManager;
+
 public class Main extends AppCompatActivity {
 
     @Override
@@ -15,6 +18,12 @@ public class Main extends AppCompatActivity {
         //setContentView(R.layout.activity_medicine_info);
         //setContentView(R.layout.activity_medicine_list);
         //setContentView(R.layout.activity_new_medicine_form);
+
+        try {
+            ViewManager.getInstance().setContentTypeConverters();
+        } catch (MissingConverterException e) {
+            e.printStackTrace();
+        }
 
         Button addNewMedicineButton = (Button) findViewById(R.id.add_Medicine_Main_Button);
 
