@@ -45,7 +45,6 @@ public class MyGenerator {
         medicine.addIdProperty().autoincrement();
         medicine.addStringProperty("name");
         medicine.addStringProperty("description");
-        medicine.addDateProperty("expiryDate");
         medicine.addStringProperty("tag");
         medicine.addStringProperty("EAN");
         //FK
