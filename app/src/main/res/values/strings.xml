@@ -8,7 +8,6 @@
     <string name="details">Szczegóły leku</string>
     <string name="name_of_medicine">Nazwa leku</string>
     <string name="description">Opis</string>
-    <string name="label">Etykieta</string>
     <string name="barcode">Kod kreskowy</string>
     <string name="function">Funkcje:</string>
     <string name="modify_medicine">Modyfikuj lek</string>
@@ -20,7 +19,7 @@
     <string name="add_medicine_main">Dodaj lek</string>
     <string name="add_manually">Dodaj ręcznie</string>
     <string name="add_by_camera">Dodaj przy użyciu czytnika kodów</string>
-    <string name="add_medicine_success">Lek został poprawnie zapisany</string>
+    <string name="add_medicine_success">Lek został poprawnie dodany</string>
     <string name="add_medicine_failure">Lek nie został dodany</string>
 
 </resources>

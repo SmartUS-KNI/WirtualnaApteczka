@@ -87,7 +87,7 @@ public class MyGenerator {
         tag.addToMany(tags_list, tagIdFKTagsList).setName("tagsList");
         tags_list.addToOne(tag, tagIdFKTagsList);
 
-        new File("..\\app\\src\\main\\java\\DatabaseGenerator").mkdir();
-        new DaoGenerator().generateAll(schema, "..\\app\\src\\main\\java\\DatabaseGenerator");
+        new File("..\\app\\src\\main\\java\\generatedDatabaseTables").mkdir();
+        new DaoGenerator().generateAll(schema, "..\\app\\src\\main\\java\\generatedDatabaseTables");
     }
 }
