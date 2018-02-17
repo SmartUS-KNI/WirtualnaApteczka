@@ -13,12 +13,13 @@ import java.util.List;
 
 import smartcity.kni.wirtualnaapteczka.adapters.MedicineListAdapter;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
+import smartcity.kni.wirtualnaapteczka.Medicine;
 
 public class ActivityMedicineList extends AppCompatActivity {
 
     MedicineListAdapter mMedicineListAdapter;
     SearchView searchView;
-    List<smartcity.kni.wirtualnaapteczka.Medicine> medicinesList;
+    List<Medicine> medicinesList;
     ListView medicineListView;
 
     @Override
