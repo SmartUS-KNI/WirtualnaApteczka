@@ -21,5 +21,6 @@
     <string name="add_by_camera">Dodaj przy użyciu czytnika kodów</string>
     <string name="add_medicine_success">Lek został poprawnie dodany</string>
     <string name="add_medicine_failure">Lek nie został dodany</string>
+    <string name="search">Szukaj</string>
 
 </resources>
