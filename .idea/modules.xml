@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DatabaseGenerator/greenDaoGenerator.iml" filepath="$PROJECT_DIR$/DatabaseGenerator/greenDaoGenerator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DatabaseGenerator/DatabaseGenerator.iml" filepath="$PROJECT_DIR$/DatabaseGenerator/DatabaseGenerator.iml" />
       <module fileurl="file://$PROJECT_DIR$/WirtualnaApteczka.iml" filepath="$PROJECT_DIR$/WirtualnaApteczka.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.Map;
 
@@ -39,9 +40,11 @@ public class NewMedicineFormActivity extends AppCompatActivity {
                     content = ViewManager.getInstance().getContent(layout, contentConfig);
                 } catch (MissingConverterException e) {
                     e.printStackTrace();
+                    toastForAddMedicineToDatabase("lek nie został zapisany");
                 }
 
                 addMedicineToDatabase(generateMedicineFromContent(content));
+                toastForAddMedicineToDatabase("lek został poprawnie zapisany");
 
                 finish();
             }
@@ -62,4 +65,12 @@ public class NewMedicineFormActivity extends AppCompatActivity {
     private void addMedicineToDatabase(Medicine medicine) {
         SQLiteDatabaseHelper.getInstance().insertMedicine(medicine);
     }
+
+    private void toastForAddMedicineToDatabase(String text){
+//        Context context = getApplicationContext();
+//        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
 }
