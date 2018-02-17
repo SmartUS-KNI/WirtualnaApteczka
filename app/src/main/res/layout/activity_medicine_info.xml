@@ -38,7 +38,7 @@
             android:layout_weight="0"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/name_of_medicine" />
+            android:hint="@string/name_of_medicine" />
 
         <TextView
             android:id="@+id/decsription_From_Medicin_Info_TextView"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/barcode" />
+            android:hint="@string/barcode" />
 
         <TextView
             android:id="@+id/function_Medicine_Info_TextView"
