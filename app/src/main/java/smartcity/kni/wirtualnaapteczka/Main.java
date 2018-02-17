@@ -29,6 +29,7 @@ public class Main extends AppCompatActivity {
 
         Button addNewMedicineButton = (Button) findViewById(R.id.add_Medicine_Main_Button);
         Button openMedicineListButton = (Button) findViewById(R.id.medicine_List_Main_Button);
+        Button appExit = (Button) findViewById(R.id.end_Program_Main_Button);
 
         addNewMedicineButton.setOnClickListener(new View.OnClickListener() {
 
@@ -44,5 +45,13 @@ public class Main extends AppCompatActivity {
                 startActivity(new Intent(Main.this, ActivityMedicineList.class));
             }
         });
+
+        appExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }
+
