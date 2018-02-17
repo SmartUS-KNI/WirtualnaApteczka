@@ -82,8 +82,8 @@ public class SQLiteDatabaseHelper {
         return query.list();
     }
 
-    public void insertMedicine(Medicine medicine) {
-        daoSession.getMedicineDao().insert(medicine);
+    public long insertMedicine(Medicine medicine) {
+        return daoSession.getMedicineDao().insert(medicine);
     }
 
     public void insertMedicineList(List<Medicine> medicineList) {

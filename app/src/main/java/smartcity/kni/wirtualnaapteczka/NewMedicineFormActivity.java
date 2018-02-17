@@ -40,12 +40,15 @@ public class NewMedicineFormActivity extends AppCompatActivity {
                     content = ViewManager.getInstance().getContent(layout, contentConfig);
                 } catch (MissingConverterException e) {
                     e.printStackTrace();
-                    toastForAddMedicineToDatabase("lek nie został zapisany");
                 }
 
-                addMedicineToDatabase(generateMedicineFromContent(content));
-                toastForAddMedicineToDatabase("lek został poprawnie zapisany");
-
+                long newMedicineId = -1;
+                newMedicineId = SQLiteDatabaseHelper.getInstance().insertMedicine(generateMedicineFromContent(content));
+                if (newMedicineId != -1) {
+                    Toast.makeText(getApplicationContext(), R.string.add_medicine_success, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.add_medicine_failure, Toast.LENGTH_SHORT).show();
+                }
                 finish();
             }
         });
@@ -55,22 +58,11 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         Map<Integer, Object> contentMap = content.getContentMap();
         Medicine medicine = new Medicine();
 
-        medicine.setName((String)contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText));
-        medicine.setDescription((String)contentMap.get(R.id.description_Of_New_Medicine_EditText));
-        medicine.setEAN((String)contentMap.get(R.id.barcode_From_New_Medicine_EditText));
+        medicine.setName((String) contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText));
+        medicine.setDescription((String) contentMap.get(R.id.description_Of_New_Medicine_EditText));
+        medicine.setEAN((String) contentMap.get(R.id.barcode_From_New_Medicine_EditText));
 
         return medicine;
-    }
-
-    private void addMedicineToDatabase(Medicine medicine) {
-        SQLiteDatabaseHelper.getInstance().insertMedicine(medicine);
-    }
-
-    private void toastForAddMedicineToDatabase(String text){
-//        Context context = getApplicationContext();
-//        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
-        toast.show();
     }
 
 }

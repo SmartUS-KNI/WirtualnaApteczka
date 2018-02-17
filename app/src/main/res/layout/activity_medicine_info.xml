@@ -48,14 +48,6 @@
             android:text="@string/description" />
 
         <EditText
-            android:id="@+id/label_Medicine_Info_EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/label" />
-
-        <EditText
             android:id="@+id/barcode_From_Medicine_Info_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
