@@ -87,9 +87,14 @@ public class SQLiteDatabaseHelper {
     }
 
     public void insertMedicineList(List<Medicine> medicineList) {
-        for(Medicine i: medicineList) {
+        for (Medicine i : medicineList) {
             daoSession.getMedicineDao().insert(i);
         }
+    }
+
+    public void updateMedicine(Medicine medicine){
+        daoSession.getMedicineDao().update(medicine);
+
     }
 
     //IF YOU WANT TO ANY OTHER QUERY YOU CAN WRITE HERE IT
