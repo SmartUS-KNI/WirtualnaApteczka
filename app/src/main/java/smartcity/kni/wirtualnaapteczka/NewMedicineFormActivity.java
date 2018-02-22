@@ -3,12 +3,21 @@ package smartcity.kni.wirtualnaapteczka;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import smartcity.kni.wirtualnaapteczka.enums.ELayoutContentType;
+import smartcity.kni.wirtualnaapteczka.enums.EMedicineType;
 import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContent;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContentConfig;
@@ -24,7 +33,38 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_new_medicine_form);
 
+        final LinearLayout countingContainer = (LinearLayout) findViewById(R.id.counting_container);
+        CheckBox countCheckBox = (CheckBox)findViewById(R.id.check_counting);
+        Spinner medicineType = (Spinner) findViewById(R.id.medicine_type);
+        final Spinner medicineTypeUnit = (Spinner) findViewById(R.id.medicine_type_unit);
         Button submitFormButton = (Button) findViewById(R.id.submit_From_New_Medicine_Button);
+
+        countingContainer.setVisibility(View.GONE);
+        countCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                    countingContainer.setVisibility(View.VISIBLE);
+                else
+                    countingContainer.setVisibility(View.GONE);
+            }
+        });
+
+        this.fillSpinnerWithStrings(medicineType, getString(R.string.medicine_type), this.getStringsFromMedicineType());
+        medicineType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position > 0)
+                    fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[position-1].getUnits());
+                else
+                    fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), null);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //NOTHING TO DO
+            }
+        });
 
         submitFormButton.setOnClickListener(new View.OnClickListener() {
 
@@ -65,4 +105,26 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         return medicine;
     }
 
+    private void fillSpinnerWithStrings(Spinner spinner, String prefix, List<String> strings) {
+        List<String> spinnerStrings = new ArrayList<>();
+
+        spinnerStrings.add(prefix);
+
+        if(strings != null)
+            spinnerStrings.addAll(strings);
+
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,
+                (String[])spinnerStrings.toArray(new String[spinnerStrings.size()]));
+        spinner.setAdapter(spinnerAdapter);
+    }
+
+    private List<String> getStringsFromMedicineType() {
+        List<String> medicineTypeStrings = new ArrayList<>();
+
+        for(EMedicineType i: EMedicineType.values()) {
+            medicineTypeStrings.add(i.getName());
+        }
+
+        return medicineTypeStrings;
+    }
 }

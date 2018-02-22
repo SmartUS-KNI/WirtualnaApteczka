@@ -47,6 +47,12 @@
             android:layout_weight="1"
             android:text="@string/description" />
 
+        <TextView
+            android:id="@+id/count_From_Medicine_Info_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
         <EditText
             android:id="@+id/barcode_From_Medicine_Info_EditText"
             android:layout_width="match_parent"

@@ -11,6 +11,7 @@ import smartcity.kni.wirtualnaapteczka.DaoMaster;
 import smartcity.kni.wirtualnaapteczka.DaoSession;
 import smartcity.kni.wirtualnaapteczka.Medicine;
 import smartcity.kni.wirtualnaapteczka.MedicineDao;
+import smartcity.kni.wirtualnaapteczka.enums.EMedicineType;
 
 /**
  * Created by Aleksander on 04.02.2018.
@@ -90,6 +91,15 @@ public class SQLiteDatabaseHelper {
         for(Medicine i: medicineList) {
             daoSession.getMedicineDao().insert(i);
         }
+    }
+
+    public EMedicineType getMedicineTypeById(long id) {
+        for(EMedicineType i: EMedicineType.values()) {
+            if(i.getId() == id)
+                return i;
+        }
+
+        return null;
     }
 
     //IF YOU WANT TO ANY OTHER QUERY YOU CAN WRITE HERE IT

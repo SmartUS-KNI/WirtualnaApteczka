@@ -42,6 +42,12 @@ public class MyGenerator {
         Property medicineIdFkInfo = information.addLongProperty(
                 "idMedicine").getProperty();
 
+        Entity medicine_count = schema.addEntity("Medicine_Count");
+        medicine_count.addIdProperty().autoincrement();
+        medicine_count.addDoubleProperty("count");
+        medicine_count.addLongProperty("medicineType").notNull();
+        medicine_count.addIntProperty("medicineTypeUnit").notNull();
+
         Entity medicine = schema.addEntity("Medicine");
         medicine.addIdProperty().autoincrement();
         medicine.addStringProperty("name");
@@ -49,6 +55,8 @@ public class MyGenerator {
         medicine.addStringProperty("tag");
         medicine.addStringProperty("EAN");
         //FK
+        Property medicineCountIdFKMedicine = medicine.addLongProperty(
+                "idCount").getProperty();
 
         Entity tags_list = schema.addEntity("Tags_List");
         tags_list.addIdProperty().autoincrement();
@@ -86,6 +94,9 @@ public class MyGenerator {
 
         tag.addToMany(tags_list, tagIdFKTagsList).setName("tagsList");
         tags_list.addToOne(tag, tagIdFKTagsList);
+
+        medicine.addToOne(medicine_count, medicineCountIdFKMedicine);
+        //medicine_count.addToOne(medicine, medicineCountIdFKMedicine);
 
         new File("..\\app\\src\\main\\java\\generatedDatabaseTables").mkdir();
         new DaoGenerator().generateAll(schema, "..\\app\\src\\main\\java\\generatedDatabaseTables");

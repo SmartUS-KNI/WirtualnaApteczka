@@ -8,6 +8,9 @@
     <string name="details">Szczegóły leku</string>
     <string name="name_of_medicine">Nazwa leku</string>
     <string name="description">Opis</string>
+    <string name="enable_counting_label">Dodaj ilość</string>
+    <string name="medicine_type">Rodzaj leku:</string>
+    <string name="medicine_type_unit">Jednostka:</string>
     <string name="barcode">Kod kreskowy</string>
     <string name="function">Funkcje:</string>
     <string name="modify_medicine">Modyfikuj lek</string>
@@ -22,5 +25,7 @@
     <string name="add_medicine_success">Lek został poprawnie dodany</string>
     <string name="add_medicine_failure">Lek nie został dodany</string>
     <string name="search">Szukaj</string>
+    <string name="select_medicine_type">Wybierz rodzaj leku:</string>
+    <string name="select_medicine_type_unit">Wybierz jednostkę:</string>
 
 </resources>
