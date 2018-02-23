@@ -51,7 +51,7 @@ public class ShowMedicineInfoActivity extends AppCompatActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent (ShowMedicineInfoActivity.this,EditMedicineFromActivity.class);
+                Intent intent = new Intent (ShowMedicineInfoActivity.this,NewMedicineFormActivity.class);
 
                 Long medicineId = getIntent().getLongExtra("Id", 0);
                 intent.putExtra("Id",medicineId);

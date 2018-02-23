@@ -92,6 +92,11 @@ public class SQLiteDatabaseHelper {
         }
     }
 
+    /**
+     * @author KozMeeN
+     * method update selected medicine in badabase.
+     * @param medicine object which we want to update in database.
+     */
     public void updateMedicine(Medicine medicine){
         daoSession.getMedicineDao().update(medicine);
 
