@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import smartcity.kni.wirtualnaapteczka.Medicine;
+
 import java.util.List;
 
 import smartcity.kni.wirtualnaapteczka.adapters.MedicineListAdapter;
@@ -16,10 +17,54 @@ public class ActivityMedicineList extends AppCompatActivity {
 
     MedicineListAdapter mMedicineListAdapter;
 
+
+    /**
+     * edit KozMeeN
+     * I place all instruction in separate method, thanks what we can open it in onCreate method, and onResume method.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_list);
+        updateView();
+    }
+
+    /**
+     * @author KozMeeN
+     * I added this method becouse when we edit Medicine, and back to this Acitivity (by return button) list did not display the changes we have made.
+     */
+    protected void onResume() {
+        super.onResume();
+        updateView();
+
+    }
+
+
+    /**
+     * @author KozMeeN
+     *
+     * Function open new Activity
+     * @see MedicineInfoActivity
+     * where we can see informations about chosen medicine.
+     *
+     * We will sentd id of medicine in extras.
+     *
+     * @param medicine object, which will be edit.
+     */
+    public void onClickListenerToMedicineList(Medicine medicine){
+                Long medicineId = medicine.getId();
+                Intent intent = new Intent(ActivityMedicineList.this,MedicineInfoActivity.class);
+                intent.putExtra("Id",medicineId);
+                startActivity(intent);
+            }
+
+    /**
+     * @author KozMeeN
+     * method cerete a list of medicine and  make possible start MedicineInfoActivity.
+     */
+    private void updateView(){
         setTitle(R.string.title_activity_medicine_list);
 
         SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
@@ -40,27 +85,7 @@ public class ActivityMedicineList extends AppCompatActivity {
                 onClickListenerToMedicineList(medicinesList.get(i));
             }
         });
-
     }
-
-    /**
-     * @author KozMeeN
-     *
-     * Function open new Activity
-     * @see ShowMedicineInfoActivity
-     * where we can see informations about chosen medicine.
-     *
-     * We will sentd id of medicine in extras.
-     *
-     * @param medicine object, which will be edit.
-     */
-    public void onClickListenerToMedicineList(Medicine medicine){
-
-                Long medicineId = medicine.getId();
-                Intent intent = new Intent(ActivityMedicineList.this,ShowMedicineInfoActivity.class);
-                intent.putExtra("Id",medicineId);
-                startActivity(intent);
-            }
 
 
 }

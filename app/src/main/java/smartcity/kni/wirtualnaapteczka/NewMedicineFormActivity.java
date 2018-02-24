@@ -30,8 +30,10 @@ public class NewMedicineFormActivity extends AppCompatActivity {
          * View will be complete with information from sent Medicine, if we will choose edit option, if we will choose create new medicine view will has
          * default values.
          */
+
+        final SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
+
         if(getIntent().hasExtra("Id")){
-            SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
             setContent(sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0)));
         }
 
@@ -61,7 +63,6 @@ public class NewMedicineFormActivity extends AppCompatActivity {
                  * when we create new medicine we create a new medicine so we dont have to sent this object in method.
                  */
                 if(getIntent().hasExtra("Id")){
-                    SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
                     Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id",0));
                     updateMedicineInDatabase(generateMedicineFromContent(medicine,content));
                 }else {
@@ -106,7 +107,7 @@ public class NewMedicineFormActivity extends AppCompatActivity {
     /**
      * @author KozMeeN
      * I ovverive method to one more values.
-     * method does not create a new object, but uses previously created, so we have to sent this object.
+     * method does not create a new object, but uses previously created, thanks why we can update medicine.
      * @param medicine the object which we want to update.
      * @param content the content from which we take information
      *

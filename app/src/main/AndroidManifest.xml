@@ -30,7 +30,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Main" />
         </activity>
-        <activity android:name=".ShowMedicineInfoActivity"></activity>
+        <activity android:name=".MedicineInfoActivity"></activity>
         <activity android:name=".EditMedicineFromActivity"></activity>
     </application>
 
