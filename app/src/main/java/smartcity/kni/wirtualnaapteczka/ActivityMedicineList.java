@@ -1,10 +1,13 @@
 package smartcity.kni.wirtualnaapteczka;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -34,6 +37,14 @@ public class ActivityMedicineList extends AppCompatActivity {
         medicineListView = (ListView) findViewById(R.id.Medicine_ListView);
         mMedicineListAdapter = new MedicineListAdapter(this, medicinesList);
         medicineListView.setAdapter(mMedicineListAdapter);
+
+        medicineListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+                if(position>=0){
+                    startActivity(new Intent(ActivityMedicineList.this, ActivityMedicineInfo.class));
+                }
+            }});
     }
 
     @Override
