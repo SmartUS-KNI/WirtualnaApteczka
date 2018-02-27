@@ -13,7 +13,9 @@ import smartcity.kni.wirtualnaapteczka.listeners.OnConvertListener;
 public enum ELayoutContentType {
     LAYOUT_CONTENT_TYPE_TEXTVIEW(android.support.v7.widget.AppCompatTextView.class),
     LAYOUT_CONTENT_TYPE_EDITTEXT(android.support.v7.widget.AppCompatEditText.class),
-    LAYOUT_CONTENT_TYPE_BUTTON(android.support.v7.widget.AppCompatButton.class);
+    LAYOUT_CONTENT_TYPE_BUTTON(android.support.v7.widget.AppCompatButton.class),
+    LAYOUT_CONTENT_TYPE_CHECKBOX(android.support.v7.widget.AppCompatCheckBox.class),
+    LAYOUT_CONTENT_TYPE_SPINNER(android.widget.Spinner.class);
 
     private Class<?> contentClass;
     private OnConvertListener listener;
@@ -32,5 +34,14 @@ public enum ELayoutContentType {
 
     public OnConvertListener getConverter() {
         return this.listener;
+    }
+
+    public static boolean hasContentImplementation(Class<?> contentClass) {
+        for(ELayoutContentType i: values()) {
+            if(i.getContentClass() == contentClass)
+                return true;
+        }
+
+        return false;
     }
 }

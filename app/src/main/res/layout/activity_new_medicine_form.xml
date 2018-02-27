@@ -98,10 +98,11 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:id="@+id/count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
-                    android:hint="Ilość"/>
+                    android:hint="@string/count_label"/>
                 <Spinner
                     android:id="@+id/medicine_type_unit"
                     android:layout_width="wrap_content"

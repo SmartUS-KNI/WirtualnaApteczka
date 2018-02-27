@@ -7,7 +7,9 @@ import smartcity.kni.wirtualnaapteczka.listeners.OnConvertListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.Iterator;
@@ -36,16 +38,16 @@ public class ViewManager {
     }
 
     public LayoutContent getContent(View view, LayoutContentConfig config) throws MissingConverterException {
-        LayoutContent content = new LayoutContent(view.getId(),config);
+        LayoutContent content = new LayoutContent(view.getId(), config);
 
-        if(isViewGroup(view)) {
-            ViewGroup viewGroup = (ViewGroup)view;
+        if (isViewGroup(view) && !ELayoutContentType.hasContentImplementation(view.getClass())) {
+            ViewGroup viewGroup = (ViewGroup) view;
             View childView = null;
 
-            for(int i=0; i<viewGroup.getChildCount(); i++) {
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
                 childView = viewGroup.getChildAt(i);
 
-                if(isViewGroup(childView)) {
+                if (isViewGroup(childView) && !ELayoutContentType.hasContentImplementation(childView.getClass())) {
                     LayoutContent childContent = this.getContent(childView, config);
 
                     Map<Integer, Object> map = childContent.getContentMap();
@@ -54,22 +56,20 @@ public class ViewManager {
 
                     Integer key;
 
-                    while(iterator.hasNext()) {
+                    while (iterator.hasNext()) {
                         key = iterator.next();
-                        content.addContentParam(key,map.get(key));
+                        content.addContentParam(key, map.get(key));
                     }
-                }
-                else {
-                    for(ELayoutContentType type: ELayoutContentType.values()) {
-                        if(childView.getClass() == type.getContentClass())
+                } else {
+                    for (ELayoutContentType type : config.getLayoutContentConfig()) {
+                        if (childView.getClass() == type.getContentClass())
                             content.addContentParam(childView.getId(), this.convertView(childView, type));
                     }
                 }
             }
-        }
-        else {
-            for(ELayoutContentType type: ELayoutContentType.values()) {
-                if(view.getClass() == type.getContentClass()) {
+        } else {
+            for (ELayoutContentType type : config.getLayoutContentConfig()) {
+                if (view.getClass() == type.getContentClass()) {
                     content.addContentParam(view.getId(), this.convertView(view, type));
                 }
             }
@@ -79,8 +79,8 @@ public class ViewManager {
     }
 
     public void setContentTypeConverters() throws MissingConverterException {
-        for(ELayoutContentType type: ELayoutContentType.values()) {
-            switch(type) {
+        for (ELayoutContentType type : ELayoutContentType.values()) {
+            switch (type) {
 
                 //TODO: DEFINE WHOLE CONTENT TYPE CONVERTERS IN INDIVIDUAL CASES
                 //EXAMPLE:
@@ -88,7 +88,7 @@ public class ViewManager {
                     type.setConverter(new OnConvertListener() {
                         @Override
                         public Object onConvert(View view) {
-                            TextView obj = (TextView)view;
+                            TextView obj = (TextView) view;
                             return obj.getText().toString();
                         }
                     });
@@ -99,21 +99,41 @@ public class ViewManager {
                     type.setConverter(new OnConvertListener() {
                         @Override
                         public Object onConvert(View view) {
-                            EditText obj = (EditText)view;
+                            EditText obj = (EditText) view;
                             return obj.getText().toString();
                         }
                     });
                     break;
-                }case LAYOUT_CONTENT_TYPE_BUTTON: {
+                }
+                case LAYOUT_CONTENT_TYPE_BUTTON: {
                     type.setConverter(new OnConvertListener() {
                         @Override
                         public Object onConvert(View view) {
-                            Button obj =(Button)view;
+                            Button obj = (Button) view;
                             return obj.getText().toString();
                         }
                     });
                     break;
-                }default: {
+                }
+                case LAYOUT_CONTENT_TYPE_CHECKBOX: {
+                    type.setConverter(new OnConvertListener() {
+                        @Override
+                        public Object onConvert(View view) {
+                            CheckBox obj = (CheckBox) view;
+                            return obj.isChecked();
+                        }
+                    });
+                }
+                case LAYOUT_CONTENT_TYPE_SPINNER: {
+                    type.setConverter(new OnConvertListener() {
+                        @Override
+                        public Object onConvert(View view) {
+                            Spinner obj = (Spinner) view;
+                            return obj.getSelectedItemPosition();
+                        }
+                    });
+                }
+                default: {
                     throw new MissingConverterException(type.name() + " has undefined converter."); //MESSAGE: LAYOUT_CONTENT_TYPE_[...] has undefined converter
                 }
             }
@@ -123,7 +143,7 @@ public class ViewManager {
     private LayoutContentConfig createDefaultLayoutContentConfig() {
         LayoutContentConfig config = new LayoutContentConfig();
 
-        for(ELayoutContentType type: ELayoutContentType.values()) {
+        for (ELayoutContentType type : ELayoutContentType.values()) {
             config.addLayoutContentConfigParam(type);
         }
 
@@ -131,14 +151,14 @@ public class ViewManager {
     }
 
     private boolean isViewGroup(View view) {
-        if(view instanceof ViewGroup)
+        if (view instanceof ViewGroup)
             return true;
         else
             return false;
     }
 
     private Object convertView(View view, ELayoutContentType type) throws MissingConverterException {
-        if(type.getConverter() == null)
+        if (type.getConverter() == null)
             throw new NullPointerException(type.name() + " hasn't converter implementation");
 
         return type.getConverter().onConvert(view);
