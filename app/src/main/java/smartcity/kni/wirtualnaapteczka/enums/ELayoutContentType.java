@@ -15,7 +15,7 @@ public enum ELayoutContentType {
     LAYOUT_CONTENT_TYPE_EDITTEXT(android.support.v7.widget.AppCompatEditText.class),
     LAYOUT_CONTENT_TYPE_BUTTON(android.support.v7.widget.AppCompatButton.class),
     LAYOUT_CONTENT_TYPE_CHECKBOX(android.support.v7.widget.AppCompatCheckBox.class),
-    LAYOUT_CONTENT_TYPE_SPINNER(android.widget.Spinner.class);
+    LAYOUT_CONTENT_TYPE_SPINNER(android.support.v7.widget.AppCompatSpinner.class);
 
     private Class<?> contentClass;
     private OnConvertListener listener;

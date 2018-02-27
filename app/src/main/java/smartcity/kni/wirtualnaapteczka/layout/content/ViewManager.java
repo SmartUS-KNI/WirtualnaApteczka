@@ -123,6 +123,7 @@ public class ViewManager {
                             return obj.isChecked();
                         }
                     });
+                    break;
                 }
                 case LAYOUT_CONTENT_TYPE_SPINNER: {
                     type.setConverter(new OnConvertListener() {
@@ -132,6 +133,7 @@ public class ViewManager {
                             return obj.getSelectedItemPosition();
                         }
                     });
+                    break;
                 }
                 default: {
                     throw new MissingConverterException(type.name() + " has undefined converter."); //MESSAGE: LAYOUT_CONTENT_TYPE_[...] has undefined converter
