@@ -10,10 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import smartcity.kni.wirtualnaapteczka.adapters.MedicineListAdapter;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 import smartcity.kni.wirtualnaapteczka.Medicine;
@@ -34,17 +31,26 @@ public class ActivityMedicineList extends AppCompatActivity {
         SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
         medicinesList = sqLiteDatabaseHelper.getAllMedicine();
 
+        final List<Medicine> medicinesList = sqLiteDatabaseHelper.getAllMedicine();
+
         medicineListView = (ListView) findViewById(R.id.Medicine_ListView);
         mMedicineListAdapter = new MedicineListAdapter(this, medicinesList);
         medicineListView.setAdapter(mMedicineListAdapter);
 
+
         medicineListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-                if(position>=0){
-                    startActivity(new Intent(ActivityMedicineList.this, ActivityMedicineInfo.class));
-                }
-            }});
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                onClickListenerToMedicineList(medicinesList.get(i));
+            }
+        });
+
+    }
+    public void onClickListenerToMedicineList(Medicine medicine){
+        Long medicineId = medicine.getId();
+        Intent intent = new Intent(ActivityMedicineList.this,ActivityMedicineInfo.class);
+        intent.putExtra("Id",medicineId);
+        startActivity(intent);
     }
 
     @Override
