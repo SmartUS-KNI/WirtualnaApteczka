@@ -7,6 +7,7 @@ import smartcity.kni.wirtualnaapteczka.DaoSession;
 import smartcity.kni.wirtualnaapteczka.Dose;
 import smartcity.kni.wirtualnaapteczka.Information;
 import smartcity.kni.wirtualnaapteczka.Medicine;
+import smartcity.kni.wirtualnaapteczka.Medicine_Count;
 import smartcity.kni.wirtualnaapteczka.Tag;
 
 /**
@@ -38,5 +39,9 @@ public class QueryHelper {
 
     public QueryBuilder<Tag> getTagQueryBuilder() {
         return daoSession.getTagDao().queryBuilder();
+    }
+
+    public QueryBuilder<Medicine_Count> getMedicine_CountQueryBuilder() {
+        return daoSession.getMedicine_CountDao().queryBuilder();
     }
 }

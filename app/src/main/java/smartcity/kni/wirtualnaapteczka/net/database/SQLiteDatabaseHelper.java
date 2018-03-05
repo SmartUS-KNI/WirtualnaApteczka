@@ -11,6 +11,8 @@ import smartcity.kni.wirtualnaapteczka.DaoMaster;
 import smartcity.kni.wirtualnaapteczka.DaoSession;
 import smartcity.kni.wirtualnaapteczka.Medicine;
 import smartcity.kni.wirtualnaapteczka.MedicineDao;
+import smartcity.kni.wirtualnaapteczka.Medicine_Count;
+import smartcity.kni.wirtualnaapteczka.Medicine_CountDao;
 import smartcity.kni.wirtualnaapteczka.enums.EMedicineType;
 
 /**
@@ -93,13 +95,8 @@ public class SQLiteDatabaseHelper {
         }
     }
 
-    public EMedicineType getMedicineTypeById(long id) {
-        for(EMedicineType i: EMedicineType.values()) {
-            if(i.getId() == id)
-                return i;
-        }
-
-        return null;
+    public long insertMedicine_Count(Medicine_Count medicineCount) {
+        return daoSession.getMedicine_CountDao().insert(medicineCount);
     }
 
     //IF YOU WANT TO ANY OTHER QUERY YOU CAN WRITE HERE IT

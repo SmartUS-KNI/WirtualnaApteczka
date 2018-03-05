@@ -118,6 +118,8 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         medicineCount.setMedicineType(selectedType.getId());
         medicineCount.setMedicineTypeUnit((int) contentMap.get(R.id.medicine_type_unit) - 1);
 
+        SQLiteDatabaseHelper.getInstance().insertMedicine_Count(medicineCount);
+
         return medicineCount;
     }
 

@@ -48,4 +48,13 @@ public enum EMedicineType {
     public List<String> getUnits() {
         return units;
     }
+
+    public static EMedicineType getMedicineTypeById(long id) {
+        for(EMedicineType i: values()) {
+            if(i.getId() == id)
+                return i;
+        }
+
+        return null;
+    }
 }
