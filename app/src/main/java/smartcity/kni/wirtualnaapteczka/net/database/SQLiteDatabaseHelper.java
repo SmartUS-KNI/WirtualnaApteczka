@@ -90,13 +90,23 @@ public class SQLiteDatabaseHelper {
     }
 
     public void insertMedicineList(List<Medicine> medicineList) {
-        for(Medicine i: medicineList) {
+        for (Medicine i : medicineList) {
             daoSession.getMedicineDao().insert(i);
         }
     }
 
     public long insertMedicine_Count(Medicine_Count medicineCount) {
         return daoSession.getMedicine_CountDao().insert(medicineCount);
+    }
+
+    /**
+     * @author KozMeeN
+     * method update selected medicine in badabase.
+     * @param medicine object which we want to update in database.
+     */
+    public void updateMedicine(Medicine medicine){
+        daoSession.getMedicineDao().update(medicine);
+
     }
 
     //IF YOU WANT TO ANY OTHER QUERY YOU CAN WRITE HERE IT

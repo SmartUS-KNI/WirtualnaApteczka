@@ -1,5 +1,6 @@
 package smartcity.kni.wirtualnaapteczka;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,19 @@ public class NewMedicineFormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_new_medicine_form);
+
+        /**
+         * @author KozMeeN
+         * View will be complete with information from sent Medicine, if we will choose edit option, if we will choose create new medicine view will has
+         * default values.
+         */
+
+        final SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
+
+        if(getIntent().hasExtra("Id")){
+            setContent(sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0)));
+        }
+
 
         final LinearLayout countingContainer = (LinearLayout) findViewById(R.id.counting_container);
         CheckBox countCheckBox = (CheckBox) findViewById(R.id.check_counting);
@@ -84,6 +99,19 @@ public class NewMedicineFormActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                /**
+                 * @author KozMeeN
+                 * when we edit medicine, we will work for exist medicine.
+                 * finally we update this medicine in database.
+                 *
+                 * when we create new medicine we create a new medicine so we dont have to sent this object in method.
+                 */
+                if(getIntent().hasExtra("Id")){
+                    Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id",0));
+                    updateMedicineInDatabase(generateMedicineFromContent(medicine,content));
+                }else {
+                    addMedicineToDatabase(generateMedicineFromContent(content));
+                }
                 long newMedicineId = -1;
                 newMedicineId = SQLiteDatabaseHelper.getInstance().insertMedicine(generateMedicineFromContent(content));
                 if (newMedicineId != -1) {
@@ -95,6 +123,7 @@ public class NewMedicineFormActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private Medicine generateMedicineFromContent(LayoutContent content) {
         Map<Integer, Object> contentMap = content.getContentMap();
@@ -145,4 +174,48 @@ public class NewMedicineFormActivity extends AppCompatActivity {
 
         return medicineTypeStrings;
     }
+
+    /**
+     * @author KozMeeN
+     *
+     * method set values od the object in this view.
+     * @param medicine medicine which values will be set in the view.
+     */
+    private void setContent(Medicine medicine){
+        EditText medicineNameEditText = (EditText) findViewById(R.id.name_Of_Medicine_From_New_Medicine_EditText);
+        EditText medicineDescriptionEditText = (EditText) findViewById(R.id.description_Of_New_Medicine_EditText);
+        EditText medicineBarcodeEditText = (EditText) findViewById(R.id.barcode_From_New_Medicine_EditText);
+
+        medicineNameEditText.setText(medicine.getName());
+        medicineDescriptionEditText.setText(medicine.getDescription());
+        medicineBarcodeEditText.setText(medicine.getEAN());
+    }
+    /**
+     * @author KozMeeN
+     * I ovverive method to one more values.
+     * method does not create a new object, but uses previously created, thanks why we can update medicine.
+     * @param medicine the object which we want to update.
+     * @param content the content from which we take information
+     *
+     */
+    private Medicine generateMedicineFromContent(Medicine medicine, LayoutContent content) {
+        Map<Integer, Object> contentMap = content.getContentMap();
+
+        medicine.setName((String)contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText));
+        medicine.setDescription((String)contentMap.get(R.id.description_Of_New_Medicine_EditText));
+        medicine.setEAN((String)contentMap.get(R.id.barcode_From_New_Medicine_EditText));
+
+        return medicine;
+    }
+
+
+    /**
+     * @author KozMeeN
+     * method update selected medicine in badabase.
+     * @param medicine object which we want to update in database.
+     */
+    private void updateMedicineInDatabase(Medicine medicine) {
+        SQLiteDatabaseHelper.getInstance().updateMedicine(medicine);
+    }
+
 }
