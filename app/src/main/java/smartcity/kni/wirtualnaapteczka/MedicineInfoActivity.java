@@ -10,7 +10,7 @@ import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
  * Created by gosia on 26.02.2018.
  */
 
-public class ActivityMedicineInfo extends AppCompatActivity {
+public class MedicineInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

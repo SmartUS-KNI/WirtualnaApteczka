@@ -32,7 +32,7 @@
                 android:value=".Main" />
         </activity>
         <activity
-            android:name=".ActivityMedicineInfo"
+            android:name=".MedicineInfoActivity"
             android:parentActivityName=".ActivityMedicineList">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

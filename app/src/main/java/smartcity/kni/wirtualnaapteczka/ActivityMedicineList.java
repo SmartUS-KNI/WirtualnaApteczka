@@ -48,7 +48,7 @@ public class ActivityMedicineList extends AppCompatActivity {
     }
     public void onClickListenerToMedicineList(Medicine medicine){
         Long medicineId = medicine.getId();
-        Intent intent = new Intent(ActivityMedicineList.this,ActivityMedicineInfo.class);
+        Intent intent = new Intent(ActivityMedicineList.this,MedicineInfoActivity.class);
         intent.putExtra("Id",medicineId);
         startActivity(intent);
     }
