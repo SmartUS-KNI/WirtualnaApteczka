@@ -119,8 +119,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/barcode" />
+            android:hint="@string/barcode"
+            android:inputType="numberDecimal" />
 
         <Button
             android:id="@+id/submit_From_New_Medicine_Button"

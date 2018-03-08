@@ -2,6 +2,7 @@ package smartcity.kni.wirtualnaapteczka;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,6 +28,7 @@ import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContentConfig;
 import smartcity.kni.wirtualnaapteczka.Medicine;
 import smartcity.kni.wirtualnaapteczka.layout.content.ViewManager;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
+import smartcity.kni.wirtualnaapteczka.utils.DecimalDigitsInputFilter;
 
 public class NewMedicineFormActivity extends AppCompatActivity {
 
@@ -43,10 +45,9 @@ public class NewMedicineFormActivity extends AppCompatActivity {
 
         final SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
 
-        if(getIntent().hasExtra("Id")){
+        if (getIntent().hasExtra("Id")) {
             setContent(sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0)));
         }
-
 
         final LinearLayout countingContainer = (LinearLayout) findViewById(R.id.counting_container);
         CheckBox countCheckBox = (CheckBox) findViewById(R.id.check_counting);
@@ -81,6 +82,8 @@ public class NewMedicineFormActivity extends AppCompatActivity {
             }
         });
 
+        ((EditText) findViewById(R.id.count)).setFilters(new InputFilter[]{new DecimalDigitsInputFilter(3,2)});
+        
         submitFormButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -100,6 +103,7 @@ public class NewMedicineFormActivity extends AppCompatActivity {
 
                 long newMedicineId = -1;
 
+
                 /**
                  * @author KozMeeN
                  * when we edit medicine, we will work for exist medicine.
@@ -107,10 +111,11 @@ public class NewMedicineFormActivity extends AppCompatActivity {
                  *
                  * when we create new medicine we create a new medicine so we dont have to sent this object in method.
                  */
-                if(getIntent().hasExtra("Id")){
-                    Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id",0));
-                    updateMedicineInDatabase(generateMedicineFromContent(medicine,content));
-                }else {
+
+                if (getIntent().hasExtra("Id")) {
+                    Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
+                    updateMedicineInDatabase(generateMedicineFromContent(medicine, content));
+                } else {
                     newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
                 }
                 if (newMedicineId != -1) {
@@ -175,12 +180,12 @@ public class NewMedicineFormActivity extends AppCompatActivity {
     }
 
     /**
-     * @author KozMeeN
-     *
-     * method set values od the object in this view.
      * @param medicine medicine which values will be set in the view.
+     * @author KozMeeN
+     * <p>
+     * method set values od the object in this view.
      */
-    private void setContent(Medicine medicine){
+    private void setContent(Medicine medicine) {
         EditText medicineNameEditText = (EditText) findViewById(R.id.name_Of_Medicine_From_New_Medicine_EditText);
         EditText medicineDescriptionEditText = (EditText) findViewById(R.id.description_Of_New_Medicine_EditText);
         EditText medicineBarcodeEditText = (EditText) findViewById(R.id.barcode_From_New_Medicine_EditText);
@@ -190,19 +195,18 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         medicineBarcodeEditText.setText(medicine.getEAN());
     }
     /**
+     * @param medicine the object which we want to update.
+     * @param content  the content from which we take information
      * @author KozMeeN
      * I ovverive method to one more values.
      * method does not create a new object, but uses previously created, thanks why we can update medicine.
-     * @param medicine the object which we want to update.
-     * @param content the content from which we take information
-     *
      */
     private Medicine generateMedicineFromContent(Medicine medicine, LayoutContent content) {
         Map<Integer, Object> contentMap = content.getContentMap();
 
-        medicine.setName((String)contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText));
-        medicine.setDescription((String)contentMap.get(R.id.description_Of_New_Medicine_EditText));
-        medicine.setEAN((String)contentMap.get(R.id.barcode_From_New_Medicine_EditText));
+        medicine.setName((String) contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText));
+        medicine.setDescription((String) contentMap.get(R.id.description_Of_New_Medicine_EditText));
+        medicine.setEAN((String) contentMap.get(R.id.barcode_From_New_Medicine_EditText));
 
         return medicine;
     }
@@ -213,12 +217,26 @@ public class NewMedicineFormActivity extends AppCompatActivity {
 
 
     /**
+     * @param medicine object which we want to update in database.
      * @author KozMeeN
      * method update selected medicine in badabase.
-     * @param medicine object which we want to update in database.
      */
     private void updateMedicineInDatabase(Medicine medicine) {
         SQLiteDatabaseHelper.getInstance().updateMedicine(medicine);
     }
 
+    private boolean isFormValid(LayoutContent content) {
+        Map<Integer, Object> contentMap = content.getContentMap(); //ten int z początku to tak naprawdę R.id.coś tam bo to inty tak naprawdę
+
+        //sprawdzenie czy nazwa leku jest pusta
+        if (((String) contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText)).isEmpty())
+            return false;
+
+        EditText count = (EditText) contentMap.get(R.id.count);
+        EditText description = (EditText) contentMap.get(R.id.description_Of_New_Medicine_EditText);
+        EditText barcode = (EditText) contentMap.get(R.id.barcode_From_New_Medicine_EditText);
+
+
+        return false;
+    }
 }
