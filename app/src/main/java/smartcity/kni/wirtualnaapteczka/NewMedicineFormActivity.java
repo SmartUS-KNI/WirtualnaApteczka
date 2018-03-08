@@ -1,6 +1,5 @@
 package smartcity.kni.wirtualnaapteczka;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -99,6 +98,8 @@ public class NewMedicineFormActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                long newMedicineId = -1;
+
                 /**
                  * @author KozMeeN
                  * when we edit medicine, we will work for exist medicine.
@@ -110,10 +111,8 @@ public class NewMedicineFormActivity extends AppCompatActivity {
                     Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id",0));
                     updateMedicineInDatabase(generateMedicineFromContent(medicine,content));
                 }else {
-                    addMedicineToDatabase(generateMedicineFromContent(content));
+                    newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
                 }
-                long newMedicineId = -1;
-                newMedicineId = SQLiteDatabaseHelper.getInstance().insertMedicine(generateMedicineFromContent(content));
                 if (newMedicineId != -1) {
                     Toast.makeText(getApplicationContext(), R.string.add_medicine_success, Toast.LENGTH_SHORT).show();
                 } else {
@@ -206,6 +205,10 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         medicine.setEAN((String)contentMap.get(R.id.barcode_From_New_Medicine_EditText));
 
         return medicine;
+    }
+
+    private long addMedicineToDatabase(Medicine medicine) {
+        return SQLiteDatabaseHelper.getInstance().insertMedicine(medicine);
     }
 
 
