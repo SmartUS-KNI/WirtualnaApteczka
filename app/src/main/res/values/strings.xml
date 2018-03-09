@@ -20,5 +20,10 @@
     <string name="add_medicine_main">Dodaj lek</string>
     <string name="add_manually">Dodaj ręcznie</string>
     <string name="add_by_camera">Dodaj przy użyciu czytnika kodów</string>
+    <string name="delete_title">Usuń</string>
+    <string name="delete_confirm_question">Czy na pewno chcesz usunać lek?</string>
+    <string name="answer_yes">TAK</string>
+    <string name="answer_no">NIE</string>
+    <string name="info_after_delete_medicine">Lek został usunięty</string>
 
 </resources>

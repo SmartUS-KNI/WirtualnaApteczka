@@ -22,9 +22,9 @@ public class MedicineInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MedicineInfoActivity.this);
-                builder.setTitle("Usuń");
-                builder.setMessage("Czy na pewno chcesz usunać lek?");
-                builder.setPositiveButton("TAK", new DialogInterface.OnClickListener() {
+                builder.setTitle(R.string.delete_title);
+                builder.setMessage(R.string.delete_confirm_question);
+                builder.setPositiveButton(R.string.answer_yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
                         // here in case of positive ansver program is closeing
@@ -32,12 +32,12 @@ public class MedicineInfoActivity extends AppCompatActivity {
 
                         SQLiteDatabaseHelper.getInstance().deleteMedicineById(idMedicine);
 
-                        Toast.makeText(MedicineInfoActivity.this, "Lek został usunięty", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MedicineInfoActivity.this, R.string.info_after_delete_medicine, Toast.LENGTH_SHORT).show();
 
                         finish();
                     }
                 });
-                builder.setNegativeButton("NIE", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.answer_no, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
