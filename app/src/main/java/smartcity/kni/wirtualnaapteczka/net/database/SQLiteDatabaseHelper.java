@@ -3,12 +3,16 @@ package smartcity.kni.wirtualnaapteczka.net.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import org.greenrobot.greendao.query.DeleteQuery;
 import org.greenrobot.greendao.query.Query;
 
 import java.util.List;
 
+import smartcity.kni.wirtualnaapteczka.Alergens_List;
 import smartcity.kni.wirtualnaapteczka.DaoMaster;
 import smartcity.kni.wirtualnaapteczka.DaoSession;
+import smartcity.kni.wirtualnaapteczka.Dose;
+import smartcity.kni.wirtualnaapteczka.Information;
 import smartcity.kni.wirtualnaapteczka.Medicine;
 import smartcity.kni.wirtualnaapteczka.MedicineDao;
 import smartcity.kni.wirtualnaapteczka.Medicine_Count;
@@ -90,7 +94,7 @@ public class SQLiteDatabaseHelper {
     }
 
     public void insertMedicineList(List<Medicine> medicineList) {
-        for (Medicine i : medicineList) {
+        for(Medicine i: medicineList) {
             daoSession.getMedicineDao().insert(i);
         }
     }
@@ -107,6 +111,35 @@ public class SQLiteDatabaseHelper {
     public void updateMedicine(Medicine medicine){
         daoSession.getMedicineDao().update(medicine);
 
+    }
+
+    public List<Medicine_Count> getMedicine_CountList() {
+        Query<Medicine_Count> query = queryHelper.getMedicine_CountQueryBuilder()
+                .build();
+        return query.list();
+    }
+
+    public long insertMedicine_Count(Medicine_Count medicineCount) {
+        return daoSession.getMedicine_CountDao().insert(medicineCount);
+    }
+
+    public void deleteMedicineById(Long idMedicine) {
+        Medicine medicine = daoSession.getMedicineDao().load(idMedicine);
+
+        //DELETING ALL RELATIONS
+        for(Alergens_List i: medicine.getAlergensList()) {
+            daoSession.getAlergens_ListDao().delete(i);
+        }
+        for(Dose i: medicine.getDoseList()) {
+            daoSession.getDoseDao().delete(i);
+        }
+        for(Information i: medicine.getInformationList()) {
+            daoSession.getInformationDao().delete(i);
+        }
+        daoSession.getMedicine_CountDao().delete(medicine.getMedicine_Count());
+        ////////////////////////
+
+        daoSession.getMedicineDao().deleteByKey(idMedicine);
     }
 
     //IF YOU WANT TO ANY OTHER QUERY YOU CAN WRITE HERE IT

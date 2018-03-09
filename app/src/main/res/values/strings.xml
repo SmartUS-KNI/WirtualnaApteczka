@@ -28,5 +28,10 @@
     <string name="search">Szukaj</string>
     <string name="select_medicine_type">Wybierz rodzaj leku:</string>
     <string name="select_medicine_type_unit">Wybierz jednostkę:</string>
+    <string name="delete_title">Usuń</string>
+    <string name="delete_confirm_question">Czy na pewno chcesz usunać lek?</string>
+    <string name="answer_yes">TAK</string>
+    <string name="answer_no">NIE</string>
+    <string name="info_after_delete_medicine">Lek został usunięty</string>
 
 </resources>
