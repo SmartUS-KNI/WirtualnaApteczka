@@ -119,10 +119,6 @@ public class SQLiteDatabaseHelper {
         return query.list();
     }
 
-    public long insertMedicine_Count(Medicine_Count medicineCount) {
-        return daoSession.getMedicine_CountDao().insert(medicineCount);
-    }
-
     public void deleteMedicineById(Long idMedicine) {
         Medicine medicine = daoSession.getMedicineDao().load(idMedicine);
 
