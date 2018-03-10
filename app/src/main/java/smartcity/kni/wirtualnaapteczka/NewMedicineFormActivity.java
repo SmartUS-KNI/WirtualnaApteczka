@@ -30,7 +30,7 @@ import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContentConfig;
 import smartcity.kni.wirtualnaapteczka.Medicine;
 import smartcity.kni.wirtualnaapteczka.layout.content.ViewManager;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
-import smartcity.kni.wirtualnaapteczka.utils.DecimalDigitsInputFilter;
+import smartcity.kni.wirtualnaapteczka.filters.DecimalDigitsInputFilter;
 
 public class NewMedicineFormActivity extends AppCompatActivity {
 
