@@ -28,5 +28,6 @@
     <string name="search">Szukaj</string>
     <string name="select_medicine_type">Wybierz rodzaj leku:</string>
     <string name="select_medicine_type_unit">Wybierz jednostkę:</string>
+    <string name="form_validation_failure">Uzupełnij nazwę leku</string>
 
 </resources>

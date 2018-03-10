@@ -22,6 +22,8 @@ import smartcity.kni.wirtualnaapteczka.Medicine_Count;
 import smartcity.kni.wirtualnaapteczka.enums.ELayoutContentType;
 import smartcity.kni.wirtualnaapteczka.enums.EMedicineType;
 import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
+import smartcity.kni.wirtualnaapteczka.filters.Config;
+import smartcity.kni.wirtualnaapteczka.filters.SpecialCharactersInputFilter;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContent;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContentConfig;
 
@@ -82,8 +84,8 @@ public class NewMedicineFormActivity extends AppCompatActivity {
             }
         });
 
-        ((EditText) findViewById(R.id.count)).setFilters(new InputFilter[]{new DecimalDigitsInputFilter(3,2)});
-        
+        applyValidationToContent();
+
         submitFormButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -101,29 +103,32 @@ public class NewMedicineFormActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                long newMedicineId = -1;
+                if (isFormValid(content)) {
+                    long newMedicineId = -1;
 
 
-                /**
-                 * @author KozMeeN
-                 * when we edit medicine, we will work for exist medicine.
-                 * finally we update this medicine in database.
-                 *
-                 * when we create new medicine we create a new medicine so we dont have to sent this object in method.
-                 */
+                    /**
+                     * @author KozMeeN
+                     * when we edit medicine, we will work for exist medicine.
+                     * finally we update this medicine in database.
+                     *
+                     * when we create new medicine we create a new medicine so we dont have to sent this object in method.
+                     */
 
-                if (getIntent().hasExtra("Id")) {
-                    Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
-                    updateMedicineInDatabase(generateMedicineFromContent(medicine, content));
-                } else {
-                    newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
-                }
-                if (newMedicineId != -1) {
-                    Toast.makeText(getApplicationContext(), R.string.add_medicine_success, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), R.string.add_medicine_failure, Toast.LENGTH_SHORT).show();
-                }
-                finish();
+                    if (getIntent().hasExtra("Id")) {
+                        Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
+                        updateMedicineInDatabase(generateMedicineFromContent(medicine, content));
+                    } else {
+                        newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
+                    }
+                    if (newMedicineId != -1) {
+                        Toast.makeText(getApplicationContext(), R.string.add_medicine_success, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.add_medicine_failure, Toast.LENGTH_SHORT).show();
+                    }
+                    finish();
+                } else
+                    Toast.makeText(getApplicationContext(), R.string.form_validation_failure, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -194,6 +199,7 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         medicineDescriptionEditText.setText(medicine.getDescription());
         medicineBarcodeEditText.setText(medicine.getEAN());
     }
+
     /**
      * @param medicine the object which we want to update.
      * @param content  the content from which we take information
@@ -225,18 +231,38 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         SQLiteDatabaseHelper.getInstance().updateMedicine(medicine);
     }
 
-    private boolean isFormValid(LayoutContent content) {
-        Map<Integer, Object> contentMap = content.getContentMap(); //ten int z początku to tak naprawdę R.id.coś tam bo to inty tak naprawdę
+    private void applyValidationToContent() {
+        ((EditText) findViewById(R.id.name_Of_Medicine_From_New_Medicine_EditText)).setFilters(
+                new InputFilter[]{
+                        new InputFilter.LengthFilter(Config.MAX_LENGTH),
+                        new SpecialCharactersInputFilter()
+                }
+        );
+        ((EditText) findViewById(R.id.description_Of_New_Medicine_EditText)).setFilters(
+                new InputFilter[]{
+                        new InputFilter.LengthFilter(Config.MAX_LENGTH),
+                        new SpecialCharactersInputFilter()
+                }
+        );
+        ((EditText) findViewById(R.id.count)).setFilters(
+                new InputFilter[]{
+                        new DecimalDigitsInputFilter()
+                }
+        );
+        ((EditText) findViewById(R.id.barcode_From_New_Medicine_EditText)).setFilters(
+                new InputFilter[]{
+                        new InputFilter.LengthFilter(13)            //EAN-13
+                }
+        );
 
-        //sprawdzenie czy nazwa leku jest pusta
-        if (((String) contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText)).isEmpty())
+    }
+
+    private boolean isFormValid(LayoutContent content) {
+        Map<Integer, Object> contentMap = content.getContentMap();
+
+        if (contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText).toString().isEmpty())
             return false;
 
-        EditText count = (EditText) contentMap.get(R.id.count);
-        EditText description = (EditText) contentMap.get(R.id.description_Of_New_Medicine_EditText);
-        EditText barcode = (EditText) contentMap.get(R.id.barcode_From_New_Medicine_EditText);
-
-
-        return false;
+        return true;
     }
 }
