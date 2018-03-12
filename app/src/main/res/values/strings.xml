@@ -33,5 +33,6 @@
     <string name="answer_yes">TAK</string>
     <string name="answer_no">NIE</string>
     <string name="info_after_delete_medicine">Lek został usunięty</string>
+    <string name="form_validation_failure">Uzupełnij nazwę leku</string>
 
 </resources>
