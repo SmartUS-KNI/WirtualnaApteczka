@@ -31,13 +31,13 @@ public class MedicineInfoActivity extends AppCompatActivity {
         SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
         Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id",0));
 
-        TextView nameOfMedicine = (TextView) findViewById(R.id.name_Of_Medicine_Info_EditText);
+        TextView nameOfMedicine = (TextView) findViewById(R.id.name_Of_Medicine_Info_TextView);
         nameOfMedicine.setText(medicine.getName());
 
         TextView descriptionOfMedicine = (TextView) findViewById(R.id.decsription_From_Medicin_Info_TextView);
         descriptionOfMedicine.setText(medicine.getDescription());
 
-        TextView barcodeOfMedicine = (TextView) findViewById(R.id.barcode_From_Medicine_Info_EditText);
+        TextView barcodeOfMedicine = (TextView) findViewById(R.id.barcode_From_Medicine_Info_TextView);
         barcodeOfMedicine.setText(medicine.getEAN());
 
 
