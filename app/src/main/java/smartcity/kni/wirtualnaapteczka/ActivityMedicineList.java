@@ -1,8 +1,6 @@
 package smartcity.kni.wirtualnaapteczka;
 
 import android.content.Intent;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,13 +10,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import smartcity.kni.wirtualnaapteczka.Medicine;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import smartcity.kni.wirtualnaapteczka.adapters.MedicineListAdapter;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
+import smartcity.kni.wirtualnaapteczka.Medicine;
+
 public class ActivityMedicineList extends AppCompatActivity {
 
     MedicineListAdapter mMedicineListAdapter;
@@ -80,26 +76,19 @@ public class ActivityMedicineList extends AppCompatActivity {
         medicinesList = sqLiteDatabaseHelper.getAllMedicine();
 
         medicineListView = (ListView) findViewById(R.id.Medicine_ListView);
-        final List<Medicine> medicinesList = sqLiteDatabaseHelper.getAllMedicine();
-
-        ListView medicineListView = (ListView) findViewById(R.id.Medicine_ListView);
         mMedicineListAdapter = new MedicineListAdapter(this, medicinesList);
         medicineListView.setAdapter(mMedicineListAdapter);
 
 
-        /**
-         * @author KozMeeN
-         * Medicine list services
-         */
         medicineListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 onClickListenerToMedicineList(medicinesList.get(i));
             }
         });
+
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -122,6 +111,4 @@ public class ActivityMedicineList extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
-
-
 }
