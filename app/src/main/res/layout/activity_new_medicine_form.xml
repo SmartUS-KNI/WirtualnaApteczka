@@ -35,16 +35,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/name_of_medicine" />
+            android:hint="@string/name_of_medicine"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/description_Of_New_Medicine_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/description" />
+            android:hint="@string/description"
+            android:inputType="textPersonName" />
 
         <TextView
             android:id="@+id/description_Of_Medicine_TextView"
@@ -64,7 +64,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/enable_counting_label"/>
+                android:text="@string/enable_counting_label" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,11 +78,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/medicine_type"
-                    android:gravity="center_vertical"/>
+                    android:gravity="center_vertical"
+                    android:text="@string/medicine_type" />
+
                 <Spinner
                     android:id="@+id/medicine_type"
                     android:layout_width="wrap_content"
@@ -101,26 +103,39 @@
                     android:id="@+id/count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/count_label"/>
+                    android:hint="@string/count_label"
+                    android:inputType="numberDecimal" />
+
                 <Spinner
                     android:id="@+id/medicine_type_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:spinnerMode="dialog"
-                    android:prompt="@string/select_medicine_type_unit"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="20dp"
-                    android:layout_gravity="center_vertical"></Spinner>
+                    android:prompt="@string/select_medicine_type_unit"
+                    android:spinnerMode="dialog"></Spinner>
             </LinearLayout>
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/barcode_From_New_Medicine_EditText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/barcode"
-            android:inputType="numberDecimal" />
+            android:layout_height="wrap_content">
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/barcode_From_New_Medicine_EditText"
+                android:layout_width="316dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/barcode"
+                android:inputType="numberDecimal" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_camera" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/submit_From_New_Medicine_Button"
