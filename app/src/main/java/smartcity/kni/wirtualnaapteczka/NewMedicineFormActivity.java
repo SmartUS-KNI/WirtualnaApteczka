@@ -47,8 +47,7 @@ public class NewMedicineFormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_new_medicine_form);
-
-
+        barcodeFromCamera();
         /**
          * @author KozMeeN
          * View will be complete with information from sent Medicine, if we will choose edit option, if we will choose create new medicine view will has
@@ -276,38 +275,33 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         return true;
     }
 
-    private String barcodeFromCamera() {
+    private void barcodeFromCamera() {
 
-        String tekst ="123456";
         ImageButton imageButtonBarcodeFromCamera = (ImageButton) this.findViewById(R.id.barcode_From_Camera);
 
-        final Activity activity = this;
         imageButtonBarcodeFromCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentIntegrator integrator = new IntentIntegrator(activity);
+                IntentIntegrator integrator = new IntentIntegrator(NewMedicineFormActivity.this);
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.PRODUCT_CODE_TYPES);
-                integrator.setPrompt("Zeskanuj kod kreskowy");
+                integrator.setPrompt(getString(R.string.prompt_for_barcode_scanner));
                 integrator.setCameraId(0);
-                integrator.setOrientationLocked(true);
-                integrator.setBeepEnabled(true);
                 integrator.setBarcodeImageEnabled(false);
                 integrator.initiateScan();
             }
         });
-
-        return tekst;
     }
+
     @Override
-    protected void onActivityResult ( int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if (result.getContents() == null) {
-                Log.d("MainActivity", "Cancelled scan");
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.cancelled_scanner_barcode), Toast.LENGTH_LONG).show();
             } else {
-                Log.d("MainActivity", "Scanned");
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.correct_scanner_barcode), Toast.LENGTH_LONG).show();
+                EditText barcode = (EditText) findViewById(R.id.barcode_From_New_Medicine_EditText);
+                barcode.setText(result.getContents());
             }
         } else {
             // This is important, otherwise the result will not be passed to the fragment
