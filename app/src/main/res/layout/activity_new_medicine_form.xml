@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:prompt="@string/select_medicine_type"
-                    android:spinnerMode="dialog"></Spinner>
+                    android:spinnerMode="dialog" />
             </LinearLayout>
 
             <LinearLayout
@@ -113,7 +113,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="20dp"
                     android:prompt="@string/select_medicine_type_unit"
-                    android:spinnerMode="dialog"></Spinner>
+                    android:spinnerMode="dialog" />
             </LinearLayout>
         </LinearLayout>
 
@@ -124,8 +124,9 @@
 
             <EditText
                 android:id="@+id/barcode_From_New_Medicine_EditText"
-                android:layout_width="316dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="15"
                 android:ems="10"
                 android:hint="@string/barcode"
                 android:inputType="numberDecimal" />
@@ -133,7 +134,9 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
+                android:background="@null"
                 android:src="@drawable/ic_camera" />
         </LinearLayout>
 
