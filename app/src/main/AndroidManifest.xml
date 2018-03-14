@@ -24,7 +24,7 @@
                 android:value=".Main" />
         </activity>
         <activity
-            android:name=".NewMedicineFormActivity"
+            android:name=".MedicineFormActivity"
             android:parentActivityName=".Main">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

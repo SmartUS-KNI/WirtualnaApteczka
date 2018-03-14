@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
 
@@ -32,7 +33,7 @@ import smartcity.kni.wirtualnaapteczka.layout.content.ViewManager;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 import smartcity.kni.wirtualnaapteczka.filters.DecimalDigitsInputFilter;
 
-public class NewMedicineFormActivity extends AppCompatActivity {
+public class MedicineFormActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,10 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         if (getIntent().hasExtra("Id")) {
             setContent(sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0)));
         }
+        //
+        if (getIntent().hasExtra("ModifyMode"))
+            ((TextView) findViewById(R.id.add_Medicine_From_New_Medicine_TextView)).setText(R.string.modify_medicine); //Ustawienie tytułu
+        //
 
         final LinearLayout countingContainer = (LinearLayout) findViewById(R.id.counting_container);
         CheckBox countCheckBox = (CheckBox) findViewById(R.id.check_counting);
@@ -121,14 +126,29 @@ public class NewMedicineFormActivity extends AppCompatActivity {
                     } else {
                         newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
                     }
-                    if (newMedicineId != -1) {
-                        Toast.makeText(getApplicationContext(), R.string.add_medicine_success, Toast.LENGTH_SHORT).show();
+
+                    if (getIntent().hasExtra("ModifyMode")) {
+
+                        if (newMedicineId != -1) {
+                            Toast.makeText(getApplicationContext(), R.string.modify_medicine_success, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), R.string.modify_medicine_failure, Toast.LENGTH_SHORT).show();
+                        }
+
                     } else {
-                        Toast.makeText(getApplicationContext(), R.string.add_medicine_failure, Toast.LENGTH_SHORT).show();
+
+                        if (newMedicineId != -1) {
+                            Toast.makeText(getApplicationContext(), R.string.add_medicine_success, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), R.string.add_medicine_failure, Toast.LENGTH_SHORT).show();
+                        }
                     }
+
                     finish();
                 } else
                     Toast.makeText(getApplicationContext(), R.string.form_validation_failure, Toast.LENGTH_SHORT).show();
+
+
             }
         });
     }

@@ -7,7 +7,7 @@
     <string name="add_new_medicine">Dodanie Nowego Leku</string>
     <string name="details">Szczegóły leku</string>
     <string name="name_of_medicine">Nazwa leku</string>
-    <string name="description">Opis</string>
+    <string name="description"></string>
     <string name="enable_counting_label">Dodaj ilość</string>
     <string name="count_label">Ilość:</string>
     <string name="medicine_type">Rodzaj leku:</string>
@@ -34,5 +34,12 @@
     <string name="answer_no">NIE</string>
     <string name="info_after_delete_medicine">Lek został usunięty</string>
     <string name="form_validation_failure">Uzupełnij nazwę leku</string>
+    <string name="modify_medicine_success">Lek został poprawnie zmodyfikowany</string>
+    <string name="modify_medicine_failure">Lek nie został poprawnie zmodyfikowany</string>
+
+    <string name="name_label">Nazwa leku</string>
+    <string name="description_label">Opis</string>
+    <string name="quantity_label">Ilość i Rodzaj</string>
+    <string name="barcode_label">Numer EAN</string>
 
 </resources>

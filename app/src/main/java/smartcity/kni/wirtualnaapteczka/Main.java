@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import smartcity.kni.wirtualnaapteczka.DaoSession;
 import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
 import smartcity.kni.wirtualnaapteczka.layout.content.ViewManager;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
@@ -36,7 +35,7 @@ public class Main extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Main.this, NewMedicineFormActivity.class));
+                startActivity(new Intent(Main.this, MedicineFormActivity.class));
             }
         });
 
