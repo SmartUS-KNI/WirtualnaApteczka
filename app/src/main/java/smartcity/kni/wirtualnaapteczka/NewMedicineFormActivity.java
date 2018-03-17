@@ -1,5 +1,6 @@
 package smartcity.kni.wirtualnaapteczka;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -52,12 +53,21 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         }
 
         final LinearLayout countingContainer = (LinearLayout) findViewById(R.id.counting_container);
+        /*** Container to add dosage of medicine.*/
+        final LinearLayout dosageContainer = (LinearLayout) findViewById(R.id.dosage_container);
         CheckBox countCheckBox = (CheckBox) findViewById(R.id.check_counting);
+        CheckBox dosageCheckBox = (CheckBox) findViewById(R.id.dosageCheckBox);
         Spinner medicineType = (Spinner) findViewById(R.id.medicine_type);
         final Spinner medicineTypeUnit = (Spinner) findViewById(R.id.medicine_type_unit);
         Button submitFormButton = (Button) findViewById(R.id.submit_From_New_Medicine_Button);
+        Button addDosage = (Button) findViewById(R.id.addDosageButton);
 
         countingContainer.setVisibility(View.GONE);
+
+        /***
+         * @author KozMeeN
+         * Dosage Container will be hidden on start activity, will show up when we click checkBox.*/
+        dosageContainer.setVisibility(View.GONE);
         countCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -65,6 +75,16 @@ public class NewMedicineFormActivity extends AppCompatActivity {
                     countingContainer.setVisibility(View.VISIBLE);
                 else
                     countingContainer.setVisibility(View.GONE);
+            }
+        });
+
+        dosageCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    dosageContainer.setVisibility(View.VISIBLE);
+                else
+                    dosageContainer.setVisibility(View.GONE);
             }
         });
 
@@ -85,6 +105,15 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         });
 
         applyValidationToContent();
+
+        addDosage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NewMedicineFormActivity.this,AddNewDosageActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
         submitFormButton.setOnClickListener(new View.OnClickListener() {
 

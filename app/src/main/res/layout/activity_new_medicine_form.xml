@@ -20,7 +20,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/add_Medicine_From_New_Medicine_TextView"
@@ -35,22 +35,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/name_of_medicine" />
+            android:hint="@string/name_of_medicine"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/description_Of_New_Medicine_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/description" />
-
-        <TextView
-            android:id="@+id/description_Of_Medicine_TextView"
-            android:layout_width="match_parent"
-            android:layout_height="99dp"
-            android:text="@string/description" />
+            android:hint="@string/description"
+            android:inputType="textPersonName" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -64,7 +58,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/enable_counting_label"/>
+                android:text="@string/enable_counting_label" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,11 +72,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/medicine_type"
-                    android:gravity="center_vertical"/>
+                    android:gravity="center_vertical"
+                    android:text="@string/medicine_type" />
+
                 <Spinner
                     android:id="@+id/medicine_type"
                     android:layout_width="wrap_content"
@@ -101,17 +97,46 @@
                     android:id="@+id/count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/count_label"/>
+                    android:hint="@string/count_label"
+                    android:inputType="numberDecimal" />
+
                 <Spinner
                     android:id="@+id/medicine_type_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:spinnerMode="dialog"
-                    android:prompt="@string/select_medicine_type_unit"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="20dp"
-                    android:layout_gravity="center_vertical"></Spinner>
+                    android:prompt="@string/select_medicine_type_unit"
+                    android:spinnerMode="dialog"></Spinner>
             </LinearLayout>
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/dosageCheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dosage" />
+
+
+        <LinearLayout
+            android:id="@+id/dosage_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/dosageListView"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+
+            </ListView>
+
+            <Button
+                android:id="@+id/addDosageButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_new_dosage" />
+
         </LinearLayout>
 
         <EditText
@@ -126,7 +151,6 @@
             android:id="@+id/submit_From_New_Medicine_Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
             android:text="Zatwierdź" />
 
 
