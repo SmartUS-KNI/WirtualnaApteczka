@@ -1,12 +1,9 @@
 package smartcity.kni.wirtualnaapteczka;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,7 +13,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
 
@@ -47,7 +43,7 @@ public class NewMedicineFormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_new_medicine_form);
-        barcodeFromCamera();
+        initBarcodeFromCameraImplementation();
         /**
          * @author KozMeeN
          * View will be complete with information from sent Medicine, if we will choose edit option, if we will choose create new medicine view will has
@@ -275,7 +271,7 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         return true;
     }
 
-    private void barcodeFromCamera() {
+    private void initBarcodeFromCameraImplementation() {
 
         ImageButton imageButtonBarcodeFromCamera = (ImageButton) this.findViewById(R.id.barcode_From_Camera);
 
