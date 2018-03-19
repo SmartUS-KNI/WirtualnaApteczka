@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import smartcity.kni.wirtualnaapteczka.Medicine_Count;
 import smartcity.kni.wirtualnaapteczka.enums.ELayoutContentType;
 import smartcity.kni.wirtualnaapteczka.enums.EMedicineType;
 import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
@@ -28,10 +27,12 @@ import smartcity.kni.wirtualnaapteczka.filters.SpecialCharactersInputFilter;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContent;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContentConfig;
 
-import smartcity.kni.wirtualnaapteczka.Medicine;
 import smartcity.kni.wirtualnaapteczka.layout.content.ViewManager;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 import smartcity.kni.wirtualnaapteczka.filters.DecimalDigitsInputFilter;
+
+import smartcity.kni.wirtualnaapteczka.Medicine;
+import smartcity.kni.wirtualnaapteczka.Medicine_Count;
 
 public class NewMedicineFormActivity extends AppCompatActivity {
 
@@ -114,7 +115,7 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         addDosage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(NewMedicineFormActivity.this,AddNewDosageActivity.class);
+                Intent intent = new Intent(NewMedicineFormActivity.this,AddNewDoseActivity.class);
                 intent.putExtra("id",medicine.getId());
                 startActivity(intent);
 

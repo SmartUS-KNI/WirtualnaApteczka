@@ -43,9 +43,7 @@ public class ActivityMedicineList extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateView();
-
     }
-
 
     /**
      * @author KozMeeN

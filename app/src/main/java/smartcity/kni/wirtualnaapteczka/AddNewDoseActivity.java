@@ -14,22 +14,30 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.sql.SQLClientInfoException;
 import java.util.Calendar;
 import java.util.Date;
-import smartcity.kni.wirtualnaapteczka.Dose;
+
 import smartcity.kni.wirtualnaapteczka.Medicine;
+import smartcity.kni.wirtualnaapteczka.Dose;
+
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 
-public class AddNewDosageActivity extends AppCompatActivity {
-    static final int CALENDAR_DIALOG_ID = 0;
-    static final int HOUR_DIALOG_ID = 1;
+public class AddNewDoseActivity extends AppCompatActivity {
+
+    private enum dialogType{
+        CALENDAR(0),TIME(1);
+        private final int value;
+
+        dialogType(int value){
+            this.value = value;
+        }
+    }
 
     /*** Calendar helpful when we want use calendar, or timer, and we want to start today*/
     final Calendar cal = Calendar.getInstance();
 
     /*** we have to add this data to does in our databases.*/
-    java.util.Date data = new Date();
+    java.util.Date date = new Date();
 
     TextView dataTextView;
     TextView hourTextView;
@@ -41,7 +49,7 @@ public class AddNewDosageActivity extends AppCompatActivity {
         SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
         final Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
 
-        setContentView(R.layout.activity_add_new_dosage);
+        setContentView(R.layout.activity_add_new_dose);
 
         Button dataButton = (Button) findViewById(R.id.add_data_button);
         Button hourButton = (Button) findViewById(R.id.add_hour_button);
@@ -68,30 +76,31 @@ public class AddNewDosageActivity extends AppCompatActivity {
         dataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog(CALENDAR_DIALOG_ID);
+                showDialog(dialogType.CALENDAR.value);
             }
         });
         hourButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog(HOUR_DIALOG_ID);
+                showDialog(dialogType.TIME.value);
             }
         });
+
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dose does = new Dose();
-                does.setTime(data);
-                does.setMedicine(medicine);
+                Dose dose = new Dose();
+                dose.setTime(date);
+                //does.setMedicine(medicine);
             }
         });
     }
     @Override
     protected Dialog onCreateDialog(int id){
-        if(id == CALENDAR_DIALOG_ID){
+        if(id == dialogType.CALENDAR.value){
             return new DatePickerDialog(this, dpickerlistner,cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
-        } if(id == HOUR_DIALOG_ID){
+        } if(id == dialogType.TIME.value){
             return new TimePickerDialog(this,tPickerListener,cal.get(Calendar.HOUR_OF_DAY),cal.get(Calendar.MINUTE),true);
         }
         return null;
@@ -100,19 +109,19 @@ public class AddNewDosageActivity extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
 
-            data.setDate(i2);
-            data.setYear(i);
-            data.setMonth(i1+1);
-            dataTextView.setText(data.getYear() + " / " + data.getMonth() + " / " + data.getDate());
+            date.setDate(i2);
+            date.setYear(i);
+            date.setMonth(i1+1);
+            dataTextView.setText(date.getYear() + " / " + date.getMonth() + " / " + date.getDate());
         }
     };
 
     private TimePickerDialog.OnTimeSetListener tPickerListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker timePicker, int i, int i1) {
-            data.setHours(i);
-            data.setMinutes(i1);
-            hourTextView.setText(data.getHours() + " : " + data.getMinutes());
+            date.setHours(i);
+            date.setMinutes(i1);
+            hourTextView.setText(date.getHours() + " : " + date.getMinutes());
         }
     };
 }

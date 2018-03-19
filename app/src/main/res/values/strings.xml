@@ -34,7 +34,7 @@
     <string name="answer_no">NIE</string>
     <string name="info_after_delete_medicine">Lek został usunięty</string>
     <string name="form_validation_failure">Uzupełnij nazwę leku</string>
-    <string name="dosage">Dawkowanie</string>
+    <string name="dosage">Ustaw dawkowanie</string>
     <string name="add_new_dosage">Dodaj nową dawkę</string>
     <string name="hour">Godzina</string>
     <string name="data">Data</string>
