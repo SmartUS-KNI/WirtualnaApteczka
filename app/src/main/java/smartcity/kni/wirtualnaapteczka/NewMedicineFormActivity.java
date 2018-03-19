@@ -35,6 +35,8 @@ import smartcity.kni.wirtualnaapteczka.filters.DecimalDigitsInputFilter;
 
 public class NewMedicineFormActivity extends AppCompatActivity {
 
+    Medicine medicine;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +51,10 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         final SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
 
         if (getIntent().hasExtra("Id")) {
-            setContent(sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0)));
+            medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
+            setContent(medicine);
+        }else{
+            medicine = new Medicine();
         }
 
         final LinearLayout countingContainer = (LinearLayout) findViewById(R.id.counting_container);
@@ -110,6 +115,7 @@ public class NewMedicineFormActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(NewMedicineFormActivity.this,AddNewDosageActivity.class);
+                intent.putExtra("id",medicine.getId());
                 startActivity(intent);
 
             }
@@ -146,7 +152,7 @@ public class NewMedicineFormActivity extends AppCompatActivity {
 
                     if (getIntent().hasExtra("Id")) {
                         Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
-                        updateMedicineInDatabase(generateMedicineFromContent(medicine, content));
+                        updateMedicineInDatabase(generateMedicineFromContent(content));
                     } else {
                         newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
                     }
@@ -160,19 +166,6 @@ public class NewMedicineFormActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), R.string.form_validation_failure, Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-
-    private Medicine generateMedicineFromContent(LayoutContent content) {
-        Map<Integer, Object> contentMap = content.getContentMap();
-        Medicine medicine = new Medicine();
-
-        medicine.setName((String) contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText));
-        medicine.setDescription((String) contentMap.get(R.id.description_Of_New_Medicine_EditText));
-        medicine.setEAN((String) contentMap.get(R.id.barcode_From_New_Medicine_EditText));
-        medicine.setMedicine_Count(this.generateMedicineCountFromContent(content));
-
-        return medicine;
     }
 
     private Medicine_Count generateMedicineCountFromContent(LayoutContent content) {
@@ -229,19 +222,13 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         medicineBarcodeEditText.setText(medicine.getEAN());
     }
 
-    /**
-     * @param medicine the object which we want to update.
-     * @param content  the content from which we take information
-     * @author KozMeeN
-     * I ovverive method to one more values.
-     * method does not create a new object, but uses previously created, thanks why we can update medicine.
-     */
-    private Medicine generateMedicineFromContent(Medicine medicine, LayoutContent content) {
+    private Medicine generateMedicineFromContent(LayoutContent content) {
         Map<Integer, Object> contentMap = content.getContentMap();
 
         medicine.setName((String) contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText));
         medicine.setDescription((String) contentMap.get(R.id.description_Of_New_Medicine_EditText));
         medicine.setEAN((String) contentMap.get(R.id.barcode_From_New_Medicine_EditText));
+        medicine.setMedicine_Count(this.generateMedicineCountFromContent(content));
 
         return medicine;
     }
@@ -249,7 +236,6 @@ public class NewMedicineFormActivity extends AppCompatActivity {
     private long addMedicineToDatabase(Medicine medicine) {
         return SQLiteDatabaseHelper.getInstance().insertMedicine(medicine);
     }
-
 
     /**
      * @param medicine object which we want to update in database.

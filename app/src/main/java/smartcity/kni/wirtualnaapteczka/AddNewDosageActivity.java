@@ -14,8 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.sql.SQLClientInfoException;
 import java.util.Calendar;
 import java.util.Date;
+import smartcity.kni.wirtualnaapteczka.Dose;
+import smartcity.kni.wirtualnaapteczka.Medicine;
+import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 
 public class AddNewDosageActivity extends AppCompatActivity {
     static final int CALENDAR_DIALOG_ID = 0;
@@ -29,13 +33,20 @@ public class AddNewDosageActivity extends AppCompatActivity {
 
     TextView dataTextView;
     TextView hourTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
+        final Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
+
         setContentView(R.layout.activity_add_new_dosage);
 
         Button dataButton = (Button) findViewById(R.id.add_data_button);
         Button hourButton = (Button) findViewById(R.id.add_hour_button);
+        Button confirmButton = (Button) findViewById(R.id.confirm_button);
+
         dataTextView = (TextView) findViewById(R.id.data_textView);
         hourTextView = (TextView) findViewById(R.id.hour_textView);
         final LinearLayout adjustContainer = (LinearLayout) findViewById(R.id.adjust_Container);
@@ -66,6 +77,15 @@ public class AddNewDosageActivity extends AppCompatActivity {
                 showDialog(HOUR_DIALOG_ID);
             }
         });
+
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dose does = new Dose();
+                does.setTime(data);
+                does.setMedicine(medicine);
+            }
+        });
     }
     @Override
     protected Dialog onCreateDialog(int id){
@@ -80,11 +100,10 @@ public class AddNewDosageActivity extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
 
-            String tempDate = i + "-" + (i1+1) + "-" + i2;
-            //TODO: add day to data
+            data.setDate(i2);
             data.setYear(i);
             data.setMonth(i1+1);
-            dataTextView.setText(tempDate);
+            dataTextView.setText(data.getYear() + " / " + data.getMonth() + " / " + data.getDate());
         }
     };
 
