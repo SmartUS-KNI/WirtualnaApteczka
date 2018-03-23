@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Main">
+        <activity
+            android:name=".Main"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,21 +21,27 @@
         </activity>
         <activity
             android:name=".ActivityMedicineList"
-            android:parentActivityName=".Main">
+            android:parentActivityName=".Main"
+            android:screenOrientation="portrait"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Main" />
         </activity>
         <activity
             android:name=".MedicineFormActivity"
-            android:parentActivityName=".Main">
+            android:parentActivityName=".Main"
+            android:screenOrientation="portrait"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Main" />
         </activity>
         <activity
             android:name=".MedicineInfoActivity"
-            android:parentActivityName=".ActivityMedicineList">
+            android:parentActivityName=".ActivityMedicineList"
+            android:screenOrientation="portrait"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ActivityMedicineList" />

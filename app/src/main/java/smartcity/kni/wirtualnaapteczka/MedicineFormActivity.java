@@ -214,10 +214,17 @@ public class MedicineFormActivity extends AppCompatActivity {
         EditText medicineNameEditText = (EditText) findViewById(R.id.name_Of_Medicine_From_New_Medicine_EditText);
         EditText medicineDescriptionEditText = (EditText) findViewById(R.id.description_Of_New_Medicine_EditText);
         EditText medicineBarcodeEditText = (EditText) findViewById(R.id.barcode_From_New_Medicine_EditText);
+        Spinner medicineTypeSpinner = (Spinner) findViewById(R.id.medicine_type);
+        Spinner medicineUnitTypeSpinner = (Spinner) findViewById(R.id.medicine_type_unit);
+        EditText medicineQuantityEditText = (EditText) findViewById(R.id.count);
 
         medicineNameEditText.setText(medicine.getName());
         medicineDescriptionEditText.setText(medicine.getDescription());
         medicineBarcodeEditText.setText(medicine.getEAN());
+        medicineQuantityEditText.setText(medicine.getMedicine_Count().getCount().toString());
+
+        medicineTypeSpinner.setSelection((int) medicine.getMedicine_Count().getMedicineType()+1);
+        medicineUnitTypeSpinner.setSelection(medicine.getMedicine_Count().getMedicineTypeUnit());
     }
 
     /**

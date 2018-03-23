@@ -1,5 +1,6 @@
 package smartcity.kni.wirtualnaapteczka;
 
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -9,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import smartcity.kni.wirtualnaapteczka.Medicine;
 import smartcity.kni.wirtualnaapteczka.enums.EMedicineType;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 
@@ -29,7 +30,7 @@ public class MedicineInfoActivity extends AppCompatActivity {
          *
          */
         SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
-        smartcity.kni.wirtualnaapteczka.Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
+        Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
 
         TextView nameOfMedicine = (TextView) findViewById(R.id.name_Of_Medicine_Info_TextView);
         nameOfMedicine.setText(medicine.getName());
