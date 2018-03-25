@@ -67,9 +67,8 @@ public class MedicineInfoActivity extends AppCompatActivity {
 
                 Long medicineId = getIntent().getLongExtra("Id", 0);
                 intent.putExtra("Id", medicineId);
-                //
                 intent.putExtra("ModifyMode", true);
-                //
+
                 startActivity(intent);
             }
         });

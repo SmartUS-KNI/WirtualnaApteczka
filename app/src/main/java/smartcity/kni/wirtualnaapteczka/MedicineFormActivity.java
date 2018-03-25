@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,13 +49,12 @@ public class MedicineFormActivity extends AppCompatActivity {
 
         final SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
 
+        Medicine currentMed = null;
+
         if (getIntent().hasExtra("Id")) {
-            setContent(sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0)));
+            currentMed = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
+            setContent(currentMed);
         }
-        //
-        if (getIntent().hasExtra("ModifyMode"))
-            ((TextView) findViewById(R.id.add_Medicine_From_New_Medicine_TextView)).setText(R.string.modify_medicine); //Ustawienie tytułu
-        //
 
         final LinearLayout countingContainer = (LinearLayout) findViewById(R.id.counting_container);
         CheckBox countCheckBox = (CheckBox) findViewById(R.id.check_counting);
@@ -89,6 +89,17 @@ public class MedicineFormActivity extends AppCompatActivity {
             }
         });
 
+        if (getIntent().hasExtra("ModifyMode")) {
+            countCheckBox.setChecked(true);
+            ((TextView) findViewById(R.id.add_Medicine_From_New_Medicine_TextView)).setText(R.string.modify_medicine); //Ustawienie tytułu
+            medicineType.setSelection(((ArrayAdapter)medicineType.getAdapter()).getPosition(EMedicineType.getMedicineTypeById(currentMed.getMedicine_Count().getMedicineType()).getName()));
+
+            fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[medicineType.getSelectedItemPosition() - 1].getUnits());
+            medicineTypeUnit.setSelection( ((ArrayAdapter)medicineTypeUnit.getAdapter()).getPosition(
+                    EMedicineType.getMedicineTypeById(currentMed.getMedicine_Count().getMedicineType())
+                            .getUnits().get(currentMed.getMedicine_Count().getMedicineTypeUnit())));
+        }
+
         applyValidationToContent();
 
         submitFormButton.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +133,7 @@ public class MedicineFormActivity extends AppCompatActivity {
 
                     if (getIntent().hasExtra("Id")) {
                         Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
-                        updateMedicineInDatabase(generateMedicineFromContent(medicine, content));
+                        updateMedicineInDatabase(generateMedicineFromContent(medicine, content));                  //TODO <------- GenerateMedicinefromContent
                     } else {
                         newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
                     }
@@ -214,17 +225,12 @@ public class MedicineFormActivity extends AppCompatActivity {
         EditText medicineNameEditText = (EditText) findViewById(R.id.name_Of_Medicine_From_New_Medicine_EditText);
         EditText medicineDescriptionEditText = (EditText) findViewById(R.id.description_Of_New_Medicine_EditText);
         EditText medicineBarcodeEditText = (EditText) findViewById(R.id.barcode_From_New_Medicine_EditText);
-        Spinner medicineTypeSpinner = (Spinner) findViewById(R.id.medicine_type);
-        Spinner medicineUnitTypeSpinner = (Spinner) findViewById(R.id.medicine_type_unit);
         EditText medicineQuantityEditText = (EditText) findViewById(R.id.count);
 
         medicineNameEditText.setText(medicine.getName());
         medicineDescriptionEditText.setText(medicine.getDescription());
         medicineBarcodeEditText.setText(medicine.getEAN());
         medicineQuantityEditText.setText(medicine.getMedicine_Count().getCount().toString());
-
-        medicineTypeSpinner.setSelection((int) medicine.getMedicine_Count().getMedicineType()+1);
-        medicineUnitTypeSpinner.setSelection(medicine.getMedicine_Count().getMedicineTypeUnit());
     }
 
     /**
@@ -247,7 +253,6 @@ public class MedicineFormActivity extends AppCompatActivity {
     private long addMedicineToDatabase(Medicine medicine) {
         return SQLiteDatabaseHelper.getInstance().insertMedicine(medicine);
     }
-
 
     /**
      * @param medicine object which we want to update in database.
