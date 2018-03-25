@@ -10,15 +10,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
 import java.util.Date;
-
-import smartcity.kni.wirtualnaapteczka.Medicine;
-import smartcity.kni.wirtualnaapteczka.Dose;
 
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 
@@ -39,8 +37,9 @@ public class AddNewDoseActivity extends AppCompatActivity {
     /*** we have to add this data to does in our databases.*/
     java.util.Date date = new Date();
 
-    TextView dataTextView;
-    TextView hourTextView;
+
+    EditText dateEditText;
+    EditText timeEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +50,16 @@ public class AddNewDoseActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_add_new_dose);
 
-        Button dataButton = (Button) findViewById(R.id.add_data_button);
-        Button hourButton = (Button) findViewById(R.id.add_hour_button);
+        ImageButton dataButton = (ImageButton) findViewById(R.id.add_data_button);
+        ImageButton hourButton = (ImageButton) findViewById(R.id.add_hour_button);
         Button confirmButton = (Button) findViewById(R.id.confirm_button);
 
-        dataTextView = (TextView) findViewById(R.id.data_textView);
-        hourTextView = (TextView) findViewById(R.id.hour_textView);
+        dateEditText = (EditText) findViewById(R.id.date_EditText);
+        dateEditText.setFocusable(false);
+
+        timeEditText = (EditText) findViewById(R.id.timeEditText);
+        timeEditText.setFocusable(false);
+
         final LinearLayout adjustContainer = (LinearLayout) findViewById(R.id.adjust_Container);
 
         CheckBox adjustCheckBox = (CheckBox)findViewById(R.id.adjust_CheckBox);
@@ -72,6 +75,19 @@ public class AddNewDoseActivity extends AppCompatActivity {
             }
         });
 
+        timeEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog(dialogType.TIME.value);
+            }
+        });
+
+        dateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog(dialogType.CALENDAR.value);
+            }
+        });
 
         dataButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,20 +115,20 @@ public class AddNewDoseActivity extends AppCompatActivity {
     @Override
     protected Dialog onCreateDialog(int id){
         if(id == dialogType.CALENDAR.value){
-            return new DatePickerDialog(this, dpickerlistner,cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
+            return new DatePickerDialog(this, dPickerListener,cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
         } if(id == dialogType.TIME.value){
             return new TimePickerDialog(this,tPickerListener,cal.get(Calendar.HOUR_OF_DAY),cal.get(Calendar.MINUTE),true);
         }
         return null;
     }
-    private DatePickerDialog.OnDateSetListener dpickerlistner = new DatePickerDialog.OnDateSetListener() {
+    private DatePickerDialog.OnDateSetListener dPickerListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
 
             date.setDate(i2);
             date.setYear(i);
             date.setMonth(i1+1);
-            dataTextView.setText(date.getYear() + " / " + date.getMonth() + " / " + date.getDate());
+            dateEditText.setText(date.getYear() + " / " + date.getMonth() + " / " + date.getDate());
         }
     };
 
@@ -121,7 +137,7 @@ public class AddNewDoseActivity extends AppCompatActivity {
         public void onTimeSet(TimePicker timePicker, int i, int i1) {
             date.setHours(i);
             date.setMinutes(i1);
-            hourTextView.setText(date.getHours() + " : " + date.getMinutes());
+            timeEditText.setText(date.getHours() + " : " + date.getMinutes());
         }
     };
 }

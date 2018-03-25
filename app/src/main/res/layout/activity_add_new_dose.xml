@@ -22,17 +22,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <ImageButton
                 android:id="@+id/add_data_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/data" />
+                android:layout_width="58dp"
+                android:layout_height="50dp"
+                app:srcCompat="@android:drawable/ic_menu_my_calendar" />
 
-            <TextView
-                android:id="@+id/data_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+            <EditText
+                android:id="@+id/date_EditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="date"
+                android:text="@string/add_date" />
 
         </LinearLayout>
 
@@ -43,17 +44,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <ImageButton
                 android:id="@+id/add_hour_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hour" />
+                android:layout_width="58dp"
+                android:layout_height="50dp"
+                app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
 
-            <TextView
-                android:id="@+id/hour_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+            <EditText
+                android:id="@+id/timeEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="time"
+                android:text="@string/add_time" />
 
         </LinearLayout>
 
