@@ -44,5 +44,6 @@
     <string name="regular_dosage">Dawka regularna</string>
     <string name="add_date">Kliknij aby wprowadzić datę.</string>
     <string name="add_time">Kliknij aby wprowadzić godzinę.</string>
+    <string name="period_of_time">Liczba godzin</string>
 
 </resources>

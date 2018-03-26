@@ -59,6 +59,13 @@
 
         </LinearLayout>
 
+        <EditText
+            android:id="@+id/count_of_dose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/count_label"
+            android:inputType="numberDecimal"/>
+
         <CheckBox
             android:id="@+id/adjust_CheckBox"
             android:layout_width="match_parent"

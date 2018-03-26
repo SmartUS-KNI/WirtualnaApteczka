@@ -13,26 +13,34 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import smartcity.kni.wirtualnaapteczka.Medicine;
+import smartcity.kni.wirtualnaapteczka.Dose;
+
+import smartcity.kni.wirtualnaapteczka.enums.ERegularDoseType;
+import smartcity.kni.wirtualnaapteczka.layout.helpers.SpinnerHelper;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 
 public class AddNewDoseActivity extends AppCompatActivity {
 
-    private enum dialogType{
+    private enum EDialogType{
         CALENDAR(0),TIME(1);
         private final int value;
 
-        dialogType(int value){
+        EDialogType(int value){
             this.value = value;
         }
     }
 
     /*** Calendar helpful when we want use calendar, or timer, and we want to start today*/
-    final Calendar cal = Calendar.getInstance();
+    Calendar cal = Calendar.getInstance();
 
     /*** we have to add this data to does in our databases.*/
     java.util.Date date = new Date();
@@ -44,25 +52,38 @@ public class AddNewDoseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_new_dose);
 
         SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
         final Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
 
-        setContentView(R.layout.activity_add_new_dose);
-
+        dateEditText = (EditText) findViewById(R.id.date_EditText);
+        timeEditText = (EditText) findViewById(R.id.timeEditText);
         ImageButton dataButton = (ImageButton) findViewById(R.id.add_data_button);
         ImageButton hourButton = (ImageButton) findViewById(R.id.add_hour_button);
+        EditText doseCount = (EditText) findViewById(R.id.count_of_dose);
         Button confirmButton = (Button) findViewById(R.id.confirm_button);
-
-        dateEditText = (EditText) findViewById(R.id.date_EditText);
-        dateEditText.setFocusable(false);
-
-        timeEditText = (EditText) findViewById(R.id.timeEditText);
-        timeEditText.setFocusable(false);
-
-        final LinearLayout adjustContainer = (LinearLayout) findViewById(R.id.adjust_Container);
-
         CheckBox adjustCheckBox = (CheckBox)findViewById(R.id.adjust_CheckBox);
+        final LinearLayout adjustContainer = (LinearLayout) findViewById(R.id.adjust_Container);
+        Spinner regularDoseType = (Spinner) findViewById(R.id.adjust_spinner);
+        Button adjustButton = (Button) findViewById(R.id.adjust_button);
+
+
+        dateEditText.setFocusable(false);
+        dateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog(EDialogType.CALENDAR.value);
+            }
+        });
+
+        timeEditText.setFocusable(false);
+        timeEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog(EDialogType.TIME.value);
+            }
+        });
 
         adjustContainer.setVisibility(View.GONE);
         adjustCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -75,33 +96,22 @@ public class AddNewDoseActivity extends AppCompatActivity {
             }
         });
 
-        timeEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialog(dialogType.TIME.value);
-            }
-        });
-
-        dateEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialog(dialogType.CALENDAR.value);
-            }
-        });
-
         dataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog(dialogType.CALENDAR.value);
+                showDialog(EDialogType.CALENDAR.value);
             }
         });
         hourButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog(dialogType.TIME.value);
+                showDialog(EDialogType.TIME.value);
             }
         });
 
+
+
+        SpinnerHelper.fillSpinnerWithStrings(regularDoseType, "Okres", getStringsFromDoseType());
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,11 +122,25 @@ public class AddNewDoseActivity extends AppCompatActivity {
             }
         });
     }
+
+    private List<String> getStringsFromDoseType() {
+        List<String> strings = new ArrayList<>();
+
+        for(ERegularDoseType i: ERegularDoseType.values())
+            strings.add(i.getName());
+
+        return strings;
+    }
+
+    private void showAdjustDialog() {
+
+    }
+
     @Override
     protected Dialog onCreateDialog(int id){
-        if(id == dialogType.CALENDAR.value){
+        if(id == EDialogType.CALENDAR.value){
             return new DatePickerDialog(this, dPickerListener,cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
-        } if(id == dialogType.TIME.value){
+        } if(id == EDialogType.TIME.value){
             return new TimePickerDialog(this,tPickerListener,cal.get(Calendar.HOUR_OF_DAY),cal.get(Calendar.MINUTE),true);
         }
         return null;
