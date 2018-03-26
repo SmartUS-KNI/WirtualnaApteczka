@@ -14,9 +14,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import smartcity.kni.wirtualnaapteczka.enums.ELayoutContentType;
 import smartcity.kni.wirtualnaapteczka.enums.EMedicineType;
 import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
@@ -75,18 +77,18 @@ public class MedicineFormActivity extends AppCompatActivity {
         if (getIntent().hasExtra("ModifyMode")) {
             countCheckBox.setChecked(true);
             ((TextView) findViewById(R.id.add_Medicine_From_New_Medicine_TextView)).setText(R.string.modify_medicine); //Ustawienie tytułu
-            medicineType.setSelection(((ArrayAdapter)medicineType.getAdapter()).getPosition(EMedicineType.getMedicineTypeById(currentMed.getMedicine_Count().getMedicineType()).getName()));
-
-            fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[medicineType.getSelectedItemPosition() - 1].getUnits());
-            medicineTypeUnit.setSelection(currentMed.getMedicine_Count().getMedicineTypeUnit() + 1);
-
+            if (currentMed.getMedicine_Count() != null) {
+                medicineType.setSelection(((ArrayAdapter) medicineType.getAdapter()).getPosition(EMedicineType.getMedicineTypeById(currentMed.getMedicine_Count().getMedicineType()).getName()));
+                fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[medicineType.getSelectedItemPosition() - 1].getUnits());
+                medicineTypeUnit.setSelection(currentMed.getMedicine_Count().getMedicineTypeUnit() + 1);
+            }
             skipFillingMedicineTypeUnitSpinnerFlag = true;
         }
 
         medicineType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(skipFillingMedicineTypeUnitSpinnerFlag) {
+                if (skipFillingMedicineTypeUnitSpinnerFlag) {
                     skipFillingMedicineTypeUnitSpinnerFlag = false;
                     return;
                 }
@@ -104,7 +106,6 @@ public class MedicineFormActivity extends AppCompatActivity {
                 //NOTHING TO DO
             }
         });
-
 
 
         applyValidationToContent();
@@ -186,17 +187,29 @@ public class MedicineFormActivity extends AppCompatActivity {
 
     private Medicine_Count generateMedicineCountFromContent(LayoutContent content) {
         Map<Integer, Object> contentMap = content.getContentMap();
-        Medicine_Count medicineCount = new Medicine_Count();
+        Medicine_Count medicineCount = new smartcity.kni.wirtualnaapteczka.Medicine_Count();
 
-        EMedicineType selectedType = EMedicineType.values()[(int) contentMap.get(R.id.medicine_type) - 1];
+        EMedicineType selectedType = null;
 
-        medicineCount.setCount(Double.parseDouble((String) contentMap.get(R.id.count)));
-        medicineCount.setMedicineType(selectedType.getId());
-        medicineCount.setMedicineTypeUnit((int) contentMap.get(R.id.medicine_type_unit) - 1);
+        //String stefan = ((String) contentMap.get(R.id.count));
+        //Double count = Double.parseDouble((String) contentMap.get(R.id.count));
 
-        SQLiteDatabaseHelper.getInstance().insertMedicine_Count(medicineCount);
+        if (!((String) contentMap.get(R.id.count)).isEmpty() && Double.compare(Double.parseDouble((String) contentMap.get(R.id.count)), new Double(0)) > 0) {
+            if ((int) contentMap.get(R.id.medicine_type) > 0)
+                selectedType = EMedicineType.values()[(int) contentMap.get(R.id.medicine_type) - 1];
+
+            medicineCount.setCount(Double.parseDouble((String) contentMap.get(R.id.count)));
+
+            if (selectedType != null) {
+                medicineCount.setMedicineType(selectedType.getId());
+                medicineCount.setMedicineTypeUnit((int) contentMap.get(R.id.medicine_type_unit) - 1);
+            }
+
+            SQLiteDatabaseHelper.getInstance().insertMedicine_Count(medicineCount);
+        }
 
         return medicineCount;
+
     }
 
     private void fillSpinnerWithStrings(Spinner spinner, String prefix, List<String> strings) {
@@ -235,9 +248,12 @@ public class MedicineFormActivity extends AppCompatActivity {
         EditText medicineQuantityEditText = (EditText) findViewById(R.id.count);
 
         medicineNameEditText.setText(medicine.getName());
-        medicineDescriptionEditText.setText(medicine.getDescription());
         medicineBarcodeEditText.setText(medicine.getEAN());
-        medicineQuantityEditText.setText(medicine.getMedicine_Count().getCount().toString());
+        medicineDescriptionEditText.setText(medicine.getDescription());
+        if (medicine.getMedicine_Count() != null)
+            medicineQuantityEditText.setText(medicine.getMedicine_Count().getCount().toString());
+        else
+            return;
     }
 
     /**

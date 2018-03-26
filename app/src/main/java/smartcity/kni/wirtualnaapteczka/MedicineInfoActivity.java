@@ -36,19 +36,21 @@ public class MedicineInfoActivity extends AppCompatActivity {
         nameOfMedicine.setText(medicine.getName());
 
         //ilość
-        TextView quantityOfMedicine = (TextView) findViewById(R.id.quantity_Of_Medicine_Info_TextView2);
-        quantityOfMedicine.setText(medicine.getMedicine_Count().getCount().toString() +
-                " " +
-                EMedicineType.getMedicineTypeById(medicine.getMedicine_Count()
-                        .getMedicineType())
-                        .getUnits()
-                        .get(medicine.getMedicine_Count()
-                                .getMedicineTypeUnit())
-                                .toString());               //Nie pytać
+        if(medicine.getMedicine_Count() != null) {
+            TextView quantityOfMedicine = (TextView) findViewById(R.id.quantity_Of_Medicine_Info_TextView2);
+            quantityOfMedicine.setText(medicine.getMedicine_Count().getCount().toString() +
+                    " " +
+                    EMedicineType.getMedicineTypeById(medicine.getMedicine_Count()
+                            .getMedicineType())
+                            .getUnits()
+                            .get(medicine.getMedicine_Count()
+                                    .getMedicineTypeUnit())
+                            .toString());               //Nie pytać
 
-        //Rodzaj
-        TextView typeOfMedicine = (TextView) findViewById(R.id.type_Of_Medicine_Info_TextView);
-        typeOfMedicine.setText(EMedicineType.getMedicineTypeById(medicine.getMedicine_Count().getMedicineType()).getName());       
+            //rodzaj
+            TextView typeOfMedicine = (TextView) findViewById(R.id.type_Of_Medicine_Info_TextView);
+            typeOfMedicine.setText(EMedicineType.getMedicineTypeById(medicine.getMedicine_Count().getMedicineType()).getName());
+        }
 
         TextView descriptionOfMedicine = (TextView) findViewById(R.id.decsription_From_Medicin_Info_TextView);
         descriptionOfMedicine.setText(medicine.getDescription());
