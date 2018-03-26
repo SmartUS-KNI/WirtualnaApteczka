@@ -148,11 +148,11 @@ public class MedicineFormActivity extends AppCompatActivity {
 
                     if (getIntent().hasExtra("ModifyMode")) {
 
-                        if (newMedicineId != -1) {
+                        //if (newMedicineId != -1) {
                             Toast.makeText(getApplicationContext(), R.string.modify_medicine_success, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), R.string.modify_medicine_failure, Toast.LENGTH_SHORT).show();
-                        }
+                        //} else {
+                        //    Toast.makeText(getApplicationContext(), R.string.modify_medicine_failure, Toast.LENGTH_SHORT).show();
+                        //}
 
                     } else {
 
@@ -166,8 +166,6 @@ public class MedicineFormActivity extends AppCompatActivity {
                     finish();
                 } else
                     Toast.makeText(getApplicationContext(), R.string.form_validation_failure, Toast.LENGTH_SHORT).show();
-
-
             }
         });
     }
@@ -181,6 +179,7 @@ public class MedicineFormActivity extends AppCompatActivity {
         medicine.setDescription((String) contentMap.get(R.id.description_Of_New_Medicine_EditText));
         medicine.setEAN((String) contentMap.get(R.id.barcode_From_New_Medicine_EditText));
         medicine.setMedicine_Count(this.generateMedicineCountFromContent(content));
+
 
         return medicine;
     }
@@ -269,6 +268,7 @@ public class MedicineFormActivity extends AppCompatActivity {
         medicine.setName((String) contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText));
         medicine.setDescription((String) contentMap.get(R.id.description_Of_New_Medicine_EditText));
         medicine.setEAN((String) contentMap.get(R.id.barcode_From_New_Medicine_EditText));
+        medicine.setMedicine_Count(generateMedicineCountFromContent(content));
 
         return medicine;
     }

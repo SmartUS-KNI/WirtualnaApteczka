@@ -25,12 +25,25 @@ public class MedicineInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_medicine_info);
 
+        setContent();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    setContent();
+    }
+
+    private void setContent(){
+
+        SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
+        Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
+
         /**
          * @author KozMeeN it wasn't my task, byt I did it becouse it was helpful in my task.
          *
          */
-        SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
-        Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
 
         TextView nameOfMedicine = (TextView) findViewById(R.id.name_Of_Medicine_Info_TextView);
         nameOfMedicine.setText(medicine.getName());
@@ -44,8 +57,7 @@ public class MedicineInfoActivity extends AppCompatActivity {
                             .getMedicineType())
                             .getUnits()
                             .get(medicine.getMedicine_Count()
-                                    .getMedicineTypeUnit())
-                            .toString());               //Nie pytać
+                                    .getMedicineTypeUnit()));               //Nie pytać
 
             //rodzaj
             TextView typeOfMedicine = (TextView) findViewById(R.id.type_Of_Medicine_Info_TextView);
@@ -57,7 +69,6 @@ public class MedicineInfoActivity extends AppCompatActivity {
 
         TextView barcodeOfMedicine = (TextView) findViewById(R.id.barcode_From_Medicine_Info_TextView);
         barcodeOfMedicine.setText(medicine.getEAN());
-
 
         Button updateButton = (Button) findViewById(R.id.modify_Medicine_Info_Button);
         Button deleteButton = (Button) findViewById(R.id.delete_Medicine_Info_Button);
