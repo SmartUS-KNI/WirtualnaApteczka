@@ -14,13 +14,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import smartcity.kni.wirtualnaapteczka.Medicine_Count;
 import smartcity.kni.wirtualnaapteczka.enums.ELayoutContentType;
 import smartcity.kni.wirtualnaapteczka.enums.EMedicineType;
 import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
@@ -28,13 +24,13 @@ import smartcity.kni.wirtualnaapteczka.filters.Config;
 import smartcity.kni.wirtualnaapteczka.filters.SpecialCharactersInputFilter;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContent;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContentConfig;
-
-import smartcity.kni.wirtualnaapteczka.Medicine;
 import smartcity.kni.wirtualnaapteczka.layout.content.ViewManager;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 import smartcity.kni.wirtualnaapteczka.filters.DecimalDigitsInputFilter;
 
 public class MedicineFormActivity extends AppCompatActivity {
+
+    boolean skipFillingMedicineTypeUnitSpinnerFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,13 +70,33 @@ public class MedicineFormActivity extends AppCompatActivity {
         });
 
         this.fillSpinnerWithStrings(medicineType, getString(R.string.medicine_type), this.getStringsFromMedicineType());
+
+
+        if (getIntent().hasExtra("ModifyMode")) {
+            countCheckBox.setChecked(true);
+            ((TextView) findViewById(R.id.add_Medicine_From_New_Medicine_TextView)).setText(R.string.modify_medicine); //Ustawienie tytułu
+            medicineType.setSelection(((ArrayAdapter)medicineType.getAdapter()).getPosition(EMedicineType.getMedicineTypeById(currentMed.getMedicine_Count().getMedicineType()).getName()));
+
+            fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[medicineType.getSelectedItemPosition() - 1].getUnits());
+            medicineTypeUnit.setSelection(currentMed.getMedicine_Count().getMedicineTypeUnit() + 1);
+
+            skipFillingMedicineTypeUnitSpinnerFlag = true;
+        }
+
         medicineType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(skipFillingMedicineTypeUnitSpinnerFlag) {
+                    skipFillingMedicineTypeUnitSpinnerFlag = false;
+                    return;
+                }
+
                 if (position > 0)
                     fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[position - 1].getUnits());
                 else
                     fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), null);
+
+
             }
 
             @Override
@@ -89,16 +105,7 @@ public class MedicineFormActivity extends AppCompatActivity {
             }
         });
 
-        if (getIntent().hasExtra("ModifyMode")) {
-            countCheckBox.setChecked(true);
-            ((TextView) findViewById(R.id.add_Medicine_From_New_Medicine_TextView)).setText(R.string.modify_medicine); //Ustawienie tytułu
-            medicineType.setSelection(((ArrayAdapter)medicineType.getAdapter()).getPosition(EMedicineType.getMedicineTypeById(currentMed.getMedicine_Count().getMedicineType()).getName()));
 
-            fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[medicineType.getSelectedItemPosition() - 1].getUnits());
-            medicineTypeUnit.setSelection( ((ArrayAdapter)medicineTypeUnit.getAdapter()).getPosition(
-                    EMedicineType.getMedicineTypeById(currentMed.getMedicine_Count().getMedicineType())
-                            .getUnits().get(currentMed.getMedicine_Count().getMedicineTypeUnit())));
-        }
 
         applyValidationToContent();
 
@@ -133,7 +140,7 @@ public class MedicineFormActivity extends AppCompatActivity {
 
                     if (getIntent().hasExtra("Id")) {
                         Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
-                        updateMedicineInDatabase(generateMedicineFromContent(medicine, content));                  //TODO <------- GenerateMedicinefromContent
+                        updateMedicineInDatabase(generateMedicineFromContent(medicine, content));
                     } else {
                         newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
                     }
