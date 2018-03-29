@@ -33,11 +33,12 @@ import smartcity.kni.wirtualnaapteczka.filters.DecimalDigitsInputFilter;
 public class MedicineFormActivity extends AppCompatActivity {
 
     boolean skipFillingMedicineTypeUnitSpinnerFlag = false;
+    boolean modifyModeFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.activity_new_medicine_form);
+        this.setContentView(R.layout.activity_medicine_form);
 
         /**
          * @author KozMeeN
@@ -51,6 +52,7 @@ public class MedicineFormActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra("Id")) {
             currentMed = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
+            modifyModeFlag = true;
             setContent(currentMed);
         }
 
@@ -74,7 +76,7 @@ public class MedicineFormActivity extends AppCompatActivity {
         this.fillSpinnerWithStrings(medicineType, getString(R.string.medicine_type), this.getStringsFromMedicineType());
 
 
-        if (getIntent().hasExtra("ModifyMode")) {
+        if (modifyModeFlag) {
             countCheckBox.setChecked(true);
             ((TextView) findViewById(R.id.add_Medicine_From_New_Medicine_TextView)).setText(R.string.modify_medicine); //Ustawienie tytułu
             if (currentMed.getMedicine_Count() != null) {
@@ -146,14 +148,8 @@ public class MedicineFormActivity extends AppCompatActivity {
                         newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
                     }
 
-                    if (getIntent().hasExtra("ModifyMode")) {
-
-                        //if (newMedicineId != -1) {
+                    if (modifyModeFlag) {
                             Toast.makeText(getApplicationContext(), R.string.modify_medicine_success, Toast.LENGTH_SHORT).show();
-                        //} else {
-                        //    Toast.makeText(getApplicationContext(), R.string.modify_medicine_failure, Toast.LENGTH_SHORT).show();
-                        //}
-
                     } else {
 
                         if (newMedicineId != -1) {
@@ -189,10 +185,7 @@ public class MedicineFormActivity extends AppCompatActivity {
         Medicine_Count medicineCount = new smartcity.kni.wirtualnaapteczka.Medicine_Count();
 
         EMedicineType selectedType = null;
-
-        //String stefan = ((String) contentMap.get(R.id.count));
-        //Double count = Double.parseDouble((String) contentMap.get(R.id.count));
-
+        
         if (!((String) contentMap.get(R.id.count)).isEmpty() && Double.compare(Double.parseDouble((String) contentMap.get(R.id.count)), new Double(0)) > 0) {
             if ((int) contentMap.get(R.id.medicine_type) > 0)
                 selectedType = EMedicineType.values()[(int) contentMap.get(R.id.medicine_type) - 1];

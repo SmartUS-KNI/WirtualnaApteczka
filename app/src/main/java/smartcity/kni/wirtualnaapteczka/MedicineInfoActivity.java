@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import smartcity.kni.wirtualnaapteczka.Medicine;
+
 import smartcity.kni.wirtualnaapteczka.enums.EMedicineType;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 
@@ -24,18 +24,16 @@ public class MedicineInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_medicine_info);
-
         setContent();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-    setContent();
+        setContent();
     }
 
-    private void setContent(){
+    private void setContent() {
 
         SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
         Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
@@ -49,8 +47,8 @@ public class MedicineInfoActivity extends AppCompatActivity {
         nameOfMedicine.setText(medicine.getName());
 
         //ilość
-        if(medicine.getMedicine_Count() != null) {
-            TextView quantityOfMedicine = (TextView) findViewById(R.id.quantity_Of_Medicine_Info_TextView2);
+        if (medicine.getMedicine_Count() != null) {
+            TextView quantityOfMedicine = (TextView) findViewById(R.id.quantity_Of_Medicine_Info_TextView);
             quantityOfMedicine.setText(medicine.getMedicine_Count().getCount().toString() +
                     " " +
                     EMedicineType.getMedicineTypeById(medicine.getMedicine_Count()
@@ -64,7 +62,7 @@ public class MedicineInfoActivity extends AppCompatActivity {
             typeOfMedicine.setText(EMedicineType.getMedicineTypeById(medicine.getMedicine_Count().getMedicineType()).getName());
         }
 
-        TextView descriptionOfMedicine = (TextView) findViewById(R.id.decsription_From_Medicin_Info_TextView);
+        TextView descriptionOfMedicine = (TextView) findViewById(R.id.description_Of_Medicine_Info_TextView);
         descriptionOfMedicine.setText(medicine.getDescription());
 
         TextView barcodeOfMedicine = (TextView) findViewById(R.id.barcode_From_Medicine_Info_TextView);
@@ -80,7 +78,6 @@ public class MedicineInfoActivity extends AppCompatActivity {
 
                 Long medicineId = getIntent().getLongExtra("Id", 0);
                 intent.putExtra("Id", medicineId);
-                intent.putExtra("ModifyMode", true);
 
                 startActivity(intent);
             }
