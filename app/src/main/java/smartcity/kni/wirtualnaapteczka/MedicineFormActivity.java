@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
 
@@ -37,13 +38,17 @@ import smartcity.kni.wirtualnaapteczka.layout.content.ViewManager;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 import smartcity.kni.wirtualnaapteczka.filters.DecimalDigitsInputFilter;
 
-public class NewMedicineFormActivity extends AppCompatActivity {
+public class MedicineFormActivity extends AppCompatActivity {
+
+    boolean skipFillingMedicineTypeUnitSpinnerFlag = false;
+    boolean modifyModeFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.activity_new_medicine_form);
+        this.setContentView(R.layout.activity_medicine_form);
         initBarcodeFromCameraImplementation();
+
         /**
          * @author KozMeeN
          * View will be complete with information from sent Medicine, if we will choose edit option, if we will choose create new medicine view will has
@@ -52,8 +57,12 @@ public class NewMedicineFormActivity extends AppCompatActivity {
 
         final SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
 
+        Medicine currentMed = null;
+
         if (getIntent().hasExtra("Id")) {
-            setContent(sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0)));
+            currentMed = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
+            modifyModeFlag = true;
+            setContent(currentMed);
         }
 
         final LinearLayout countingContainer = (LinearLayout) findViewById(R.id.counting_container);
@@ -74,9 +83,27 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         });
 
         this.fillSpinnerWithStrings(medicineType, getString(R.string.medicine_type), this.getStringsFromMedicineType());
+
+
+        if (modifyModeFlag) {
+            countCheckBox.setChecked(true);
+            ((TextView) findViewById(R.id.add_Medicine_From_New_Medicine_TextView)).setText(R.string.modify_medicine); //Ustawienie tytułu
+            if (currentMed.getMedicine_Count() != null) {
+                medicineType.setSelection(((ArrayAdapter) medicineType.getAdapter()).getPosition(EMedicineType.getMedicineTypeById(currentMed.getMedicine_Count().getMedicineType()).getName()));
+                fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[medicineType.getSelectedItemPosition() - 1].getUnits());
+                medicineTypeUnit.setSelection(currentMed.getMedicine_Count().getMedicineTypeUnit() + 1);
+            }
+            skipFillingMedicineTypeUnitSpinnerFlag = true;
+        }
+
         medicineType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (skipFillingMedicineTypeUnitSpinnerFlag) {
+                    skipFillingMedicineTypeUnitSpinnerFlag = false;
+                    return;
+                }
+
                 if (position > 0)
                     fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[position - 1].getUnits());
                 else
@@ -126,10 +153,16 @@ public class NewMedicineFormActivity extends AppCompatActivity {
                     } else {
                         newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
                     }
-                    if (newMedicineId != -1) {
-                        Toast.makeText(getApplicationContext(), R.string.add_medicine_success, Toast.LENGTH_SHORT).show();
+
+                    if (modifyModeFlag) {
+                            Toast.makeText(getApplicationContext(), R.string.modify_medicine_success, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getApplicationContext(), R.string.add_medicine_failure, Toast.LENGTH_SHORT).show();
+
+                        if (newMedicineId != -1) {
+                            Toast.makeText(getApplicationContext(), R.string.add_medicine_success, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), R.string.add_medicine_failure, Toast.LENGTH_SHORT).show();
+                        }
                     }
                     finish();
                 } else
@@ -155,13 +188,21 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         Map<Integer, Object> contentMap = content.getContentMap();
         Medicine_Count medicineCount = new Medicine_Count();
 
-        EMedicineType selectedType = EMedicineType.values()[(int) contentMap.get(R.id.medicine_type) - 1];
+        EMedicineType selectedType = null;
 
-        medicineCount.setCount(Double.parseDouble((String) contentMap.get(R.id.count)));
-        medicineCount.setMedicineType(selectedType.getId());
-        medicineCount.setMedicineTypeUnit((int) contentMap.get(R.id.medicine_type_unit) - 1);
+        if (!((String) contentMap.get(R.id.count)).isEmpty() && Double.compare(Double.parseDouble((String) contentMap.get(R.id.count)), new Double(0)) > 0) {
+            if ((int) contentMap.get(R.id.medicine_type) > 0)
+                selectedType = EMedicineType.values()[(int) contentMap.get(R.id.medicine_type) - 1];
 
-        SQLiteDatabaseHelper.getInstance().insertMedicine_Count(medicineCount);
+            medicineCount.setCount(Double.parseDouble((String) contentMap.get(R.id.count)));
+
+            if (selectedType != null) {
+                medicineCount.setMedicineType(selectedType.getId());
+                medicineCount.setMedicineTypeUnit((int) contentMap.get(R.id.medicine_type_unit) - 1);
+            }
+
+            SQLiteDatabaseHelper.getInstance().insertMedicine_Count(medicineCount);
+        }
 
         return medicineCount;
     }
@@ -199,10 +240,15 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         EditText medicineNameEditText = (EditText) findViewById(R.id.name_Of_Medicine_From_New_Medicine_EditText);
         EditText medicineDescriptionEditText = (EditText) findViewById(R.id.description_Of_New_Medicine_EditText);
         EditText medicineBarcodeEditText = (EditText) findViewById(R.id.barcode_From_New_Medicine_EditText);
+        EditText medicineQuantityEditText = (EditText) findViewById(R.id.count);
 
         medicineNameEditText.setText(medicine.getName());
-        medicineDescriptionEditText.setText(medicine.getDescription());
         medicineBarcodeEditText.setText(medicine.getEAN());
+        medicineDescriptionEditText.setText(medicine.getDescription());
+        if (medicine.getMedicine_Count() != null)
+            medicineQuantityEditText.setText(medicine.getMedicine_Count().getCount().toString());
+        else
+            return;
     }
 
     /**
@@ -218,6 +264,7 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         medicine.setName((String) contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText));
         medicine.setDescription((String) contentMap.get(R.id.description_Of_New_Medicine_EditText));
         medicine.setEAN((String) contentMap.get(R.id.barcode_From_New_Medicine_EditText));
+        medicine.setMedicine_Count(generateMedicineCountFromContent(content));
 
         return medicine;
     }
@@ -225,7 +272,6 @@ public class NewMedicineFormActivity extends AppCompatActivity {
     private long addMedicineToDatabase(Medicine medicine) {
         return SQLiteDatabaseHelper.getInstance().insertMedicine(medicine);
     }
-
 
     /**
      * @param medicine object which we want to update in database.

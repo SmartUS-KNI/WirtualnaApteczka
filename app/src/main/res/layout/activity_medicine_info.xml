@@ -32,30 +32,68 @@
             android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/name_label_Medicine_Info_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/name_label" />
+
+        <TextView
             android:id="@+id/name_Of_Medicine_Info_TextView"
             android:layout_width="match_parent"
             android:layout_height="69dp"
-            android:layout_weight="0"
-            android:text="@string/name_of_medicine" />
+            android:layout_weight="0" />
 
         <TextView
-            android:id="@+id/decsription_From_Medicin_Info_TextView"
+            android:id="@+id/quantity_label_Medicine_Info_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/quantity_label" />
+
+        <TextView
+            android:id="@+id/type_Of_Medicine_Info_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="0" />
+
+        <TextView
+            android:id="@+id/quantity_Of_Medicine_Info_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="0" />
+
+        <TextView
+            android:id="@+id/description_label_Medicine_Info_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/description_label" />
+
+        <TextView
+            android:id="@+id/description_Of_Medicine_Info_TextView"
             android:layout_width="match_parent"
             android:layout_height="118dp"
             android:layout_weight="1"
             android:text="@string/description" />
 
         <TextView
+            android:id="@+id/barcode_label_Medicine_Info_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/barcode_label" />
+
+        <TextView
             android:id="@+id/barcode_From_Medicine_Info_TextView"
             android:layout_width="match_parent"
             android:layout_height="69dp"
-            android:layout_weight="0"
-            android:text="@string/barcode" />
+            android:layout_weight="0" />
 
         <TextView
             android:id="@+id/function_Medicine_Info_TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0"
             android:text="@string/function" />
 
         <Button

@@ -1,5 +1,6 @@
 package smartcity.kni.wirtualnaapteczka;
 
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -10,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import smartcity.kni.wirtualnaapteczka.Medicine;
+import smartcity.kni.wirtualnaapteczka.enums.EMedicineType;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 
 /**
@@ -23,23 +24,49 @@ public class MedicineInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_medicine_info);
+        setContent();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setContent();
+    }
+
+    private void setContent() {
+
+        SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
+        Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
 
         /**
          * @author KozMeeN it wasn't my task, byt I did it becouse it was helpful in my task.
          *
-        */
-        SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
-        Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id",0));
+         */
 
         TextView nameOfMedicine = (TextView) findViewById(R.id.name_Of_Medicine_Info_TextView);
         nameOfMedicine.setText(medicine.getName());
 
-        TextView descriptionOfMedicine = (TextView) findViewById(R.id.decsription_From_Medicin_Info_TextView);
+        //ilość
+        if (medicine.getMedicine_Count() != null) {
+            TextView quantityOfMedicine = (TextView) findViewById(R.id.quantity_Of_Medicine_Info_TextView);
+            quantityOfMedicine.setText(medicine.getMedicine_Count().getCount().toString() +
+                    " " +
+                    EMedicineType.getMedicineTypeById(medicine.getMedicine_Count()
+                            .getMedicineType())
+                            .getUnits()
+                            .get(medicine.getMedicine_Count()
+                                    .getMedicineTypeUnit()));               //Nie pytać
+
+            //rodzaj
+            TextView typeOfMedicine = (TextView) findViewById(R.id.type_Of_Medicine_Info_TextView);
+            typeOfMedicine.setText(EMedicineType.getMedicineTypeById(medicine.getMedicine_Count().getMedicineType()).getName());
+        }
+
+        TextView descriptionOfMedicine = (TextView) findViewById(R.id.description_Of_Medicine_Info_TextView);
         descriptionOfMedicine.setText(medicine.getDescription());
 
         TextView barcodeOfMedicine = (TextView) findViewById(R.id.barcode_From_Medicine_Info_TextView);
         barcodeOfMedicine.setText(medicine.getEAN());
-
 
         Button updateButton = (Button) findViewById(R.id.modify_Medicine_Info_Button);
         Button deleteButton = (Button) findViewById(R.id.delete_Medicine_Info_Button);
@@ -47,7 +74,7 @@ public class MedicineInfoActivity extends AppCompatActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MedicineInfoActivity.this, NewMedicineFormActivity.class);
+                Intent intent = new Intent(MedicineInfoActivity.this, MedicineFormActivity.class);
 
                 Long medicineId = getIntent().getLongExtra("Id", 0);
                 intent.putExtra("Id", medicineId);
