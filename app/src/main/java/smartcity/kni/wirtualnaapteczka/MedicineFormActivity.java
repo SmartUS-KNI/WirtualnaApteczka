@@ -324,7 +324,7 @@ public class MedicineFormActivity extends AppCompatActivity {
         imageButtonBarcodeFromCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentIntegrator integrator = new IntentIntegrator(NewMedicineFormActivity.this);
+                IntentIntegrator integrator = new IntentIntegrator(MedicineFormActivity.this);
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.PRODUCT_CODE_TYPES);
                 integrator.setPrompt(getString(R.string.prompt_for_barcode_scanner));
                 integrator.setCameraId(0);
