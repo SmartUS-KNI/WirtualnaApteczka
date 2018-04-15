@@ -12,6 +12,7 @@ import smartcity.kni.wirtualnaapteczka.Alergens_List;
 import smartcity.kni.wirtualnaapteczka.DaoMaster;
 import smartcity.kni.wirtualnaapteczka.DaoSession;
 import smartcity.kni.wirtualnaapteczka.Dose;
+import smartcity.kni.wirtualnaapteczka.DoseDao;
 import smartcity.kni.wirtualnaapteczka.Information;
 import smartcity.kni.wirtualnaapteczka.Medicine;
 import smartcity.kni.wirtualnaapteczka.MedicineDao;
@@ -138,5 +139,41 @@ public class SQLiteDatabaseHelper {
         daoSession.getMedicineDao().deleteByKey(idMedicine);
     }
 
+
+    public long insertDose(Dose dose) {
+        return daoSession.getDoseDao().insert(dose);
+    }
+
+    public void deleteDoseById(Long idDose) {
+        Dose dose = daoSession.getDoseDao().load(idDose);
+
+        //remove from medicines list of doses
+        daoSession.getMedicineDao().load(idDose).getDoseList().remove(idDose);
+        daoSession.getDoseDao().deleteByKey(idDose);
+    }
+
+    public void updateDose(Dose dose) {
+        daoSession.getDoseDao().update(dose);
+    }
+
+    public Dose getDoseById(long idDose) {
+        Query<Dose> query = queryHelper.getDoseQueryBuilder()
+                .where(DoseDao.Properties.Id.eq(idDose))
+                .limit(1)
+                .build();
+
+        return query.unique();
+    }
+
+    public List<Dose> getAllDosesForMedicineById(long idMedicine) {
+        Query<Dose> query = queryHelper.getDoseQueryBuilder()
+                .where(DoseDao.Properties.IdMedicine.eq(idMedicine))
+                .build();
+
+        return query.list();
+    }
+
     //IF YOU WANT TO ANY OTHER QUERY YOU CAN WRITE HERE IT
+
+
 }

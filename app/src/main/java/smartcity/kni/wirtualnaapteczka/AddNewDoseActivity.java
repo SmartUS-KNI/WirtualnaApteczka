@@ -20,15 +20,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import smartcity.kni.wirtualnaapteczka.Medicine;
 import smartcity.kni.wirtualnaapteczka.Dose;
 
 import smartcity.kni.wirtualnaapteczka.enums.ERegularDoseType;
+import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
+import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContent;
+import smartcity.kni.wirtualnaapteczka.layout.content.ViewManager;
 import smartcity.kni.wirtualnaapteczka.layout.helpers.SpinnerHelper;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 
 public class AddNewDoseActivity extends AppCompatActivity {
+
+    LayoutContent content;
 
     private enum EDialogType{
         CALENDAR(0),TIME(1);
@@ -109,16 +115,19 @@ public class AddNewDoseActivity extends AppCompatActivity {
             }
         });
 
-
+        content = null;
+        try {
+            content = ViewManager.getInstance().getContent(findViewById(R.id.dosage_container));
+        } catch (MissingConverterException e) {
+            e.printStackTrace();
+        }
 
         SpinnerHelper.fillSpinnerWithStrings(regularDoseType, "Okres", getStringsFromDoseType());
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dose dose = new Dose();
-                dose.setTime(date);
-                //does.setMedicine(medicine);
+                addDoseToDatabase(generateDoseFromContent(content));
             }
         });
     }
@@ -164,4 +173,26 @@ public class AddNewDoseActivity extends AppCompatActivity {
             timeEditText.setText(date.getHours() + " : " + date.getMinutes());
         }
     };
+
+    private Dose generateDoseFromContent(LayoutContent content) {
+        Map<Integer, Object> contentMap = content.getContentMap();
+        Dose dose = new Dose();
+
+        ERegularDoseType selectedType = ERegularDoseType.values()[(int) contentMap.get(R.id.adjust_spinner) -1];
+
+        dose.setCount((Integer) contentMap.get(R.id.count_of_dose));
+        dose.setTime(date);
+        dose.setId(getIntent().getLongExtra("Id", 0));
+        dose.setRegularDose_type(selectedType.getId());
+        //dose.setRegular(); 
+        return dose;
+    }
+
+    private long addDoseToDatabase(Dose dose) {
+        return SQLiteDatabaseHelper.getInstance().insertDose(dose);
+    }
+
+    private void updateDoseInDatabase(Dose dose) {
+        SQLiteDatabaseHelper.getInstance().updateDose(dose);
+    }
 }

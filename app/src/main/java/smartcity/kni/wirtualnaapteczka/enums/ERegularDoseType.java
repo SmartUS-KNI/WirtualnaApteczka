@@ -11,14 +11,25 @@ public enum ERegularDoseType {
     WEEKLY("Tygodniowo"),
     MONTHLY("Miesięcznie");
 
-    String name;
-
+    private String name;
+    private int id;
+    private static int generatedId = 1;
 
     private ERegularDoseType(String name) {
+        this.id = this.generateId();
         this.name = name;
     }
 
     public String getName() {
         return name;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    private int generateId() {
+        return generatedId++;
+    }
+
 }
