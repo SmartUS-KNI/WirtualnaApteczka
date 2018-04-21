@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tag="gridLayout"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <CheckBox
+            android:id="@+id/day_1_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            app:layout_column="0"
+            app:layout_row="0" />
+
+        <CheckBox
+            android:id="@+id/day_2_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            app:layout_column="1"
+            app:layout_row="0" />
+
+        <CheckBox
+            android:id="@+id/day_3_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3"
+            app:layout_column="2"
+            app:layout_row="0" />
+
+        <CheckBox
+            android:id="@+id/day_4_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4"
+            app:layout_column="0"
+            app:layout_row="1" />
+
+        <CheckBox
+            android:id="@+id/day_5_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            app:layout_column="1"
+            app:layout_row="1" />
+
+        <CheckBox
+            android:id="@+id/day_6_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6"
+            app:layout_column="2"
+            app:layout_row="1" />
+
+        <CheckBox
+            android:id="@+id/day_7_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7"
+            app:layout_column="0"
+            app:layout_row="3" />
+
+        <CheckBox
+            android:id="@+id/day_8_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8"
+            app:layout_column="1"
+            app:layout_row="3" />
+
+        <CheckBox
+            android:id="@+id/day_9_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9"
+            app:layout_column="2"
+            app:layout_row="3" />
+
+        <CheckBox
+            android:id="@+id/day_10_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            app:layout_column="0"
+            app:layout_row="4" />
+
+        <CheckBox
+            android:id="@+id/day_11_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11"
+            app:layout_column="1"
+            app:layout_row="4" />
+
+        <CheckBox
+            android:id="@+id/day_12_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12"
+            app:layout_column="2"
+            app:layout_row="4" />
+
+        <CheckBox
+            android:id="@+id/day_13_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13"
+            app:layout_column="0"
+            app:layout_row="5" />
+
+        <CheckBox
+            android:id="@+id/day_14_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="14"
+            app:layout_column="1"
+            app:layout_row="5" />
+
+        <CheckBox
+            android:id="@+id/day_15_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15"
+            app:layout_column="2"
+            app:layout_row="5" />
+
+        <CheckBox
+            android:id="@+id/day_16_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="16"
+            app:layout_column="0"
+            app:layout_row="6" />
+
+        <CheckBox
+            android:id="@+id/day_17_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="17"
+            app:layout_column="1"
+            app:layout_row="6" />
+
+        <CheckBox
+            android:id="@+id/day_18_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="18"
+            app:layout_column="2"
+            app:layout_row="6" />
+
+
+        <CheckBox
+            android:id="@+id/day_19_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="19"
+            app:layout_column="0"
+            app:layout_row="7" />
+
+        <CheckBox
+            android:id="@+id/day_20_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20"
+            app:layout_column="1"
+            app:layout_row="7" />
+
+        <CheckBox
+            android:id="@+id/day_21_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="21"
+            app:layout_column="2"
+            app:layout_row="7" />
+
+
+        <CheckBox
+            android:id="@+id/day_22_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="22"
+            app:layout_column="0"
+            app:layout_row="8" />
+
+        <CheckBox
+            android:id="@+id/day_23_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="23"
+            app:layout_column="1"
+            app:layout_row="8" />
+
+        <CheckBox
+            android:id="@+id/day_24_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15"
+            app:layout_column="2"
+            app:layout_row="8" />
+
+
+        <CheckBox
+            android:id="@+id/day_25_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25"
+            app:layout_column="0"
+            app:layout_row="9" />
+
+        <CheckBox
+            android:id="@+id/day_26_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="26"
+            app:layout_column="1"
+            app:layout_row="9" />
+
+        <CheckBox
+            android:id="@+id/day_27_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="27"
+            app:layout_column="2"
+            app:layout_row="9" />
+
+        <CheckBox
+            android:id="@+id/day_28_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="28"
+            app:layout_column="0"
+            app:layout_row="10" />
+
+        <CheckBox
+            android:id="@+id/day_29_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="29"
+            app:layout_column="1"
+            app:layout_row="10" />
+
+        <CheckBox
+            android:id="@+id/day_30_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30"
+            app:layout_column="2"
+            app:layout_row="10" />
+
+        <CheckBox
+            android:id="@+id/day_31_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="31"
+            app:layout_column="0"
+            app:layout_row="11" />
+
+    </android.support.v7.widget.GridLayout>
+</android.support.constraint.ConstraintLayout>

@@ -45,5 +45,10 @@
     <string name="add_date">Kliknij aby wprowadzić datę.</string>
     <string name="add_time">Kliknij aby wprowadzić godzinę.</string>
     <string name="period_of_time">Liczba godzin</string>
+    <string name="period">Okres</string>
+    <string name="pickTimeIntervalTitle">Ustaw czas pomiędzy dawkami</string>
+    <string name="pickDaysOfWeek">Wybierz dni tygodnia</string>
+    <string name="save">Zapisz</string>
+    <string name="pickDaysOfMonth">Wybierz dni miesiąca</string>
 
 </resources>

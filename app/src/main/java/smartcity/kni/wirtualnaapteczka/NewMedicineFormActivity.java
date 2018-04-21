@@ -1,8 +1,8 @@
 package smartcity.kni.wirtualnaapteczka;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,10 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +23,13 @@ import smartcity.kni.wirtualnaapteczka.enums.ELayoutContentType;
 import smartcity.kni.wirtualnaapteczka.enums.EMedicineType;
 import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
 import smartcity.kni.wirtualnaapteczka.filters.Config;
+import smartcity.kni.wirtualnaapteczka.filters.DecimalDigitsInputFilter;
 import smartcity.kni.wirtualnaapteczka.filters.SpecialCharactersInputFilter;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContent;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContentConfig;
-
 import smartcity.kni.wirtualnaapteczka.layout.content.ViewManager;
+import smartcity.kni.wirtualnaapteczka.layout.helpers.SpinnerHelper;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
-import smartcity.kni.wirtualnaapteczka.filters.DecimalDigitsInputFilter;
-
-import smartcity.kni.wirtualnaapteczka.Medicine;
-import smartcity.kni.wirtualnaapteczka.Medicine_Count;
 
 public class NewMedicineFormActivity extends AppCompatActivity {
 
@@ -54,7 +51,7 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         if (getIntent().hasExtra("Id")) {
             medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
             setContent(medicine);
-        }else{
+        } else {
             medicine = new Medicine();
         }
 
@@ -94,14 +91,14 @@ public class NewMedicineFormActivity extends AppCompatActivity {
             }
         });
 
-        this.fillSpinnerWithStrings(medicineType, getString(R.string.medicine_type), this.getStringsFromMedicineType());
+        SpinnerHelper.fillSpinnerWithStrings(medicineType, getString(R.string.medicine_type), this.getStringsFromMedicineType());
         medicineType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0)
-                    fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[position - 1].getUnits());
+                    SpinnerHelper.fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[position - 1].getUnits());
                 else
-                    fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), null);
+                    SpinnerHelper.fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), null);
             }
 
             @Override
@@ -115,8 +112,8 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         addDosage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(NewMedicineFormActivity.this,AddNewDoseActivity.class);
-                intent.putExtra("id",medicine.getId());
+                Intent intent = new Intent(NewMedicineFormActivity.this, AddNewDoseActivity.class);
+                intent.putExtra("id", medicine.getId());
                 startActivity(intent);
 
             }
@@ -182,19 +179,6 @@ public class NewMedicineFormActivity extends AppCompatActivity {
         SQLiteDatabaseHelper.getInstance().insertMedicine_Count(medicineCount);
 
         return medicineCount;
-    }
-
-    private void fillSpinnerWithStrings(Spinner spinner, String prefix, List<String> strings) {
-        List<String> spinnerStrings = new ArrayList<>();
-
-        spinnerStrings.add(prefix);
-
-        if (strings != null)
-            spinnerStrings.addAll(strings);
-
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,
-                (String[]) spinnerStrings.toArray(new String[spinnerStrings.size()]));
-        spinner.setAdapter(spinnerAdapter);
     }
 
     private List<String> getStringsFromMedicineType() {
