@@ -71,24 +71,18 @@ public class NewMedicineFormActivity extends AppCompatActivity {
          * @author KozMeeN
          * Dosage Container will be hidden on start activity, will show up when we click checkBox.*/
         dosageContainer.setVisibility(View.GONE);
-        countCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                    countingContainer.setVisibility(View.VISIBLE);
-                else
-                    countingContainer.setVisibility(View.GONE);
-            }
+        countCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked)
+                countingContainer.setVisibility(View.VISIBLE);
+            else
+                countingContainer.setVisibility(View.GONE);
         });
 
-        dosageCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                    dosageContainer.setVisibility(View.VISIBLE);
-                else
-                    dosageContainer.setVisibility(View.GONE);
-            }
+        dosageCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked)
+                dosageContainer.setVisibility(View.VISIBLE);
+            else
+                dosageContainer.setVisibility(View.GONE);
         });
 
         SpinnerHelper.fillSpinnerWithStrings(medicineType, getString(R.string.medicine_type), this.getStringsFromMedicineType());
@@ -109,60 +103,53 @@ public class NewMedicineFormActivity extends AppCompatActivity {
 
         applyValidationToContent();
 
-        addDosage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(NewMedicineFormActivity.this, AddNewDoseActivity.class);
-                intent.putExtra("id", medicine.getId());
-                startActivity(intent);
+        addDosage.setOnClickListener(view -> {
+            Intent intent = new Intent(NewMedicineFormActivity.this, AddNewDoseActivity.class);
+            intent.putExtra("id", medicine.getId());
+            startActivity(intent);
 
-            }
         });
 
-        submitFormButton.setOnClickListener(new View.OnClickListener() {
+        submitFormButton.setOnClickListener(v -> {
+            View layout = findViewById(R.id.root_From_New_Medicine_Layout);
 
-            @Override
-            public void onClick(View v) {
-                View layout = findViewById(R.id.root_From_New_Medicine_Layout);
+            LayoutContentConfig contentConfig = new LayoutContentConfig();
+            contentConfig.addLayoutContentConfigParam(ELayoutContentType.LAYOUT_CONTENT_TYPE_EDITTEXT);
+            contentConfig.addLayoutContentConfigParam(ELayoutContentType.LAYOUT_CONTENT_TYPE_SPINNER);
 
-                LayoutContentConfig contentConfig = new LayoutContentConfig();
-                contentConfig.addLayoutContentConfigParam(ELayoutContentType.LAYOUT_CONTENT_TYPE_EDITTEXT);
-                contentConfig.addLayoutContentConfigParam(ELayoutContentType.LAYOUT_CONTENT_TYPE_SPINNER);
-
-                LayoutContent content = null;
-                try {
-                    content = ViewManager.getInstance().getContent(layout, contentConfig);
-                } catch (MissingConverterException e) {
-                    e.printStackTrace();
-                }
-
-                if (isFormValid(content)) {
-                    long newMedicineId = -1;
-
-
-                    /**
-                     * @author KozMeeN
-                     * when we edit medicine, we will work for exist medicine.
-                     * finally we update this medicine in database.
-                     *
-                     * when we create new medicine we create a new medicine so we dont have to sent this object in method.
-                     */
-
-                    if (getIntent().hasExtra("Id")) {
-                        Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
-                        updateMedicineInDatabase(generateMedicineFromContent(content));
-                    } else {
-                        newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
-                    }
-                    if (newMedicineId != -1) {
-                        Toast.makeText(getApplicationContext(), R.string.add_medicine_success, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), R.string.add_medicine_failure, Toast.LENGTH_SHORT).show();
-                    }
-                    finish();
-                } else
-                    Toast.makeText(getApplicationContext(), R.string.form_validation_failure, Toast.LENGTH_SHORT).show();
+            LayoutContent content = null;
+            try {
+                content = ViewManager.getInstance().getContent(layout, contentConfig);
+            } catch (MissingConverterException e) {
+                e.printStackTrace();
             }
+
+            if (isFormValid(content)) {
+                long newMedicineId = -1;
+
+
+                /**
+                 * @author KozMeeN
+                 * when we edit medicine, we will work for exist medicine.
+                 * finally we update this medicine in database.
+                 *
+                 * when we create new medicine we create a new medicine so we dont have to sent this object in method.
+                 */
+
+                if (getIntent().hasExtra("Id")) {
+                    Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
+                    updateMedicineInDatabase(generateMedicineFromContent(content));
+                } else {
+                    newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
+                }
+                if (newMedicineId != -1) {
+                    Toast.makeText(getApplicationContext(), R.string.add_medicine_success, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.add_medicine_failure, Toast.LENGTH_SHORT).show();
+                }
+                finish();
+            } else
+                Toast.makeText(getApplicationContext(), R.string.form_validation_failure, Toast.LENGTH_SHORT).show();
         });
     }
 

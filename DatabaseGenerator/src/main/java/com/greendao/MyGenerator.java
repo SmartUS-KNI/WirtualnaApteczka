@@ -15,8 +15,8 @@ public class MyGenerator {
         dose.addIdProperty().autoincrement();
         dose.addDateProperty("time");
         dose.addIntProperty("count");
-        dose.addIntProperty("regularDose_type");
-        dose.addStringProperty("regular");
+        dose.addLongProperty("regularDose_type");
+        dose.addStringProperty("regularConfig");
         //FK
         Property medicineIdFkDose = dose.addLongProperty("idMedicine").getProperty();
 

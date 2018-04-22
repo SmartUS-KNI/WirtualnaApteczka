@@ -34,11 +34,15 @@ public class AddNewDoseActivity extends AppCompatActivity {
     LayoutContent content;
 
     private enum EDialogType {
-        CALENDAR(0), TIME(1), HOURLY_DOSE(2), WEEKLY_DOSE(3), MONTHLY_DOSE(4);
+        CALENDAR(0), TIME(1);
         private final int value;
 
         EDialogType(int value) {
             this.value = value;
+        }
+
+        public int getValue() {
+            return value;
         }
     }
 
@@ -48,7 +52,6 @@ public class AddNewDoseActivity extends AppCompatActivity {
     /*** we have to add this data to does in our databases.*/
     java.util.Date date = new Date();
 
-
     EditText dateEditText;
     EditText timeEditText;
 
@@ -57,13 +60,9 @@ public class AddNewDoseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_dose);
 
-        SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
-        final Medicine medicine = new Medicine(); //Dummy Medicine
-        //final Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
-
         dateEditText = (EditText) findViewById(R.id.date_EditText);
         timeEditText = (EditText) findViewById(R.id.timeEditText);
-        ImageButton dataButton = (ImageButton) findViewById(R.id.add_data_button);
+        ImageButton dateButton = (ImageButton) findViewById(R.id.add_data_button);
         ImageButton hourButton = (ImageButton) findViewById(R.id.add_hour_button);
         EditText doseCount = (EditText) findViewById(R.id.count_of_dose);
         Button confirmButton = (Button) findViewById(R.id.confirm_button);
@@ -87,7 +86,7 @@ public class AddNewDoseActivity extends AppCompatActivity {
                 adjustContainer.setVisibility(View.GONE);
         });
 
-        dataButton.setOnClickListener(view -> showDialog(EDialogType.CALENDAR.value));
+        dateButton.setOnClickListener(view -> showDialog(EDialogType.CALENDAR.value));
         hourButton.setOnClickListener(view -> showDialog(EDialogType.TIME.value));
 
         SpinnerHelper.fillSpinnerWithStrings(regularDoseType, getString(R.string.period), getStringsFromDoseType());
@@ -129,10 +128,6 @@ public class AddNewDoseActivity extends AppCompatActivity {
         return strings;
     }
 
-    private void showAdjustDialog() {
-
-    }
-
     @Override
     protected Dialog onCreateDialog(int id) {
         if (id == EDialogType.CALENDAR.value)
@@ -140,7 +135,6 @@ public class AddNewDoseActivity extends AppCompatActivity {
 
         if (id == EDialogType.TIME.value)
             return new TimePickerDialog(this, tPickerListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
-
 
         return null;
     }
@@ -175,8 +169,8 @@ public class AddNewDoseActivity extends AppCompatActivity {
         dose.setCount((Integer) contentMap.get(R.id.count_of_dose));
         dose.setTime(date);
         dose.setIdMedicine(getIntent().getLongExtra("Id", 0));
-        //dose.setRegularDose_type(selectedType.getId());
-        //dose.setRegular();
+        dose.setRegularDose_type(selectedType.getId());
+        //dose.setRegularConfig();
         return dose;
     }
 
