@@ -48,6 +48,14 @@
                 android:value=".ActivityMedicineList" />
         </activity>
         <activity
+            android:name=".AddNewDoseActivity"
+            android:screenOrientation="portrait"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MedicineFormActivity" />
+        </activity>
+        <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />

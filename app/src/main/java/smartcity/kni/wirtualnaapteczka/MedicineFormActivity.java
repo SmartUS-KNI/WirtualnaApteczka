@@ -1,8 +1,8 @@
 package smartcity.kni.wirtualnaapteczka;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,12 +29,14 @@ import smartcity.kni.wirtualnaapteczka.enums.ELayoutContentType;
 import smartcity.kni.wirtualnaapteczka.enums.EMedicineType;
 import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
 import smartcity.kni.wirtualnaapteczka.filters.Config;
+import smartcity.kni.wirtualnaapteczka.filters.DecimalDigitsInputFilter;
 import smartcity.kni.wirtualnaapteczka.filters.SpecialCharactersInputFilter;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContent;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContentConfig;
 
 import smartcity.kni.wirtualnaapteczka.Medicine;
 import smartcity.kni.wirtualnaapteczka.layout.content.ViewManager;
+import smartcity.kni.wirtualnaapteczka.layout.helpers.SpinnerHelper;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 import smartcity.kni.wirtualnaapteczka.filters.DecimalDigitsInputFilter;
 
@@ -66,24 +68,34 @@ public class MedicineFormActivity extends AppCompatActivity {
         }
 
         final LinearLayout countingContainer = (LinearLayout) findViewById(R.id.counting_container);
+        /*** Container to add dosage of medicine.*/
+        final LinearLayout dosageContainer = (LinearLayout) findViewById(R.id.dosage_container);
         CheckBox countCheckBox = (CheckBox) findViewById(R.id.check_counting);
+        CheckBox dosageCheckBox = (CheckBox) findViewById(R.id.dosageCheckBox);
         Spinner medicineType = (Spinner) findViewById(R.id.medicine_type);
         final Spinner medicineTypeUnit = (Spinner) findViewById(R.id.medicine_type_unit);
         Button submitFormButton = (Button) findViewById(R.id.submit_From_New_Medicine_Button);
+        Button addDosage = (Button) findViewById(R.id.addDosageButton);
 
         countingContainer.setVisibility(View.GONE);
-        countCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                    countingContainer.setVisibility(View.VISIBLE);
-                else
-                    countingContainer.setVisibility(View.GONE);
-            }
+
+        /***
+         * @author KozMeeN
+         * Dosage Container will be hidden on start activity, will show up when we click checkBox.*/
+        dosageContainer.setVisibility(View.GONE);
+        countCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked)
+                countingContainer.setVisibility(View.VISIBLE);
+            else
+                countingContainer.setVisibility(View.GONE);
         });
 
-        this.fillSpinnerWithStrings(medicineType, getString(R.string.medicine_type), this.getStringsFromMedicineType());
-
+        dosageCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked)
+                dosageContainer.setVisibility(View.VISIBLE);
+            else
+                dosageContainer.setVisibility(View.GONE);
+        });
 
         if (modifyModeFlag) {
             countCheckBox.setChecked(true);
@@ -96,6 +108,7 @@ public class MedicineFormActivity extends AppCompatActivity {
             skipFillingMedicineTypeUnitSpinnerFlag = true;
         }
 
+        SpinnerHelper.fillSpinnerWithStrings(medicineType, getString(R.string.medicine_type), this.getStringsFromMedicineType());
         medicineType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -105,9 +118,9 @@ public class MedicineFormActivity extends AppCompatActivity {
                 }
 
                 if (position > 0)
-                    fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[position - 1].getUnits());
+                    SpinnerHelper.fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[position - 1].getUnits());
                 else
-                    fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), null);
+                    SpinnerHelper.fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), null);
             }
 
             @Override
@@ -118,34 +131,38 @@ public class MedicineFormActivity extends AppCompatActivity {
 
         applyValidationToContent();
 
-        submitFormButton.setOnClickListener(new View.OnClickListener() {
+        addDosage.setOnClickListener(view -> {
+            Intent intent = new Intent(NewMedicineFormActivity.this, AddNewDoseActivity.class);
+            intent.putExtra("id", medicine.getId());
+            startActivity(intent);
 
-            @Override
-            public void onClick(View v) {
-                View layout = findViewById(R.id.root_From_New_Medicine_Layout);
+        });
 
-                LayoutContentConfig contentConfig = new LayoutContentConfig();
-                contentConfig.addLayoutContentConfigParam(ELayoutContentType.LAYOUT_CONTENT_TYPE_EDITTEXT);
-                contentConfig.addLayoutContentConfigParam(ELayoutContentType.LAYOUT_CONTENT_TYPE_SPINNER);
+        submitFormButton.setOnClickListener(v -> {
+            View layout = findViewById(R.id.root_From_New_Medicine_Layout);
 
-                LayoutContent content = null;
-                try {
-                    content = ViewManager.getInstance().getContent(layout, contentConfig);
-                } catch (MissingConverterException e) {
-                    e.printStackTrace();
-                }
+            LayoutContentConfig contentConfig = new LayoutContentConfig();
+            contentConfig.addLayoutContentConfigParam(ELayoutContentType.LAYOUT_CONTENT_TYPE_EDITTEXT);
+            contentConfig.addLayoutContentConfigParam(ELayoutContentType.LAYOUT_CONTENT_TYPE_SPINNER);
 
-                if (isFormValid(content)) {
-                    long newMedicineId = -1;
+            LayoutContent content = null;
+            try {
+                content = ViewManager.getInstance().getContent(layout, contentConfig);
+            } catch (MissingConverterException e) {
+                e.printStackTrace();
+            }
+
+            if (isFormValid(content)) {
+                long newMedicineId = -1;
 
 
-                    /**
-                     * @author KozMeeN
-                     * when we edit medicine, we will work for exist medicine.
-                     * finally we update this medicine in database.
-                     *
-                     * when we create new medicine we create a new medicine so we dont have to sent this object in method.
-                     */
+                /**
+                 * @author KozMeeN
+                 * when we edit medicine, we will work for exist medicine.
+                 * finally we update this medicine in database.
+                 *
+                 * when we create new medicine we create a new medicine so we dont have to sent this object in method.
+                 */
 
                     if (getIntent().hasExtra("Id")) {
                         Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
@@ -207,19 +224,6 @@ public class MedicineFormActivity extends AppCompatActivity {
         return medicineCount;
     }
 
-    private void fillSpinnerWithStrings(Spinner spinner, String prefix, List<String> strings) {
-        List<String> spinnerStrings = new ArrayList<>();
-
-        spinnerStrings.add(prefix);
-
-        if (strings != null)
-            spinnerStrings.addAll(strings);
-
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,
-                (String[]) spinnerStrings.toArray(new String[spinnerStrings.size()]));
-        spinner.setAdapter(spinnerAdapter);
-    }
-
     private List<String> getStringsFromMedicineType() {
         List<String> medicineTypeStrings = new ArrayList<>();
 
@@ -264,7 +268,7 @@ public class MedicineFormActivity extends AppCompatActivity {
         medicine.setName((String) contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText));
         medicine.setDescription((String) contentMap.get(R.id.description_Of_New_Medicine_EditText));
         medicine.setEAN((String) contentMap.get(R.id.barcode_From_New_Medicine_EditText));
-        medicine.setMedicine_Count(generateMedicineCountFromContent(content));
+        medicine.setMedicine_Count(this.generateMedicineCountFromContent(content));
 
         return medicine;
     }

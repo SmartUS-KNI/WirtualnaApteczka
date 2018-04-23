@@ -7,6 +7,7 @@
     <string name="add_new_medicine">Dodanie Nowego Leku</string>
     <string name="details">Szczegóły leku</string>
     <string name="name_of_medicine">Nazwa leku</string>
+    <string name="description">Opis</string>
     <string name="enable_counting_label">Dodaj ilość</string>
     <string name="count_label">Ilość:</string>
     <string name="medicine_type">Rodzaj leku:</string>
@@ -36,6 +37,22 @@
     <string name="cancelled_scanner_barcode">Anulowano</string>
     <string name="correct_scanner_barcode">Zeskanowano</string>
     <string name="form_validation_failure">Uzupełnij nazwę leku</string>
+    <string name="dosage">Ustaw dawkowanie</string>
+    <string name="add_new_dosage">Dodaj nową dawkę</string>
+    <string name="hour">Godzina</string>
+    <string name="data">Data</string>
+    <string name="confirm">Zatwierdz</string>
+    <string name="cancel">Anuluj</string>
+    <string name="adjust">Dostosuj</string>
+    <string name="regular_dosage">Dawka regularna</string>
+    <string name="add_date">Kliknij aby wprowadzić datę.</string>
+    <string name="add_time">Kliknij aby wprowadzić godzinę.</string>
+    <string name="period_of_time">Liczba godzin</string>
+    <string name="period">Okres</string>
+    <string name="pickTimeIntervalTitle">Ustaw czas pomiędzy dawkami</string>
+    <string name="pickDaysOfWeek">Wybierz dni tygodnia</string>
+    <string name="save">Zapisz</string>
+    <string name="pickDaysOfMonth">Wybierz dni miesiąca</string>
     <string name="modify_medicine_success">Lek został poprawnie zmodyfikowany</string>
     <string name="modify_medicine_failure">Lek nie został poprawnie zmodyfikowany</string>
 
@@ -43,6 +60,5 @@
     <string name="description_label">Opis</string>
     <string name="quantity_label">Ilość i Rodzaj</string>
     <string name="barcode_label">Numer EAN</string>
-    <string name="description">Opis</string>
 
 </resources>
