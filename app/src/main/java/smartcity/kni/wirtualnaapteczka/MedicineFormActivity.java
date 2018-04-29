@@ -103,7 +103,7 @@ public class MedicineFormActivity extends AppCompatActivity {
             countCheckBox.setChecked(true);
             ((TextView) findViewById(R.id.add_Medicine_From_New_Medicine_TextView)).setText(R.string.modify_medicine); //Ustawienie tytułu
             if (currentMed.getMedicine_Count() != null) {
-                medicineType.setSelection((int)currentMed.getMedicine_Count().getMedicineType() + 1);
+                medicineType.setSelection((int) currentMed.getMedicine_Count().getMedicineType() + 1);
                 SpinnerHelper.fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[medicineType.getSelectedItemPosition() - 1].getUnits());
                 medicineTypeUnit.setSelection(currentMed.getMedicine_Count().getMedicineTypeUnit() + 1);
             }
@@ -165,29 +165,28 @@ public class MedicineFormActivity extends AppCompatActivity {
                  * when we create new medicine we create a new medicine so we dont have to sent this object in method.
                  */
 
-                 if (getIntent().hasExtra("Id")) {
-                     Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
-                     updateMedicineInDatabase(generateMedicineFromContent(medicine, content));
-                 } else {
-                     newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
-                 }
+                if (getIntent().hasExtra("Id")) {
+                    Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
+                    updateMedicineInDatabase(generateMedicineFromContent(medicine, content));
+                } else {
+                    newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
+                }
 
-                 if (modifyModeFlag) {
-                     Toast.makeText(getApplicationContext(), R.string.modify_medicine_success, Toast.LENGTH_SHORT).show();
-                 } else {
+                if (modifyModeFlag) {
+                    Toast.makeText(getApplicationContext(), R.string.modify_medicine_success, Toast.LENGTH_SHORT).show();
+                } else {
 
-                     if (newMedicineId != -1) {
-                         Toast.makeText(getApplicationContext(), R.string.add_medicine_success, Toast.LENGTH_SHORT).show();
-                     } else {
-                         Toast.makeText(getApplicationContext(), R.string.add_medicine_failure, Toast.LENGTH_SHORT).show();
-                     }
-                 }
-                 finish();
+                    if (newMedicineId != -1) {
+                        Toast.makeText(getApplicationContext(), R.string.add_medicine_success, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.add_medicine_failure, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                finish();
             } else
                 Toast.makeText(getApplicationContext(), R.string.form_validation_failure, Toast.LENGTH_SHORT).show();
         });
     }
-
 
     private Medicine generateMedicineFromContent(LayoutContent content) {
         Map<Integer, Object> contentMap = content.getContentMap();
@@ -325,16 +324,13 @@ public class MedicineFormActivity extends AppCompatActivity {
 
         ImageButton imageButtonBarcodeFromCamera = (ImageButton) this.findViewById(R.id.barcode_From_Camera);
 
-        imageButtonBarcodeFromCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentIntegrator integrator = new IntentIntegrator(MedicineFormActivity.this);
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.PRODUCT_CODE_TYPES);
-                integrator.setPrompt(getString(R.string.prompt_for_barcode_scanner));
-                integrator.setCameraId(0);
-                integrator.setBarcodeImageEnabled(false);
-                integrator.initiateScan();
-            }
+        imageButtonBarcodeFromCamera.setOnClickListener(v -> {
+            IntentIntegrator integrator = new IntentIntegrator(MedicineFormActivity.this);
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.PRODUCT_CODE_TYPES);
+            integrator.setPrompt(getString(R.string.prompt_for_barcode_scanner));
+            integrator.setCameraId(0);
+            integrator.setBarcodeImageEnabled(false);
+            integrator.initiateScan();
         });
     }
 

@@ -60,5 +60,7 @@
     <string name="description_label">Opis</string>
     <string name="quantity_label">Ilość i Rodzaj</string>
     <string name="barcode_label">Numer EAN</string>
+    <string name="submit_form">Zatwierdź</string>
+    <string name="read_barcode">Read Barcode</string>
 
 </resources>
