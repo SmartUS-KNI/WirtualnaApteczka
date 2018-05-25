@@ -35,11 +35,10 @@ public class MyGenerator {
 
         Entity information = schema.addEntity("Information");
         information.addIdProperty().autoincrement();
-        information.addStringProperty("message");
-        information.addDateProperty("date");
-        information.addDateProperty("time");
-        information.addBooleanProperty("alert");
-        information.addBooleanProperty("regular");
+        information.addStringProperty("config");
+        information.addStringProperty("data");
+        information.addStringProperty("typeIdn");
+
         //FK
         Property medicineIdFkInfo = information.addLongProperty(
                 "idMedicine").getProperty();
