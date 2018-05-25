@@ -2,6 +2,8 @@ package smartcity.kni.wirtualnaapteczka.alarm;
 
 import android.app.PendingIntent;
 
+import smartcity.kni.wirtualnaapteczka.Information;
+
 public abstract class InformationAlarm {
 
     private final static String typeIdn = null;
@@ -10,7 +12,7 @@ public abstract class InformationAlarm {
     private Long informationId;
     private PendingIntent pendingIntent;
 
-    public abstract void informationAlarm(information);
+    public abstract void informationAlarm(Information information);
 
     protected static PendingIntent generatePendingIntent() {
         return null;
