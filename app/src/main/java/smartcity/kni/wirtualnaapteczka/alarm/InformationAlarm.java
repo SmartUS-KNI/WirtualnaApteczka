@@ -12,9 +12,8 @@ public abstract class InformationAlarm {
     private Long informationId;
     private PendingIntent pendingIntent;
 
-    public abstract void informationAlarm(Information information);
-
-    protected static PendingIntent generatePendingIntent() {
-        return null;
+    public InformationAlarm(Information information) {
     }
+
+    protected abstract PendingIntent generatePendingIntent();
 }
