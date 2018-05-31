@@ -55,6 +55,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MedicineFormActivity" />
         </activity>
+        <activity android:name=".Popups.PopupSort">
+
+        </activity>
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="portrait"

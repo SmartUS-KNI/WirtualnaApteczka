@@ -1,5 +1,6 @@
 package smartcity.kni.wirtualnaapteczka;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,11 +13,16 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import java.util.List;
+import smartcity.kni.wirtualnaapteczka.Medicine;
 
 import smartcity.kni.wirtualnaapteczka.Popups.PopupSort;
 import smartcity.kni.wirtualnaapteczka.adapters.MedicineListAdapter;
+import smartcity.kni.wirtualnaapteczka.comparators.AlphabeticalComparator;
+import smartcity.kni.wirtualnaapteczka.comparators.Comparator;
+import smartcity.kni.wirtualnaapteczka.enums.ESort;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
-import smartcity.kni.wirtualnaapteczka.Medicine;
+
+import static smartcity.kni.wirtualnaapteczka.enums.ESort.ALPHABETIC;
 
 public class ActivityMedicineList extends AppCompatActivity {
 
@@ -39,12 +45,31 @@ public class ActivityMedicineList extends AppCompatActivity {
         setContentView(R.layout.activity_medicine_list);
         updateView();
         Button sortButton = (Button) findViewById(R.id.sortButton);
+
         sortButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ActivityMedicineList.this,PopupSort.class));
+                startActivityForResult(new Intent(ActivityMedicineList.this, PopupSort.class), 1);
             }
         });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                ESort eSort = (ESort) data.getSerializableExtra("result");
+                switch (eSort){
+                    case ALPHABETIC:{
+                        medicinesList = sort(new AlphabeticalComparator());
+                        updateViewSort();
+                        break;
+                    }
+                }
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 
     /**
@@ -67,7 +92,7 @@ public class ActivityMedicineList extends AppCompatActivity {
      *
      * @param medicine object, which will be edit.
      */
-    public void onClickListenerToMedicineList(Medicine medicine){
+    public void onClickListenerToMedicineList(smartcity.kni.wirtualnaapteczka.Medicine medicine){
                 Long medicineId = medicine.getId();
                 Intent intent = new Intent(ActivityMedicineList.this,MedicineInfoActivity.class);
                 intent.putExtra("Id",medicineId);
@@ -79,10 +104,14 @@ public class ActivityMedicineList extends AppCompatActivity {
      * method cerete a list of medicine and  make possible start MedicineInfoActivity.
      */
     private void updateView(){
-        setTitle(R.string.title_activity_medicine_list);
-
         SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
         medicinesList = sqLiteDatabaseHelper.getAllMedicine();
+        updateViewSort();
+
+    }
+
+    private void updateViewSort(){
+        setTitle(R.string.title_activity_medicine_list);
 
         medicineListView = (ListView) findViewById(R.id.Medicine_ListView);
         mMedicineListAdapter = new MedicineListAdapter(this, medicinesList);
@@ -95,8 +124,9 @@ public class ActivityMedicineList extends AppCompatActivity {
                 onClickListenerToMedicineList(medicinesList.get(i));
             }
         });
-
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -119,5 +149,9 @@ public class ActivityMedicineList extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private List<Medicine> sort(Comparator comparator){
+        return comparator.compare(medicinesList);
     }
 }

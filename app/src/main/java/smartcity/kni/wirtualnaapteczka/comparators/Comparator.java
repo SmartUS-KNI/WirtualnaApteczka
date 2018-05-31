@@ -8,6 +8,6 @@ import smartcity.kni.wirtualnaapteczka.Medicine;
  * Created by lebio on 31/05/2018.
  */
 
-public interface Comperator {
+public interface Comparator {
      List<Medicine> compare(List<Medicine> medicine);
 }
