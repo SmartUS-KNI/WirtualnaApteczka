@@ -8,9 +8,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import java.util.List;
+
+import smartcity.kni.wirtualnaapteczka.Popups.PopupSort;
 import smartcity.kni.wirtualnaapteczka.adapters.MedicineListAdapter;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 import smartcity.kni.wirtualnaapteczka.Medicine;
@@ -29,11 +32,19 @@ public class ActivityMedicineList extends AppCompatActivity {
      *
      * @param savedInstanceState
      */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_list);
         updateView();
+        Button sortButton = (Button) findViewById(R.id.sortButton);
+        sortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ActivityMedicineList.this,PopupSort.class));
+            }
+        });
     }
 
     /**
