@@ -18,6 +18,8 @@ import smartcity.kni.wirtualnaapteczka.enums.ESort;
 
 public class PopupSort extends Activity {
 
+    public static int POPUP_SORT = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

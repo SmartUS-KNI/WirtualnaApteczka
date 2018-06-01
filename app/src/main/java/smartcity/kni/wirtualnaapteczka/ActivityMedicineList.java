@@ -28,7 +28,7 @@ public class ActivityMedicineList extends AppCompatActivity {
 
     MedicineListAdapter mMedicineListAdapter;
     SearchView searchView;
-    List<Medicine> medicinesList;
+    List<Medicine> medicinesList = null;
     ListView medicineListView;
 
 
@@ -49,26 +49,30 @@ public class ActivityMedicineList extends AppCompatActivity {
         sortButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(ActivityMedicineList.this, PopupSort.class), 1);
+                startActivityForResult(new Intent(ActivityMedicineList.this, PopupSort.class), PopupSort.POPUP_SORT);
             }
         });
     }
 
+    /**
+     * @author KozMeeN 1.06.2018
+     *
+     * metods serve method startActivityForResult. Here we will implements  all sort operations.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == PopupSort.POPUP_SORT) {
                 ESort eSort = (ESort) data.getSerializableExtra("result");
                 switch (eSort){
                     case ALPHABETIC:{
                         medicinesList = sort(new AlphabeticalComparator());
-                        updateViewSort();
                         break;
                     }
                 }
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
-            }
+            updateView();
         }
     }
 
@@ -78,6 +82,10 @@ public class ActivityMedicineList extends AppCompatActivity {
      */
     protected void onResume() {
         super.onResume();
+        if(medicinesList == null){
+            SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
+            medicinesList = sqLiteDatabaseHelper.getAllMedicine();
+        }
         updateView();
     }
 
@@ -103,14 +111,8 @@ public class ActivityMedicineList extends AppCompatActivity {
      * @author KozMeeN
      * method cerete a list of medicine and  make possible start MedicineInfoActivity.
      */
+
     private void updateView(){
-        SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
-        medicinesList = sqLiteDatabaseHelper.getAllMedicine();
-        updateViewSort();
-
-    }
-
-    private void updateViewSort(){
         setTitle(R.string.title_activity_medicine_list);
 
         medicineListView = (ListView) findViewById(R.id.Medicine_ListView);
@@ -151,6 +153,14 @@ public class ActivityMedicineList extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * @author KozMeeN 31.05.2018
+     *
+     * method sort medicinesList in case of comperator type
+     *
+     * @param comparator class implements of Comparator, where must be implemented sort method.
+     * @return sorted medicinesList.
+     */
     private List<Medicine> sort(Comparator comparator){
         return comparator.compare(medicinesList);
     }
