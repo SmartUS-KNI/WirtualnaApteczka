@@ -64,16 +64,14 @@ public class ActivityMedicineList extends AppCompatActivity {
      * @param data
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == PopupSort.POPUP_SORT) {
-                ESort eSort = (ESort) data.getSerializableExtra("result");
-                switch (eSort){
-                    case ALPHABETIC:{
-                        medicinesList = sort(new AlphabeticalComparator());
-                        break;
-                    }
+            ESort eSort = (ESort) data.getSerializableExtra("result");
+            switch (eSort) {
+                case ALPHABETIC: {
+                    medicinesList = sort(new AlphabeticalComparator());
+                    break;
                 }
+            }
             updateView();
-        }
     }
 
     /**
@@ -113,6 +111,11 @@ public class ActivityMedicineList extends AppCompatActivity {
      */
 
     private void updateView(){
+        if(medicinesList == null){
+            SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
+            medicinesList = sqLiteDatabaseHelper.getAllMedicine();
+        }
+
         setTitle(R.string.title_activity_medicine_list);
 
         medicineListView = (ListView) findViewById(R.id.Medicine_ListView);
