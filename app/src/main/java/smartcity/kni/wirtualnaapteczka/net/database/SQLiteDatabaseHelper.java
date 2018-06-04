@@ -100,6 +100,7 @@ public class SQLiteDatabaseHelper {
         }
     }
 
+
     public long insertMedicine_Count(Medicine_Count medicineCount) {
         return daoSession.getMedicine_CountDao().insert(medicineCount);
     }
@@ -133,6 +134,7 @@ public class SQLiteDatabaseHelper {
         for(Information i: medicine.getInformationList()) {
             daoSession.getInformationDao().delete(i);
         }
+        if(medicine.getMedicine_Count() != null)
         daoSession.getMedicine_CountDao().delete(medicine.getMedicine_Count());
         ////////////////////////
 

@@ -1,5 +1,7 @@
 package smartcity.kni.wirtualnaapteczka;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,31 +29,23 @@ public class Main extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        Intent intent = new Intent(this, new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+            }
+        }.getClass());
+
+
         Button addNewMedicineButton = (Button) findViewById(R.id.add_Medicine_Main_Button);
         Button openMedicineListButton = (Button) findViewById(R.id.medicine_List_Main_Button);
         Button appExit = (Button) findViewById(R.id.end_Program_Main_Button);
 
-        addNewMedicineButton.setOnClickListener(new View.OnClickListener() {
+        addNewMedicineButton.setOnClickListener(v -> startActivity(new Intent(Main.this, MedicineFormActivity.class)));
 
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Main.this, MedicineFormActivity.class));
-            }
-        });
+        openMedicineListButton.setOnClickListener(v -> startActivity(new Intent(Main.this, ActivityMedicineList.class)));
 
-        openMedicineListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Main.this, ActivityMedicineList.class));
-            }
-        });
-
-        appExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        appExit.setOnClickListener(v -> finish());
     }
 }
 

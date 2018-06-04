@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -42,8 +43,21 @@ import smartcity.kni.wirtualnaapteczka.filters.DecimalDigitsInputFilter;
 
 public class MedicineFormActivity extends AppCompatActivity {
 
+    final SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
     boolean skipFillingMedicineTypeUnitSpinnerFlag = false;
     boolean modifyModeFlag = false;
+    Medicine currentMed = null;
+
+    @Override
+    protected void onDestroy() {
+        if (!modifyModeFlag && currentMed.getName() == null)
+            deleteMedicineFromDatabase(currentMed.getId());
+        super.onDestroy();
+    }
+
+    private Medicine generateTemporaryMedicine() {
+        return new Medicine();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,15 +71,21 @@ public class MedicineFormActivity extends AppCompatActivity {
          * default values.
          */
 
-        final SQLiteDatabaseHelper sqLiteDatabaseHelper = SQLiteDatabaseHelper.getInstance();
-
-        Medicine currentMed = null;
+        Log.v("MedicineForm: #1 Leki", sqLiteDatabaseHelper.getAllMedicine().toString());
 
         if (getIntent().hasExtra("Id")) {
             currentMed = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
+            Log.v("MedicineForm: ", "Modifying Medicine id = " + currentMed.getId());
             modifyModeFlag = true;
             setContent(currentMed);
+        } else {
+            currentMed = generateTemporaryMedicine();
+            long currentMedId = addMedicineToDatabase(currentMed);
+            Log.v("MedicineForm: ", "New Medicine id = " + currentMedId);
         }
+
+        //SPRAWDZENIE LOGCATEM -- DEBUG ONLY
+        Log.v("MedicineForm: #2 Leki", sqLiteDatabaseHelper.getAllMedicine().toString());
 
         final LinearLayout countingContainer = (LinearLayout) findViewById(R.id.counting_container);
         /*** Container to add dosage of medicine.*/
@@ -89,7 +109,6 @@ public class MedicineFormActivity extends AppCompatActivity {
             else
                 countingContainer.setVisibility(View.GONE);
         });
-
         dosageCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked)
                 dosageContainer.setVisibility(View.VISIBLE);
@@ -134,9 +153,10 @@ public class MedicineFormActivity extends AppCompatActivity {
         applyValidationToContent();
 
         addDosage.setOnClickListener(view -> {
-            Intent intent = new Intent(MedicineFormActivity.this, AddNewDoseActivity.class);
-            startActivity(intent);
-
+            if (currentMed.getId() == null) {
+                Intent intent = new Intent(MedicineFormActivity.this, AddNewDoseActivity.class);
+                startActivity(intent);
+            }
         });
 
         submitFormButton.setOnClickListener(v -> {
@@ -154,29 +174,18 @@ public class MedicineFormActivity extends AppCompatActivity {
             }
 
             if (isFormValid(content)) {
-                long newMedicineId = -1;
-
-
-                /**
-                 * @author KozMeeN
-                 * when we edit medicine, we will work for exist medicine.
-                 * finally we update this medicine in database.
-                 *
-                 * when we create new medicine we create a new medicine so we dont have to sent this object in method.
-                 */
 
                 if (getIntent().hasExtra("Id")) {
                     Medicine medicine = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
                     updateMedicineInDatabase(generateMedicineFromContent(medicine, content));
                 } else {
-                    newMedicineId = addMedicineToDatabase(generateMedicineFromContent(content));
+                    updateMedicineInDatabase(generateMedicineFromContent(currentMed, content));
                 }
 
                 if (modifyModeFlag) {
                     Toast.makeText(getApplicationContext(), R.string.modify_medicine_success, Toast.LENGTH_SHORT).show();
                 } else {
-
-                    if (newMedicineId != -1) {
+                    if (!currentMed.getName().equals("")) {
                         Toast.makeText(getApplicationContext(), R.string.add_medicine_success, Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getApplicationContext(), R.string.add_medicine_failure, Toast.LENGTH_SHORT).show();
@@ -188,9 +197,21 @@ public class MedicineFormActivity extends AppCompatActivity {
         });
     }
 
+
     private Medicine generateMedicineFromContent(LayoutContent content) {
         Map<Integer, Object> contentMap = content.getContentMap();
         Medicine medicine = new Medicine();
+
+        medicine.setName((String) contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText));
+        medicine.setDescription((String) contentMap.get(R.id.description_Of_New_Medicine_EditText));
+        medicine.setEAN((String) contentMap.get(R.id.barcode_From_New_Medicine_EditText));
+        medicine.setMedicine_Count(this.generateMedicineCountFromContent(content));
+
+        return medicine;
+    }
+
+    private Medicine generateMedicineFromContent(Medicine medicine, LayoutContent content) {
+        Map<Integer, Object> contentMap = content.getContentMap();
 
         medicine.setName((String) contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText));
         medicine.setDescription((String) contentMap.get(R.id.description_Of_New_Medicine_EditText));
@@ -254,26 +275,16 @@ public class MedicineFormActivity extends AppCompatActivity {
             return;
     }
 
-    /**
-     * @param medicine the object which we want to update.
-     * @param content  the content from which we take information
-     * @author KozMeeN
-     * I ovverive method to one more values.
-     * method does not create a new object, but uses previously created, thanks why we can update medicine.
-     */
-    private Medicine generateMedicineFromContent(Medicine medicine, LayoutContent content) {
-        Map<Integer, Object> contentMap = content.getContentMap();
-
-        medicine.setName((String) contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText));
-        medicine.setDescription((String) contentMap.get(R.id.description_Of_New_Medicine_EditText));
-        medicine.setEAN((String) contentMap.get(R.id.barcode_From_New_Medicine_EditText));
-        medicine.setMedicine_Count(this.generateMedicineCountFromContent(content));
-
-        return medicine;
-    }
-
     private long addMedicineToDatabase(Medicine medicine) {
-        return SQLiteDatabaseHelper.getInstance().insertMedicine(medicine);
+
+        SQLiteDatabaseHelper instance = SQLiteDatabaseHelper.getInstance();
+        long id = medicine.getId() == null ? -1 : medicine.getId();
+        if (instance.getMedicineById(id) == null)
+            return instance.insertMedicine(medicine);
+        else {
+            updateMedicineInDatabase(medicine);
+            return medicine.getId();
+        }
     }
 
     /**
@@ -283,6 +294,10 @@ public class MedicineFormActivity extends AppCompatActivity {
      */
     private void updateMedicineInDatabase(Medicine medicine) {
         SQLiteDatabaseHelper.getInstance().updateMedicine(medicine);
+    }
+
+    private void deleteMedicineFromDatabase(Long id) {
+        SQLiteDatabaseHelper.getInstance().deleteMedicineById(id);
     }
 
     private void applyValidationToContent() {
