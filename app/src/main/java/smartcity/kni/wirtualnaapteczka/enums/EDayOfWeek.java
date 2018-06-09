@@ -18,10 +18,18 @@ public enum EDayOfWeek {
         this.codeSign = codeSign;
     }
 
-    public EDayOfWeek getDayOfWeekByCodeSign(String codeSign) {
+    public static EDayOfWeek getDayOfWeekByCodeSign(String codeSign) {
         for (EDayOfWeek dayOfWeek : EDayOfWeek.values()) {
             if (dayOfWeek.getCodeSign().equals(codeSign))
                 return dayOfWeek;
+        }
+        return null;
+    }
+    public static String getCodeSignByDayOfWeek(String dayOfWeek){
+        for (EDayOfWeek day: EDayOfWeek.values()
+             ) {
+            if(day.getName() == dayOfWeek)
+                return day.getName();
         }
         return null;
     }

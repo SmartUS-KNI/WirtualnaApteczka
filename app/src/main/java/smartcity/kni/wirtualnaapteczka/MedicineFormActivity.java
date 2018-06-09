@@ -7,10 +7,8 @@ import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -25,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import smartcity.kni.wirtualnaapteczka.Medicine_Count;
 import smartcity.kni.wirtualnaapteczka.enums.ELayoutContentType;
 import smartcity.kni.wirtualnaapteczka.enums.EMedicineType;
 import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
@@ -35,11 +32,9 @@ import smartcity.kni.wirtualnaapteczka.filters.SpecialCharactersInputFilter;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContent;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContentConfig;
 
-import smartcity.kni.wirtualnaapteczka.Medicine;
 import smartcity.kni.wirtualnaapteczka.layout.content.ViewManager;
 import smartcity.kni.wirtualnaapteczka.layout.helpers.SpinnerHelper;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
-import smartcity.kni.wirtualnaapteczka.filters.DecimalDigitsInputFilter;
 
 public class MedicineFormActivity extends AppCompatActivity {
 
@@ -153,10 +148,8 @@ public class MedicineFormActivity extends AppCompatActivity {
         applyValidationToContent();
 
         addDosage.setOnClickListener(view -> {
-            if (currentMed.getId() == null) {
-                Intent intent = new Intent(MedicineFormActivity.this, AddNewDoseActivity.class);
+                Intent intent = new Intent(MedicineFormActivity.this, DoseActivity.class);
                 startActivity(intent);
-            }
         });
 
         submitFormButton.setOnClickListener(v -> {
@@ -253,7 +246,6 @@ public class MedicineFormActivity extends AppCompatActivity {
 
         return medicineTypeStrings;
     }
-
     /**
      * @param medicine medicine which values will be set in the view.
      * @author KozMeeN
@@ -286,7 +278,6 @@ public class MedicineFormActivity extends AppCompatActivity {
             return medicine.getId();
         }
     }
-
     /**
      * @param medicine object which we want to update in database.
      * @author KozMeeN

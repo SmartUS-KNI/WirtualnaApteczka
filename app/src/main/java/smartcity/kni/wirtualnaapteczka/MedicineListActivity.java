@@ -13,9 +13,8 @@ import android.widget.SearchView;
 import java.util.List;
 import smartcity.kni.wirtualnaapteczka.adapters.MedicineListAdapter;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
-import smartcity.kni.wirtualnaapteczka.Medicine;
 
-public class ActivityMedicineList extends AppCompatActivity {
+public class MedicineListActivity extends AppCompatActivity {
 
     MedicineListAdapter mMedicineListAdapter;
     SearchView searchView;
@@ -58,7 +57,7 @@ public class ActivityMedicineList extends AppCompatActivity {
      */
     public void onClickListenerToMedicineList(Medicine medicine){
                 Long medicineId = medicine.getId();
-                Intent intent = new Intent(ActivityMedicineList.this,MedicineInfoActivity.class);
+                Intent intent = new Intent(MedicineListActivity.this,MedicineInfoActivity.class);
                 intent.putExtra("Id",medicineId);
                 startActivity(intent);
             }

@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ActivityMedicineList"
+            android:name=".MedicineListActivity"
             android:parentActivityName=".Main"
             android:screenOrientation="portrait"
             >
@@ -40,15 +40,15 @@
         </activity>
         <activity
             android:name=".MedicineInfoActivity"
-            android:parentActivityName=".ActivityMedicineList"
+            android:parentActivityName=".MedicineListActivity"
             android:screenOrientation="portrait"
             >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivityMedicineList" />
+                android:value=".MedicineListActivity" />
         </activity>
         <activity
-            android:name=".AddNewDoseActivity"
+            android:name=".DoseActivity"
             android:screenOrientation="portrait"
             >
             <meta-data

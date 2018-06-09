@@ -3,6 +3,7 @@ package smartcity.kni.wirtualnaapteczka.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -10,9 +11,24 @@ import android.support.v4.app.DialogFragment;
 import java.util.ArrayList;
 
 import smartcity.kni.wirtualnaapteczka.R;
+import smartcity.kni.wirtualnaapteczka.listeners.AdjustmentDialogListener;
 
 public class WeeklyDoseAdjustmentDialog extends DialogFragment {
-    private ArrayList mSelectedItems = new ArrayList();
+    private ArrayList mItems;
+    AdjustmentDialogListener adjustmentDialogListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        mItems = new ArrayList();
+
+        try {
+            adjustmentDialogListener = (AdjustmentDialogListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement AdjustmentDialogListener");
+        }
+    }
 
     @NonNull
     @Override
@@ -30,9 +46,9 @@ public class WeeklyDoseAdjustmentDialog extends DialogFragment {
                 .setMultiChoiceItems(R.array.daysOfWeek, null,
                         (dialog, which, isChecked) -> {
                             if (isChecked)
-                                mSelectedItems.add(which);
+                                mItems.add(which);
                             else
-                                mSelectedItems.remove(Integer.valueOf(which));
+                                mItems.remove(Integer.valueOf(which));
                         });
 
         return builder.create();

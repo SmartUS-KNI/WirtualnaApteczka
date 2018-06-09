@@ -62,5 +62,6 @@
     <string name="barcode_label">Numer EAN</string>
     <string name="submit_form">Zatwierdź</string>
     <string name="read_barcode">Read Barcode</string>
+    <string name="pickTime">Wybierz godzinę</string>
 
 </resources>

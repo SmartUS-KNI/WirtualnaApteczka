@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
@@ -43,7 +42,7 @@ public class Main extends AppCompatActivity {
 
         addNewMedicineButton.setOnClickListener(v -> startActivity(new Intent(Main.this, MedicineFormActivity.class)));
 
-        openMedicineListButton.setOnClickListener(v -> startActivity(new Intent(Main.this, ActivityMedicineList.class)));
+        openMedicineListButton.setOnClickListener(v -> startActivity(new Intent(Main.this, MedicineListActivity.class)));
 
         appExit.setOnClickListener(v -> finish());
     }

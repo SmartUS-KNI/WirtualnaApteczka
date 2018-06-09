@@ -3,18 +3,16 @@ package smartcity.kni.wirtualnaapteczka;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,11 +25,12 @@ import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
 import smartcity.kni.wirtualnaapteczka.layout.content.LayoutContent;
 import smartcity.kni.wirtualnaapteczka.layout.content.ViewManager;
 import smartcity.kni.wirtualnaapteczka.layout.helpers.SpinnerHelper;
+import smartcity.kni.wirtualnaapteczka.listeners.AdjustmentDialogListener;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 
-public class AddNewDoseActivity extends AppCompatActivity {
+public class DoseActivity extends AppCompatActivity implements AdjustmentDialogListener{
 
-    LayoutContent content;
+    LayoutContent content = null;
 
     private enum EDialogType {
         CALENDAR(0), TIME(1);
@@ -71,7 +70,6 @@ public class AddNewDoseActivity extends AppCompatActivity {
         final Spinner regularDoseType = (Spinner) findViewById(R.id.adjust_spinner);
         final Button adjustButton = (Button) findViewById(R.id.adjust_button);
 
-
         dateEditText.setFocusable(false);
         dateEditText.setOnClickListener(view -> showDialog(EDialogType.CALENDAR.value));
 
@@ -99,17 +97,16 @@ public class AddNewDoseActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-//DO NOTHING
             }
         });
 
         adjustButton.setOnClickListener(view -> {
             ERegularDoseType doseType = ERegularDoseType.getRegularDoseTypeById((long) regularDoseType.getSelectedItemPosition() - 1);
             doseType.adjust(getSupportFragmentManager());
+
         });
 
         confirmButton.setOnClickListener(view -> {
-            content = null;
             try {
                 content = ViewManager.getInstance().getContent(findViewById(R.id.dosage_container));
             } catch (MissingConverterException e) {
@@ -131,34 +128,41 @@ public class AddNewDoseActivity extends AppCompatActivity {
     @Override
     protected Dialog onCreateDialog(int id) {
         if (id == EDialogType.CALENDAR.value)
-            return new DatePickerDialog(this, dPickerListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+            return new DatePickerDialog(
+                    this,
+                    (datePicker, i, i1, i2) -> {
+                        date.setDate(i2);
+                        date.setYear(i);
+                        date.setMonth(i1 + 1);
+                        dateEditText.setText(
+                                date.getYear() +
+                                        " / " +
+                                        date.getMonth() +
+                                        " / " +
+                                        date.getDate());
+                    },
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH)
+                    );
 
         if (id == EDialogType.TIME.value)
-            return new TimePickerDialog(this, tPickerListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
-
+            return new TimePickerDialog(
+                    this,
+                    (timePicker, i, i1) -> {
+                        date.setHours(i);
+                        date.setMinutes(i1);
+                        timeEditText.setText(
+                                date.getHours() +
+                                        " : " +
+                                        date.getMinutes());
+                        },
+                    cal.get(Calendar.HOUR_OF_DAY),
+                    cal.get(Calendar.MINUTE),
+                    true
+                    );
         return null;
     }
-
-
-    private DatePickerDialog.OnDateSetListener dPickerListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-
-            date.setDate(i2);
-            date.setYear(i);
-            date.setMonth(i1 + 1);
-            dateEditText.setText(date.getYear() + " / " + date.getMonth() + " / " + date.getDate());
-        }
-    };
-
-    private TimePickerDialog.OnTimeSetListener tPickerListener = new TimePickerDialog.OnTimeSetListener() {
-        @Override
-        public void onTimeSet(TimePicker timePicker, int i, int i1) {
-            date.setHours(i);
-            date.setMinutes(i1);
-            timeEditText.setText(date.getHours() + " : " + date.getMinutes());
-        }
-    };
 
     private Dose generateDoseFromContent(LayoutContent content) {
         Map<Integer, Object> contentMap = content.getContentMap();
@@ -170,7 +174,7 @@ public class AddNewDoseActivity extends AppCompatActivity {
         dose.setTime(date);
         dose.setIdMedicine(getIntent().getLongExtra("Id", 0));
         dose.setRegularDose_type(selectedType.getId());
-        //dose.setRegularConfig();
+       // dose.setRegularConfig();
         return dose;
     }
 
