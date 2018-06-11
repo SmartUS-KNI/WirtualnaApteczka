@@ -133,7 +133,8 @@ public class SQLiteDatabaseHelper {
         for(Information i: medicine.getInformationList()) {
             daoSession.getInformationDao().delete(i);
         }
-        daoSession.getMedicine_CountDao().delete(medicine.getMedicine_Count());
+        if(medicine.getMedicine_Count() != null)
+            daoSession.getMedicine_CountDao().delete(medicine.getMedicine_Count());
         ////////////////////////
 
         daoSession.getMedicineDao().deleteByKey(idMedicine);

@@ -90,6 +90,8 @@ public class MedicineFormActivity extends AppCompatActivity {
                 countingContainer.setVisibility(View.GONE);
         });
 
+        dosageCheckBox.setVisibility(View.GONE);
+
         dosageCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked)
                 dosageContainer.setVisibility(View.VISIBLE);
@@ -114,13 +116,23 @@ public class MedicineFormActivity extends AppCompatActivity {
         medicineType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (skipFillingMedicineTypeUnitSpinnerFlag) {
-                    skipFillingMedicineTypeUnitSpinnerFlag = false;
-                    return;
-                }
+                if (position > 0) {
+                    EMedicineType selectedMedicineType = EMedicineType.values()[position - 1];
 
-                if (position > 0)
-                    SpinnerHelper.fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[position - 1].getUnits());
+                    if(selectedMedicineType.isCountable())
+                        dosageCheckBox.setVisibility(View.VISIBLE);
+                    else
+                        dosageCheckBox.setVisibility(View.GONE);
+
+                    if (skipFillingMedicineTypeUnitSpinnerFlag) {
+                        skipFillingMedicineTypeUnitSpinnerFlag = false;
+                        return;
+                    }
+
+                    SpinnerHelper.fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit),
+                            selectedMedicineType.getUnits());
+
+                }
                 else
                     SpinnerHelper.fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), null);
             }

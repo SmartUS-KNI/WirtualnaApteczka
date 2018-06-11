@@ -81,7 +81,8 @@
             <Spinner
                 android:id="@+id/adjust_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="43dp" />
+                android:layout_height="43dp"
+                android:spinnerMode="dialog" />
 
             <Button
                 android:id="@+id/adjust_button"
