@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import smartcity.kni.wirtualnaapteczka.adapters.DoseListAdapter;
 import smartcity.kni.wirtualnaapteczka.enums.ELayoutContentType;
 import smartcity.kni.wirtualnaapteczka.enums.EMedicineType;
 import smartcity.kni.wirtualnaapteczka.exceptions.MissingConverterException;
@@ -42,6 +44,13 @@ public class MedicineFormActivity extends AppCompatActivity {
     boolean skipFillingMedicineTypeUnitSpinnerFlag = false;
     boolean modifyModeFlag = false;
     Medicine currentMed = null;
+    DoseListAdapter doseListAdapter;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setContent(currentMed);
+    }
 
     @Override
     protected void onDestroy() {
@@ -94,6 +103,7 @@ public class MedicineFormActivity extends AppCompatActivity {
 
         countingContainer.setVisibility(View.GONE);
 
+
         /***
          * @author KozMeeN
          * Dosage Container will be hidden on start activity, will show up when we click checkBox.*/
@@ -112,6 +122,9 @@ public class MedicineFormActivity extends AppCompatActivity {
         });
 
         SpinnerHelper.fillSpinnerWithStrings(medicineType, getString(R.string.medicine_type), this.getStringsFromMedicineType());
+
+        if(!currentMed.getDoseList().isEmpty())
+            dosageCheckBox.setChecked(true);
 
         if (modifyModeFlag) {
             countCheckBox.setChecked(true);
@@ -132,7 +145,6 @@ public class MedicineFormActivity extends AppCompatActivity {
                     skipFillingMedicineTypeUnitSpinnerFlag = false;
                     return;
                 }
-
                 if (position > 0)
                     SpinnerHelper.fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[position - 1].getUnits());
                 else
@@ -148,8 +160,9 @@ public class MedicineFormActivity extends AppCompatActivity {
         applyValidationToContent();
 
         addDosage.setOnClickListener(view -> {
-                Intent intent = new Intent(MedicineFormActivity.this, DoseActivity.class);
-                startActivity(intent);
+            Intent intent = new Intent(MedicineFormActivity.this, DoseActivity.class);
+            intent.putExtra("medicineId", currentMed.getId());
+            startActivity(intent);
         });
 
         submitFormButton.setOnClickListener(v -> {
@@ -246,6 +259,7 @@ public class MedicineFormActivity extends AppCompatActivity {
 
         return medicineTypeStrings;
     }
+
     /**
      * @param medicine medicine which values will be set in the view.
      * @author KozMeeN
@@ -258,13 +272,30 @@ public class MedicineFormActivity extends AppCompatActivity {
         EditText medicineBarcodeEditText = (EditText) findViewById(R.id.barcode_From_New_Medicine_EditText);
         EditText medicineQuantityEditText = (EditText) findViewById(R.id.count);
 
+        if (!medicine.getDoseList().isEmpty()) {
+            List<Dose> doses = getAllDosesForMedicine(medicine.getId());
+            ListView doseListView = (ListView) findViewById(R.id.dosageListView);
+            DoseListAdapter doseListAdapter = new DoseListAdapter(this, doses);
+            doseListView.setAdapter(doseListAdapter);
+
+            doseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Long doseId = doses.get(position).getId();
+                    Intent intent = new Intent(MedicineFormActivity.this, DoseActivity.class);
+                    intent.putExtra("doseId", doseId);
+                    startActivity(intent);
+                }
+            });
+        }
+
         medicineNameEditText.setText(medicine.getName());
         medicineBarcodeEditText.setText(medicine.getEAN());
         medicineDescriptionEditText.setText(medicine.getDescription());
         if (medicine.getMedicine_Count() != null)
             medicineQuantityEditText.setText(medicine.getMedicine_Count().getCount().toString());
-        else
-            return;
+
+
     }
 
     private long addMedicineToDatabase(Medicine medicine) {
@@ -278,6 +309,7 @@ public class MedicineFormActivity extends AppCompatActivity {
             return medicine.getId();
         }
     }
+
     /**
      * @param medicine object which we want to update in database.
      * @author KozMeeN
@@ -289,6 +321,10 @@ public class MedicineFormActivity extends AppCompatActivity {
 
     private void deleteMedicineFromDatabase(Long id) {
         SQLiteDatabaseHelper.getInstance().deleteMedicineById(id);
+    }
+
+    private List<Dose> getAllDosesForMedicine(Long id) {
+        return sqLiteDatabaseHelper.getAllDosesForMedicineById(id);
     }
 
     private void applyValidationToContent() {

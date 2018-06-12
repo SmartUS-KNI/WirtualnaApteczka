@@ -143,7 +143,9 @@ public class SQLiteDatabaseHelper {
 
 
     public long insertDose(Dose dose) {
-        return daoSession.getDoseDao().insert(dose);
+        long newId = daoSession.getDoseDao().insert(dose);
+        daoSession.getMedicineDao().load(dose.getIdMedicine()).getDoseList().add(dose);
+        return newId;
     }
 
     public void deleteDoseById(Long idDose) {

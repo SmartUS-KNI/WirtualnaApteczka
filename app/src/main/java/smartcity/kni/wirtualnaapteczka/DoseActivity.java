@@ -28,7 +28,7 @@ import smartcity.kni.wirtualnaapteczka.layout.helpers.SpinnerHelper;
 import smartcity.kni.wirtualnaapteczka.listeners.AdjustmentDialogListener;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 
-public class DoseActivity extends AppCompatActivity implements AdjustmentDialogListener{
+public class DoseActivity extends AppCompatActivity implements AdjustmentDialogListener {
 
     LayoutContent content = null;
 
@@ -108,11 +108,12 @@ public class DoseActivity extends AppCompatActivity implements AdjustmentDialogL
 
         confirmButton.setOnClickListener(view -> {
             try {
-                content = ViewManager.getInstance().getContent(findViewById(R.id.dosage_container));
+                content = ViewManager.getInstance().getContent(findViewById(R.id.dosage_main_container));
             } catch (MissingConverterException e) {
                 e.printStackTrace();
             }
             addDoseToDatabase(generateDoseFromContent(content));
+            finish();
         });
     }
 
@@ -144,7 +145,7 @@ public class DoseActivity extends AppCompatActivity implements AdjustmentDialogL
                     cal.get(Calendar.YEAR),
                     cal.get(Calendar.MONTH),
                     cal.get(Calendar.DAY_OF_MONTH)
-                    );
+            );
 
         if (id == EDialogType.TIME.value)
             return new TimePickerDialog(
@@ -156,11 +157,11 @@ public class DoseActivity extends AppCompatActivity implements AdjustmentDialogL
                                 date.getHours() +
                                         " : " +
                                         date.getMinutes());
-                        },
+                    },
                     cal.get(Calendar.HOUR_OF_DAY),
                     cal.get(Calendar.MINUTE),
                     true
-                    );
+            );
         return null;
     }
 
@@ -168,13 +169,14 @@ public class DoseActivity extends AppCompatActivity implements AdjustmentDialogL
         Map<Integer, Object> contentMap = content.getContentMap();
         Dose dose = new Dose();
 
-        ERegularDoseType selectedType = ERegularDoseType.values()[(int) contentMap.get(R.id.adjust_spinner) - 1];
-
-        dose.setCount((Integer) contentMap.get(R.id.count_of_dose));
+        dose.setCount(Integer.parseInt((String) contentMap.get(R.id.count_of_dose)));
         dose.setTime(date);
-        dose.setIdMedicine(getIntent().getLongExtra("Id", 0));
-        dose.setRegularDose_type(selectedType.getId());
-       // dose.setRegularConfig();
+        dose.setIdMedicine(getIntent().getLongExtra("medicineId", 0));
+        if (((CheckBox) findViewById(R.id.adjust_CheckBox)).isChecked()) {
+            ERegularDoseType selectedType = ERegularDoseType.values()[(int) contentMap.get(R.id.adjust_spinner) - 1];
+            dose.setRegularDose_type(selectedType.getId());
+            // dose.setRegularConfig();
+        }
         return dose;
     }
 
