@@ -39,6 +39,8 @@ import smartcity.kni.wirtualnaapteczka.layout.content.ViewManager;
 import smartcity.kni.wirtualnaapteczka.layout.helpers.SpinnerHelper;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 import smartcity.kni.wirtualnaapteczka.filters.DecimalDigitsInputFilter;
+import smartcity.kni.wirtualnaapteczka.validators.MedicineValidator;
+import smartcity.kni.wirtualnaapteczka.validators.ValidationResponse;
 
 public class MedicineFormActivity extends AppCompatActivity {
 
@@ -143,7 +145,7 @@ public class MedicineFormActivity extends AppCompatActivity {
             }
         });
 
-        applyValidationToContent();
+        applyValidationToViews();
 
         addDosage.setOnClickListener(view -> {
             Intent intent = new Intent(MedicineFormActivity.this, AddNewDoseActivity.class);
@@ -165,7 +167,10 @@ public class MedicineFormActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            if (isFormValid(content)) {
+            MedicineValidator medicineValidator = new MedicineValidator(this);
+            medicineValidator.getParamsFromContent(content);
+            ValidationResponse validationResponse = medicineValidator.isValid();
+            if (validationResponse.isSuccess()) {
                 long newMedicineId = -1;
 
 
@@ -196,7 +201,7 @@ public class MedicineFormActivity extends AppCompatActivity {
                 }
                 finish();
             } else
-                Toast.makeText(getApplicationContext(), R.string.form_validation_failure, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), validationResponse.getMsg(), Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -297,7 +302,7 @@ public class MedicineFormActivity extends AppCompatActivity {
         SQLiteDatabaseHelper.getInstance().updateMedicine(medicine);
     }
 
-    private void applyValidationToContent() {
+    private void applyValidationToViews() {
         ((EditText) findViewById(R.id.name_Of_Medicine_From_New_Medicine_EditText)).setFilters(
                 new InputFilter[]{
                         new InputFilter.LengthFilter(Config.MAX_LENGTH),

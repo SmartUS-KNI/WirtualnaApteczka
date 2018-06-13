@@ -63,4 +63,7 @@
     <string name="submit_form">Zatwierdź</string>
     <string name="read_barcode">Read Barcode</string>
 
+    <string name="medicine_validation_empty_name">Nazwa leku nie może być pusta</string>
+    <string name="medicine_validation_empty_type_unit">Wybierz jednostkę dla wybranego rodzaju leku</string>
+
 </resources>
