@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -51,6 +52,8 @@ public class AddNewDoseActivity extends AppCompatActivity {
 
     /*** we have to add this data to does in our databases.*/
     java.util.Date date = new Date();
+
+    final int YEAR_OFFSET = 1900;
 
     EditText dateEditText;
     EditText timeEditText;
@@ -145,9 +148,10 @@ public class AddNewDoseActivity extends AppCompatActivity {
         public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
 
             date.setDate(i2);
-            date.setYear(i);
-            date.setMonth(i1 + 1);
-            dateEditText.setText(date.getYear() + " / " + date.getMonth() + " / " + date.getDate());
+            date.setYear(i - YEAR_OFFSET);
+            date.setMonth(i1);
+            cal.setTime(date);
+            dateEditText.setText(new SimpleDateFormat("yyyy/MM/dd").format(cal.getTime()));
         }
     };
 
@@ -156,7 +160,8 @@ public class AddNewDoseActivity extends AppCompatActivity {
         public void onTimeSet(TimePicker timePicker, int i, int i1) {
             date.setHours(i);
             date.setMinutes(i1);
-            timeEditText.setText(date.getHours() + " : " + date.getMinutes());
+            cal.setTime(date);
+            timeEditText.setText(new SimpleDateFormat("HH:mm").format(cal.getTime()));
         }
     };
 

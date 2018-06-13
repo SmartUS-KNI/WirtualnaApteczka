@@ -46,20 +46,11 @@
             android:hint="@string/description"
             android:inputType="textPersonName" />
 
-        <LinearLayout
+        <CheckBox
+            android:id="@+id/check_counting"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <CheckBox
-                android:id="@+id/check_counting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/enable_counting_label" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="@string/enable_counting_label" />
 
         <LinearLayout
             android:id="@+id/counting_container"

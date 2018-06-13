@@ -135,8 +135,10 @@ public class MedicineFormActivity extends AppCompatActivity {
                             selectedMedicineType.getUnits());
 
                 }
-                else
+                else {
                     SpinnerHelper.fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), null);
+                    dosageCheckBox.setVisibility(View.GONE);
+                }
             }
 
             @Override
