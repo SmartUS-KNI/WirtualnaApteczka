@@ -100,16 +100,10 @@ public class SQLiteDatabaseHelper {
         }
     }
 
-
     public long insertMedicine_Count(Medicine_Count medicineCount) {
         return daoSession.getMedicine_CountDao().insert(medicineCount);
     }
 
-    /**
-     * @author KozMeeN
-     * method update selected medicine in badabase.
-     * @param medicine object which we want to update in database.
-     */
     public void updateMedicine(Medicine medicine){
         daoSession.getMedicineDao().update(medicine);
 
@@ -152,7 +146,7 @@ public class SQLiteDatabaseHelper {
         Dose dose = daoSession.getDoseDao().load(idDose);
 
         //remove from medicines list of doses
-        daoSession.getMedicineDao().load(idDose).getDoseList().remove(idDose);
+        daoSession.getMedicineDao().load(dose.getIdMedicine()).getDoseList().remove(idDose);
         daoSession.getDoseDao().deleteByKey(idDose);
     }
 

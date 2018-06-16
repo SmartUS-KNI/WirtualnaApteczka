@@ -59,40 +59,29 @@ public class MedicineFormActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private Medicine generateTemporaryMedicine() {
-        return new Medicine();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_medicine_form);
         initBarcodeFromCameraImplementation();
 
-        /**
-         * @author KozMeeN
-         * View will be complete with information from sent Medicine, if we will choose edit option, if we will choose create new medicine view will has
-         * default values.
-         */
-
-        Log.v("MedicineForm: #1 Leki", sqLiteDatabaseHelper.getAllMedicine().toString());
+        Log.w("MedicineForm: #1 Leki", sqLiteDatabaseHelper.getAllMedicine().toString());
 
         if (getIntent().hasExtra("Id")) {
             currentMed = sqLiteDatabaseHelper.getMedicineById(getIntent().getLongExtra("Id", 0));
-            Log.v("MedicineForm: ", "Modifying Medicine id = " + currentMed.getId());
+            Log.w("MedicineForm: ", "Modifying Medicine id = " + currentMed.getId());
             modifyModeFlag = true;
             setContent(currentMed);
         } else {
             currentMed = generateTemporaryMedicine();
             long currentMedId = addMedicineToDatabase(currentMed);
-            Log.v("MedicineForm: ", "New Medicine id = " + currentMedId);
+            Log.w("MedicineForm: ", "New Medicine id = " + currentMedId);
         }
 
         //SPRAWDZENIE LOGCATEM -- DEBUG ONLY
-        Log.v("MedicineForm: #2 Leki", sqLiteDatabaseHelper.getAllMedicine().toString());
+        Log.w("MedicineForm: #2 Leki", sqLiteDatabaseHelper.getAllMedicine().toString());
 
         final LinearLayout countingContainer = (LinearLayout) findViewById(R.id.counting_container);
-        /*** Container to add dosage of medicine.*/
         final LinearLayout dosageContainer = (LinearLayout) findViewById(R.id.dosage_container);
         CheckBox countCheckBox = (CheckBox) findViewById(R.id.check_counting);
         CheckBox dosageCheckBox = (CheckBox) findViewById(R.id.dosageCheckBox);
@@ -103,10 +92,6 @@ public class MedicineFormActivity extends AppCompatActivity {
 
         countingContainer.setVisibility(View.GONE);
 
-
-        /***
-         * @author KozMeeN
-         * Dosage Container will be hidden on start activity, will show up when we click checkBox.*/
         dosageContainer.setVisibility(View.GONE);
         countCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked)
@@ -123,12 +108,12 @@ public class MedicineFormActivity extends AppCompatActivity {
 
         SpinnerHelper.fillSpinnerWithStrings(medicineType, getString(R.string.medicine_type), this.getStringsFromMedicineType());
 
-        if(!currentMed.getDoseList().isEmpty())
+        if (!currentMed.getDoseList().isEmpty())
             dosageCheckBox.setChecked(true);
 
         if (modifyModeFlag) {
             countCheckBox.setChecked(true);
-            ((TextView) findViewById(R.id.add_Medicine_From_New_Medicine_TextView)).setText(R.string.modify_medicine); //Ustawienie tytułu
+            ((TextView) findViewById(R.id.medicine_Form_Title)).setText(R.string.modify_medicine); //Ustawienie tytułu
             if (currentMed.getMedicine_Count() != null) {
                 medicineType.setSelection((int) currentMed.getMedicine_Count().getMedicineType() + 1);
                 SpinnerHelper.fillSpinnerWithStrings(medicineTypeUnit, getString(R.string.medicine_type_unit), EMedicineType.values()[medicineType.getSelectedItemPosition() - 1].getUnits());
@@ -136,7 +121,6 @@ public class MedicineFormActivity extends AppCompatActivity {
             }
             skipFillingMedicineTypeUnitSpinnerFlag = true;
         }
-
 
         medicineType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -203,7 +187,6 @@ public class MedicineFormActivity extends AppCompatActivity {
         });
     }
 
-
     private Medicine generateMedicineFromContent(LayoutContent content) {
         Map<Integer, Object> contentMap = content.getContentMap();
         Medicine medicine = new Medicine();
@@ -260,12 +243,6 @@ public class MedicineFormActivity extends AppCompatActivity {
         return medicineTypeStrings;
     }
 
-    /**
-     * @param medicine medicine which values will be set in the view.
-     * @author KozMeeN
-     * <p>
-     * method set values od the object in this view.
-     */
     private void setContent(Medicine medicine) {
         EditText medicineNameEditText = (EditText) findViewById(R.id.name_Of_Medicine_From_New_Medicine_EditText);
         EditText medicineDescriptionEditText = (EditText) findViewById(R.id.description_Of_New_Medicine_EditText);
@@ -275,17 +252,16 @@ public class MedicineFormActivity extends AppCompatActivity {
         if (!medicine.getDoseList().isEmpty()) {
             List<Dose> doses = getAllDosesForMedicine(medicine.getId());
             ListView doseListView = (ListView) findViewById(R.id.dosageListView);
-            DoseListAdapter doseListAdapter = new DoseListAdapter(this, doses);
+            doseListAdapter = new DoseListAdapter(this, doses);
             doseListView.setAdapter(doseListAdapter);
 
-            doseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Long doseId = doses.get(position).getId();
-                    Intent intent = new Intent(MedicineFormActivity.this, DoseActivity.class);
-                    intent.putExtra("doseId", doseId);
-                    startActivity(intent);
-                }
+            Log.w("Doses for Medicine id #" + currentMed.getId(), doses.toString());
+
+            doseListView.setOnItemClickListener((parent, view, position, id) -> {
+                Long doseId = doses.get(position).getId();
+                Intent intent = new Intent(MedicineFormActivity.this, DoseActivity.class);
+                intent.putExtra("doseId", doseId);
+                startActivity(intent);
             });
         }
 
@@ -295,7 +271,10 @@ public class MedicineFormActivity extends AppCompatActivity {
         if (medicine.getMedicine_Count() != null)
             medicineQuantityEditText.setText(medicine.getMedicine_Count().getCount().toString());
 
+    }
 
+    private Medicine generateTemporaryMedicine() {
+        return new Medicine();
     }
 
     private long addMedicineToDatabase(Medicine medicine) {
@@ -310,11 +289,6 @@ public class MedicineFormActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * @param medicine object which we want to update in database.
-     * @author KozMeeN
-     * method update selected medicine in badabase.
-     */
     private void updateMedicineInDatabase(Medicine medicine) {
         SQLiteDatabaseHelper.getInstance().updateMedicine(medicine);
     }
@@ -356,7 +330,7 @@ public class MedicineFormActivity extends AppCompatActivity {
     private boolean isFormValid(LayoutContent content) {
         Map<Integer, Object> contentMap = content.getContentMap();
 
-        if (contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText).toString().isEmpty())
+        if(contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText).toString().isEmpty())
             return false;
 
         return true;

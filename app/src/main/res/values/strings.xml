@@ -16,6 +16,7 @@
     <string name="function">Funkcje:</string>
     <string name="modify_medicine">Modyfikuj lek</string>
     <string name="delite_medicine">Usuń lek</string>
+    <string name="add_dose">Dodaj Dawkę</string>
     <string name="list_of_medicine">Lista leków</string>
     <string name="end_program">Zakończ program</string>
     <string name="add_new_label">Dodaj nową etykietę</string>
@@ -29,7 +30,7 @@
     <string name="select_medicine_type">Wybierz rodzaj leku:</string>
     <string name="select_medicine_type_unit">Wybierz jednostkę:</string>
     <string name="delete_title">Usuń</string>
-    <string name="delete_confirm_question">Czy na pewno chcesz usunać lek?</string>
+    <string name="delete_confirm_question">Czy na pewno chcesz usunąć lek?</string>
     <string name="answer_yes">TAK</string>
     <string name="answer_no">NIE</string>
     <string name="info_after_delete_medicine">Lek został usunięty</string>
@@ -55,13 +56,13 @@
     <string name="pickDaysOfMonth">Wybierz dni miesiąca</string>
     <string name="modify_medicine_success">Lek został poprawnie zmodyfikowany</string>
     <string name="modify_medicine_failure">Lek nie został poprawnie zmodyfikowany</string>
-
     <string name="name_label">Nazwa leku</string>
     <string name="description_label">Opis</string>
     <string name="quantity_label">Ilość i Rodzaj</string>
     <string name="barcode_label">Numer EAN</string>
     <string name="submit_form">Zatwierdź</string>
-    <string name="read_barcode">Read Barcode</string>
+    <string name="read_barcode">Zczytaj kod kreskowy</string>
     <string name="pickTime">Wybierz godzinę</string>
+    <string name="delete_dose">Usuń Dawkę</string>
 
 </resources>

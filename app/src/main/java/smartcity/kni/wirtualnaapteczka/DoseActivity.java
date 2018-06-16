@@ -66,9 +66,11 @@ public class DoseActivity extends AppCompatActivity implements AdjustmentDialogL
         EditText doseCount = (EditText) findViewById(R.id.count_of_dose);
         Button confirmButton = (Button) findViewById(R.id.confirm_button);
         CheckBox adjustCheckBox = (CheckBox) findViewById(R.id.adjust_CheckBox);
-        final LinearLayout adjustContainer = (LinearLayout) findViewById(R.id.adjust_Container);
-        final Spinner regularDoseType = (Spinner) findViewById(R.id.adjust_spinner);
-        final Button adjustButton = (Button) findViewById(R.id.adjust_button);
+        LinearLayout adjustContainer = (LinearLayout) findViewById(R.id.adjust_Container);
+        Spinner regularDoseType = (Spinner) findViewById(R.id.adjust_spinner);
+        Button adjustButton = (Button) findViewById(R.id.adjust_button);
+        LinearLayout trashButtonContainer = (LinearLayout) findViewById(R.id.thrash_icon_container);
+        Button trashButton = (Button) findViewById(R.id.thrash_button);
 
         dateEditText.setFocusable(false);
         dateEditText.setOnClickListener(view -> showDialog(EDialogType.CALENDAR.value));
@@ -76,12 +78,24 @@ public class DoseActivity extends AppCompatActivity implements AdjustmentDialogL
         timeEditText.setFocusable(false);
         timeEditText.setOnClickListener(view -> showDialog(EDialogType.TIME.value));
 
+        trashButtonContainer.setVisibility(View.GONE);
+        if(getIntent().hasExtra("doseId"))
+            trashButtonContainer.setVisibility(View.VISIBLE);
+
         adjustContainer.setVisibility(View.GONE);
         adjustCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked)
                 adjustContainer.setVisibility(View.VISIBLE);
             else
                 adjustContainer.setVisibility(View.GONE);
+        });
+
+        trashButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeDoseFromDatabase(getIntent().getLongExtra("doseId",0));
+                finish();
+            }
         });
 
         dateButton.setOnClickListener(view -> showDialog(EDialogType.CALENDAR.value));
@@ -167,9 +181,11 @@ public class DoseActivity extends AppCompatActivity implements AdjustmentDialogL
 
     private Dose generateDoseFromContent(LayoutContent content) {
         Map<Integer, Object> contentMap = content.getContentMap();
-        Dose dose = new Dose();
+        smartcity.kni.wirtualnaapteczka.Dose dose = new Dose();
 
-        dose.setCount(Integer.parseInt((String) contentMap.get(R.id.count_of_dose)));
+        Integer count = ((String) contentMap.get(R.id.count_of_dose)).equals("") ? 0 : Integer.parseInt((String) contentMap.get(R.id.count_of_dose));
+
+        dose.setCount(count);
         dose.setTime(date);
         dose.setIdMedicine(getIntent().getLongExtra("medicineId", 0));
         if (((CheckBox) findViewById(R.id.adjust_CheckBox)).isChecked()) {
@@ -186,5 +202,13 @@ public class DoseActivity extends AppCompatActivity implements AdjustmentDialogL
 
     private void updateDoseInDatabase(Dose dose) {
         SQLiteDatabaseHelper.getInstance().updateDose(dose);
+    }
+
+    private void removeDoseFromDatabase(Dose dose){
+        SQLiteDatabaseHelper.getInstance().deleteDoseById(dose.getId());
+    }
+
+    private void removeDoseFromDatabase(long doseId){
+        SQLiteDatabaseHelper.getInstance().deleteDoseById(doseId);
     }
 }
