@@ -4,6 +4,7 @@ import org.greenrobot.greendao.generator.DaoGenerator;
 import org.greenrobot.greendao.generator.Entity;
 import org.greenrobot.greendao.generator.Property;
 import org.greenrobot.greendao.generator.Schema;
+
 import java.io.File;
 
 public class MyGenerator {
@@ -13,91 +14,86 @@ public class MyGenerator {
 
         Entity dose = schema.addEntity("Dose");
         dose.addIdProperty().autoincrement();
-        dose.addDateProperty("time");
         dose.addIntProperty("count");
-        dose.addLongProperty("regularDose_type");
-        dose.addStringProperty("regularConfig");
+        dose.addStringProperty("config");
         //FK
+        Property periodIdFkDose = dose.addLongProperty("idPeriod").getProperty();
         Property medicineIdFkDose = dose.addLongProperty("idMedicine").getProperty();
 
-        Entity alergen = schema.addEntity("Alergen");
-        alergen.addIdProperty().autoincrement();
-        alergen.addStringProperty("name");
-
-
-        Entity alergens_list = schema.addEntity("Alergens_List");
-        alergens_list.addIdProperty().autoincrement();
-        //FK
-        Property medicineIdFkAlergensList = alergens_list.addLongProperty(
-                "medicineId").getProperty();
-        Property alergenIdFk = alergens_list.addLongProperty(
-                "alergenId").getProperty();
-
-        Entity information = schema.addEntity("Information");
-        information.addIdProperty().autoincrement();
-        information.addStringProperty("config");
-        information.addStringProperty("data");
-        information.addStringProperty("typeIdn");
-
-        //FK
-        Property medicineIdFkInfo = information.addLongProperty(
-                "idMedicine").getProperty();
-
-        Entity medicine_count = schema.addEntity("Medicine_Count");
-        medicine_count.addIdProperty().autoincrement();
-        medicine_count.addDoubleProperty("count");
-        medicine_count.addLongProperty("medicineType").notNull();
-        medicine_count.addIntProperty("medicineTypeUnit").notNull();
+        Entity period = schema.addEntity("Period");
+        period.addIdProperty().autoincrement();
+        period.addStringProperty("name");
 
         Entity medicine = schema.addEntity("Medicine");
         medicine.addIdProperty().autoincrement();
         medicine.addStringProperty("name");
         medicine.addStringProperty("description");
-        medicine.addStringProperty("tag");
-        medicine.addStringProperty("EAN");
+        medicine.addStringProperty("type");
         //FK
-        Property medicineCountIdFKMedicine = medicine.addLongProperty(
-                "idCount").getProperty();
+        Property responsibleSubjectIdFkMedicine = medicine.addLongProperty(
+                "idResponsibleSubject").getProperty();
+        Property formIdFkMedicine = medicine.addLongProperty(
+                "idForm").getProperty();
 
-        Entity tags_list = schema.addEntity("Tags_List");
-        tags_list.addIdProperty().autoincrement();
+        Entity pack = schema.addEntity("Pack");
+        pack.addIdProperty().autoincrement();
+        pack.addIntProperty("size");
+        pack.addStringProperty("unit");
+        pack.addStringProperty("eanCode");
         //FK
-        Property medicineIdFKTagsList = tags_list.addLongProperty(
+        Property medicineIdFKPack = pack.addLongProperty(
                 "medicineId").getProperty();
-        Property tagIdFKTagsList = tags_list.addLongProperty(
-                "tagId").getProperty();
 
-        Entity tag = schema.addEntity("Tag");
-        tag.addIdProperty().autoincrement();
-        tag.addStringProperty("name");
+        Entity form = schema.addEntity("Form");
+        form.addIdProperty().autoincrement();
+        form.addStringProperty("name");
+        form.addBooleanProperty("countable");
 
+        Entity activeSubstancePosition = schema.addEntity("ActiveSubstancePosition");
+        activeSubstancePosition.addIdProperty().autoincrement();
+        //FK
+        Property activeSubstanceIdFkActiveSubstancePosition = activeSubstancePosition.addLongProperty(
+                "activeSubstanceId").getProperty();
+        Property medicineIdFkActiveSubstancePosition = activeSubstancePosition.addLongProperty(
+                "medicineId").getProperty();
+
+        Entity activeSubstance = schema.addEntity("ActiveSubstance");
+        activeSubstance.addIdProperty().autoincrement();
+        activeSubstance.addStringProperty("name");
+
+        Entity informationType = schema.addEntity("InformationType");
+        informationType.addIdProperty().autoincrement();
+        informationType.addStringProperty("name");
+
+        Entity information = schema.addEntity("Information");
+        information.addIdProperty().autoincrement();
+        information.addStringProperty("message");
+        information.addStringProperty("config");
+        //FK
+        Property informationTypeIdFkInformation = information.addLongProperty(
+                "informationTypeId").getProperty();
 
         //Relations
-
-        alergen.addToMany(alergens_list, alergenIdFk).setName("alergensList");
-        alergens_list.addToOne(alergen, alergenIdFk);
-        //alergens_list.addToOne(alergen, alergen.getPkProperty());
-
-        medicine.addToMany(alergens_list, medicineIdFkAlergensList).setName("alergensList");
-        alergens_list.addToOne(medicine, medicineIdFkAlergensList);
-        //alergens_list.addToOne(medicine, medicine.getPkProperty());
-
         medicine.addToMany(dose, medicineIdFkDose);
         dose.addToOne(medicine, medicineIdFkDose);
-        //dose.addToOne(medicine, medicine.getPkProperty());
 
-        medicine.addToMany(information, medicineIdFkInfo);
-        information.addToOne(medicine, medicineIdFkInfo);
-        //information.addToOne(medicine, medicine.getPkProperty());
+        medicine.addToOne(form, formIdFkMedicine);
+        form.addToMany(medicine, formIdFkMedicine);
 
-        medicine.addToMany(tags_list,medicineIdFKTagsList).setName("tagsList");
-        tags_list.addToOne(medicine, medicineIdFKTagsList);
+        pack.addToOne(medicine, medicineIdFKPack);
+        medicine.addToMany(pack, medicineIdFKPack);
 
-        tag.addToMany(tags_list, tagIdFKTagsList).setName("tagsList");
-        tags_list.addToOne(tag, tagIdFKTagsList);
+        period.addToMany(dose, periodIdFkDose);
+        dose.addToOne(period, periodIdFkDose);
 
-        medicine.addToOne(medicine_count, medicineCountIdFKMedicine);
-        //medicine_count.addToOne(medicine, medicineCountIdFKMedicine);
+        activeSubstancePosition.addToOne(medicine, medicineIdFkActiveSubstancePosition);
+        medicine.addToMany(activeSubstancePosition, medicineIdFkActiveSubstancePosition);
+
+        activeSubstancePosition.addToOne(activeSubstance, activeSubstanceIdFkActiveSubstancePosition);
+        activeSubstance.addToMany(activeSubstancePosition, activeSubstanceIdFkActiveSubstancePosition);
+
+        information.addToOne(informationType, informationTypeIdFkInformation);
+        informationType.addToMany(information, informationTypeIdFkInformation);
 
         new File("..\\app\\src\\main\\java\\generatedDatabaseTables").mkdir();
         new DaoGenerator().generateAll(schema, "..\\app\\src\\main\\java\\generatedDatabaseTables");
