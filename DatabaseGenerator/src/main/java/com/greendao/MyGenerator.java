@@ -73,6 +73,10 @@ public class MyGenerator {
         Property informationTypeIdFkInformation = information.addLongProperty(
                 "informationTypeId").getProperty();
 
+        Entity responsibleSubject = schema.addEntity("ResponsibleSubject");
+        responsibleSubject.addIdProperty().autoincrement();
+        responsibleSubject.addStringProperty("name");
+
         //Relations
         medicine.addToMany(dose, medicineIdFkDose);
         dose.addToOne(medicine, medicineIdFkDose);
@@ -91,6 +95,9 @@ public class MyGenerator {
 
         activeSubstancePosition.addToOne(activeSubstance, activeSubstanceIdFkActiveSubstancePosition);
         activeSubstance.addToMany(activeSubstancePosition, activeSubstanceIdFkActiveSubstancePosition);
+
+        medicine.addToOne(responsibleSubject, responsibleSubjectIdFkMedicine);
+        responsibleSubject.addToMany(medicine, responsibleSubjectIdFkMedicine);
 
         information.addToOne(informationType, informationTypeIdFkInformation);
         informationType.addToMany(information, informationTypeIdFkInformation);
