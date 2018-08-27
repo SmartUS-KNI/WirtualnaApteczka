@@ -30,8 +30,8 @@ public class MedicineValidator implements FormValidator {
         Map<Integer, Object> contentMap = content.getContentMap();
 
         addParam("name", contentMap.get(R.id.name_Of_Medicine_From_New_Medicine_EditText));
-        addParam("type", contentMap.get(R.id.medicine_type));
-        addParam("typeUnit", contentMap.get(R.id.medicine_type_unit));
+        //addParam("type", contentMap.get(R.id.medicine_type));
+        //addParam("typeUnit", contentMap.get(R.id.medicine_type_unit));
     }
 
     @Override

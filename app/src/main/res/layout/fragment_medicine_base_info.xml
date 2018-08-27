@@ -1,0 +1,52 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="smartcity.kni.wirtualnaapteczka.fragments.MedicineBaseInfoFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="3dp"
+        >
+
+        <EditText
+            android:id="@+id/name_Of_Medicine_From_New_Medicine_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/name_of_medicine"
+            android:inputType="textPersonName" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:id="@+id/medicine_type_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/medicineType" />
+
+            <Spinner
+                android:id="@+id/medicine_form_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <AutoCompleteTextView
+            android:id="@+id/medicine_responsible_subject_actextview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/responsible_subject" />
+
+        <EditText
+            android:id="@+id/description_Of_New_Medicine_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/description"
+            android:lines="4" />
+    </LinearLayout>
+</FrameLayout>

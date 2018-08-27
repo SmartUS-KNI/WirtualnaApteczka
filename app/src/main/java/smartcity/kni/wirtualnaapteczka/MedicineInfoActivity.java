@@ -47,7 +47,7 @@ public class MedicineInfoActivity extends AppCompatActivity {
         nameOfMedicine.setText(medicine.getName());
 
         //ilość
-        if (medicine.getMedicine_Count() != null) {
+        /*if (medicine.getMedicine_Count() != null) {
             TextView quantityOfMedicine = (TextView) findViewById(R.id.quantity_Of_Medicine_Info_TextView);
             quantityOfMedicine.setText(medicine.getMedicine_Count().getCount().toString() +
                     " " +
@@ -60,13 +60,13 @@ public class MedicineInfoActivity extends AppCompatActivity {
             //rodzaj
             TextView typeOfMedicine = (TextView) findViewById(R.id.type_Of_Medicine_Info_TextView);
             typeOfMedicine.setText(EMedicineType.getMedicineTypeById(medicine.getMedicine_Count().getMedicineType()).getName());
-        }
+        }*/
 
         TextView descriptionOfMedicine = (TextView) findViewById(R.id.description_Of_Medicine_Info_TextView);
-        descriptionOfMedicine.setText(medicine.getDescription());
+        //descriptionOfMedicine.setText(medicine.getDescription());
 
         TextView barcodeOfMedicine = (TextView) findViewById(R.id.barcode_From_Medicine_Info_TextView);
-        barcodeOfMedicine.setText(medicine.getEAN());
+        //barcodeOfMedicine.setText(medicine.getEAN());
 
         Button updateButton = (Button) findViewById(R.id.modify_Medicine_Info_Button);
         Button deleteButton = (Button) findViewById(R.id.delete_Medicine_Info_Button);

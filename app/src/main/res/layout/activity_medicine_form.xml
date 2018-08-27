@@ -8,160 +8,29 @@
     tools:context="smartcity.kni.wirtualnaapteczka.Main">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <TextView
-            android:id="@+id/add_Medicine_From_New_Medicine_TextView"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/medicine_form_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/add_medicine"
-            android:textAlignment="center"
-            android:textSize="24sp" />
+            android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/name_Of_Medicine_From_New_Medicine_EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/name_of_medicine"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/description_Of_New_Medicine_EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/description"
-            android:inputType="textPersonName" />
-
-        <CheckBox
-            android:id="@+id/check_counting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/enable_counting_label" />
-
-        <LinearLayout
-            android:id="@+id/counting_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <LinearLayout
+            <android.support.v4.view.PagerTabStrip
+                android:id="@+id/pager_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_gravity="top"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="@string/medicine_type" />
-
-                <Spinner
-                    android:id="@+id/medicine_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:prompt="@string/select_medicine_type"
-                    android:spinnerMode="dialog" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/count_label"
-                    android:inputType="numberDecimal" />
-
-                <Spinner
-                    android:id="@+id/medicine_type_unit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
-                    android:prompt="@string/select_medicine_type_unit"
-                    android:spinnerMode="dialog" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <CheckBox
-            android:id="@+id/dosageCheckBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/dosage" />
-
-
-        <LinearLayout
-            android:id="@+id/dosage_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ListView
-                android:id="@+id/dosageListView"
-                android:layout_width="match_parent"
-                android:layout_height="70dp">
-
-            </ListView>
-
-            <Button
-                android:id="@+id/addDosageButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add_new_dosage" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/barcode_From_New_Medicine_EditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="15"
-                android:ems="10"
-                android:hint="@string/barcode"
-                android:inputType="numberDecimal" />
-
-            <ImageButton
-                android:id="@+id/barcode_From_Camera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@null"
-                android:contentDescription="@string/read_barcode"
-                android:src="@drawable/ic_camera" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/submit_From_New_Medicine_Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="@string/submit_form" />
-
+        </android.support.v4.view.ViewPager>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

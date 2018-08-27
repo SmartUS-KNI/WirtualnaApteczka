@@ -12,8 +12,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Main"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,8 +22,7 @@
         <activity
             android:name=".ActivityMedicineList"
             android:parentActivityName=".Main"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Main" />
@@ -32,8 +30,7 @@
         <activity
             android:name=".MedicineFormActivity"
             android:parentActivityName=".Main"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Main" />
@@ -41,16 +38,14 @@
         <activity
             android:name=".MedicineInfoActivity"
             android:parentActivityName=".ActivityMedicineList"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ActivityMedicineList" />
         </activity>
         <activity
             android:name=".AddNewDoseActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MedicineFormActivity" />
@@ -59,6 +54,11 @@
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
+        <activity
+            android:name=".AddNewPackActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MedicineFormActivity"
+            ></activity>
     </application>
 
 </manifest>

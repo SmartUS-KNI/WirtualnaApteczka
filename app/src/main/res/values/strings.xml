@@ -2,16 +2,22 @@
 
     <!--strings used in layout-->
     <string name="app_name">Wirtualna Apteczka</string>
-    <string name="title_activity_new_medicine_form">newMedicineForm</string>
+    <string name="title_activity_new_medicine_form">Dodaj lek</string>
+    <string name="title_activity_modify_medicine_form">Modyfikuj lek</string>
+    <string name="title_activity_add_new_pack">Dodaj opakowanie</string>
+    <string name="title_activity_modify_pack">Modyfikuj opakowanie</string>
+    <string name="title_activity_add_new_dose">Dodaj dawkę</string>
+    <string name="title_activity_modify_dose">Modyfikuj dawkę</string>
     <string name="title_activity_medicine_list">Lista leków</string>
     <string name="add_new_medicine">Dodanie Nowego Leku</string>
     <string name="details">Szczegóły leku</string>
     <string name="name_of_medicine">Nazwa leku</string>
     <string name="description">Opis</string>
     <string name="enable_counting_label">Ustaw ilość</string>
-    <string name="count_label">Ilość:</string>
+    <string name="size">Wielkość</string>
+    <string name="count">Ilość</string>
     <string name="medicine_type">Rodzaj leku:</string>
-    <string name="medicine_type_unit">Jednostka:</string>
+    <string name="unit">Jednostka</string>
     <string name="barcode">Kod kreskowy</string>
     <string name="function">Funkcje:</string>
     <string name="modify_medicine">Modyfikuj lek</string>
@@ -65,5 +71,7 @@
 
     <string name="medicine_validation_empty_name">Nazwa leku nie może być pusta</string>
     <string name="medicine_validation_empty_type_unit">Wybierz jednostkę dla wybranego rodzaju leku</string>
+    <string name="responsible_subject">Podmiot odpowiedzialny</string>
+    <string name="menu_button_save">Zapisz</string>
 
 </resources>
