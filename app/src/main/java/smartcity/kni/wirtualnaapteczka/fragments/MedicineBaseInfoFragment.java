@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import smartcity.kni.wirtualnaapteczka.R;
+import smartcity.kni.wirtualnaapteczka.enums.EMedicineForm;
+import smartcity.kni.wirtualnaapteczka.layout.helpers.SpinnerHelper;
 import smartcity.kni.wirtualnaapteczka.net.database.SQLiteDatabaseHelper;
 
 /**
@@ -71,5 +73,8 @@ public class MedicineBaseInfoFragment extends Fragment {
         medicineFormSpinner = (Spinner) fragmentView.findViewById(R.id.medicine_form_spinner);
         medicineResponsibleSubjectAcTextView = (AutoCompleteTextView) fragmentView.findViewById(R.id.medicine_responsible_subject_actextview);
         medicineDescriptionEditText = (EditText) fragmentView.findViewById(R.id.description_Of_New_Medicine_EditText);
+
+        //IMPLEMENTATION
+        SpinnerHelper.fillSpinnerWithStrings(medicineFormSpinner, "", EMedicineForm.getNames(), true);
     }
 }

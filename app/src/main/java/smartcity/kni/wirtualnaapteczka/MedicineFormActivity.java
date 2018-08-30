@@ -2,6 +2,7 @@ package smartcity.kni.wirtualnaapteczka;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -14,6 +15,7 @@ public class MedicineFormActivity extends AppCompatActivity {
     static Activity context;
 
     ViewPager medicineFormViewPager;
+    TabLayout medicineFormTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +26,13 @@ public class MedicineFormActivity extends AppCompatActivity {
 
         context = MedicineFormActivity.this;
 
+        medicineFormTabLayout = (TabLayout) findViewById(R.id.medicine_form_tabs);
         medicineFormViewPager = (ViewPager) findViewById(R.id.medicine_form_view_pager);
+
         MedicineFragmentPagerAdapter medicineFragmentPagerAdapter = new MedicineFragmentPagerAdapter(getSupportFragmentManager());
         medicineFormViewPager.setAdapter(medicineFragmentPagerAdapter);
+
+        medicineFormTabLayout.setupWithViewPager(medicineFormViewPager);
 
     }
 

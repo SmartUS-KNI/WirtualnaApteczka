@@ -27,12 +27,14 @@
                 android:id="@+id/medicine_type_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/medicineType" />
+                android:entries="@array/medicineType"/>
 
             <Spinner
                 android:id="@+id/medicine_form_spinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
+                android:prompt="@string/medicine_type" />
         </LinearLayout>
 
         <AutoCompleteTextView

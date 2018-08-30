@@ -38,7 +38,10 @@
                 android:id="@+id/adjust_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/adjust" />
+                android:text="@string/adjust"
+                android:textColor="@color/menu_font_color"
+                android:background="@color/colorPrimary"
+                android:layout_margin="5dp" />
         </LinearLayout>
 
     </LinearLayout>
